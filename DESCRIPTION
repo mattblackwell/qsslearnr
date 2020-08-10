@@ -1,0 +1,20 @@
+Package: qsslearnr
+Type: Package
+Version: 0.1.0.9001
+Title: Learnr tutorials based on Quantitative Social Science
+Description: A series of 'learnr' tutorials based on Quantitative Social Science by Kosuke Imai
+Authors@R:
+  c(person(given = "Matthew",
+           family = "Blackwell",
+           role = c("aut", "cre"),
+           email = "mblackwell@gov.harvard.edu"))
+Depends:
+  R (>= 3.6.0)
+Imports:
+  tidyverse (>= 1.3.0),
+  shiny (>= 1.4.0.2),
+  learnr,
+  gradethis,
+  rlang,
+  base64enc
+RoxygenNote: 7.0.2

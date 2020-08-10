@@ -1,0 +1,512 @@
+---
+title: "QSS Tutorial 2: Causality"
+output:
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+description: >
+  This tutorial will cover logicals, subsetting, factors, and
+  calculating means in experiments.
+---
+
+```{r setup, include=FALSE}
+library(gradethis)
+library(learnr)
+learnr:::install_knitr_hooks()
+#initialize_tutorial()
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = FALSE)
+tut_reptitle <- "QSS Tutorial Week 2: Output Report"
+resume <- read.csv("https://assets.datacamp.com/production/repositories/3045/datasets/38c2c61fdfeb49d7210c008970d2d280a03715fd/resume.csv")
+```
+
+
+## R for Causality Chapter in QSS
+
+### Exploring the resume data
+
+
+In this chapter, we are going to be working with the resume data from Section 2.1 of Imai. This data comes from an experiment where researchers sent fictitious resumes with different names that implied different race and gender combinations to see if potential employers were more likely to call back names associated with different racial groups and genders. 
+
+Let's first explore the data a bit. It's stored as `resume`.
+
+#### Exercise 
+
+- Use the `head` function to show the first six lines of the `resume` data. 
+
+
+```{r head, exercise=TRUE}
+## print the first 6 lines of the data
+
+```
+
+```{r head-solution}
+head(resume)
+```
+
+```{r head-check}
+grade_code()
+```
+
+- Print out the dimension of the `resume` data. 
+
+
+```{r resume-dim, exercise=TRUE}
+
+```
+
+```{r resume-dim-solution}
+dim(resume)
+```
+
+```{r resume-dim-check}
+grade_code()
+```
+
+
+- Use the `summary` function to show a summary of the data.
+
+
+```{r res-summary, exercise=TRUE}
+
+```
+
+```{r res-summary-solution}
+summary(resume)
+```
+
+```{r res-summary-check}
+grade_code()
+```
+
+
+### Creating a cross tab
+
+
+To help you analyze this data, you can use a cross tabulation. Cross tabulation (or contingency table) is a table that quickly summarizes categorical data. For instance, in the resume data, we have a `sex` variable that tells us whether or not the fictitious resume had a male or a female name.
+
+#### Exercise
+
+- Using the `table` function, create a cross tab of the `sex` and `call` variables in the resume data and assign this table to `sex.call.tab`
+- Print the resulting cross tab.
+
+```{r table, exercise = TRUE}
+## create a contingency table of sex and call
+sex.call.tab <- 
+
+## print the contingency table
+
+```
+
+```{r table-check}
+grade_conditions(
+  pass_if(~ identical(sex.call.tab, table(resume$sex, resume$call))),
+  pass_if(~ identical(.result, table(resume$sex, resume$call)))
+)
+```
+
+### Logical values
+
+
+Pretty soon, you'll be doing more complicated subsetting in R. To do this, it's helpful to understand a special type of object in R: the **logical**. There are two values associated with this type of object: `TRUE` and `FALSE` (where the uppercase is very important).
+
+#### Exercises
+
+- Create a vector called `x` that contains two `TRUE` values and two `FALSE` values in that order. 
+- Find the sum of that vector. 
+
+```{r logical, exercise = TRUE}
+## creat a vector with two TRUE values and two FALSE values
+x <- 
+
+## take the sum of this vector
+
+```
+
+```{r logical-check}
+grade_conditions(
+  pass_if(~ identical(x, c(TRUE, TRUE, FALSE, FALSE))),
+  pass_if(~ identical(x, 2L))
+)
+```
+
+
+- Create a vector called `z` that contains one `TRUE` values and three `FALSE` values in that order. 
+- Find the mean of that vector. 
+
+```{r logical2, exercise = TRUE}
+## creat a vector with one TRUE values and three FALSE values
+z <- 
+
+## take the mean of this vector
+
+```
+
+```{r logical2-check}
+grade_conditions(
+  pass_if(~ identical(z, c(TRUE, FALSE, FALSE, FALSE))),
+  pass_if(~ identical(.result, 0.25))
+)
+```
+
+
+### Comparing logicals
+
+
+We often combine logical statements using AND (`&`) and OR (`|`) in R. For AND statements, both expressions have to be true for the whole expression to be true:
+- `TRUE & FALSE`, `FALSE & TRUE`, and `FALSE & FALSE` are `FALSE`
+- `TRUE & TRUE` is `TRUE`
+For OR statements, either statement being true makes the whole expression true:
+- `TRUE | FALSE`, `FALSE | TRUE`, and `TRUE | TRUE` are `TRUE`
+- `FALSE | FALSE` is `FALSE`
+
+
+```{r comparing-logicals, echo=FALSE}
+question("What does expression `(TRUE | FALSE) & TRUE` evaluate to?",
+  answer("`TRUE`", correct = TRUE),
+  answer("`FALSE`"),
+  answer("`NA`")
+)
+```
+
+
+### Comparing objects
+
+
+There are several *relational operators* that allow us to compare objects in R. The most useful of these are the following:
+
+- `>` greater than, `>=` greater than or equal to
+- `<` less than, `<=` less than or equal to
+- `==` equal to
+- `!=` not equal to
+
+When we use these to compare two objects in R, we end us with a logical object. You can also compare a vector to a particular number.
+
+
+#### Exercises
+
+- Test if 10 is greater than 5. 
+
+```{r gt-test, exercise=TRUE}
+
+```
+
+```{r gt-test-solution}
+10 > 5
+```
+
+```{r gt-test-check}
+grade_code()
+```
+
+- Test which values in the vector `x` is greater than or equal to 0.
+
+```{r compare, exercise = TRUE}
+## x vector
+x <- c(-2, -1, 0, 1, 2)
+
+## test which values of x are greater than or equal to 0
+
+```
+
+```{r compare-check}
+grade_result(
+  pass_if(~ identical(.result, x >= 0))
+)
+```
+
+### Complex relationals
+
+
+In this exercise, you have the ages of a sample of 15 people, stored in the `ages` vector. We can use these relational operators to create a logical vector which indicates which ages fall within a specific range. In particular, we can find out which respondents are college-aged (18-22).
+
+#### Exercise
+
+- Create a logical vector, called `college.aged`, which indicates which observations in `ages` are greater than or equal to 18 and less than or equal to 22. Be sure to use parentheses to separate out the two logical statements. 
+- Take the sum of the `college.aged` vector to determine how many 18-22 year olds there are in the sample.
+
+
+```{r ages, exercise = TRUE, exercise.setup = "generate-ages"}
+## check the value of the ages vector
+ages <- c(31, 33, 43, 45, 41, 46, 28, 49, 61, 19, 39)
+
+## create a logical vector called college.aged
+## that is TRUE for someone between 18-22, inclusive
+
+
+## find the number of college.aged respondents 
+
+```
+
+```{r ages-solution}
+college.aged <- (ages >= 18) & (ages <= 22)
+sum(college.aged)
+```
+
+```{r ages-check}
+grade_conditions(
+  pass_if(~ identical(college.aged, (ages >= 18) & (ages <= 22))),
+  pass_if(~ identical(.result, sum((ages >= 18) & (ages <= 22))))
+)
+```
+
+
+### Subsetting based on logicals
+
+
+
+In the last exercise, you used logical statements to create a vector that told us whether each entry in the `ages` vector is in the 18-22 year-old range. We can now use that information to figure out what the actual ages of the respondents in that range are.
+
+#### Exercise
+
+- Use the brackets and the `college.aged` logical vector that has already been created to subset `ages` to the value only between 18 and 22, inclusive. 
+- Use the `mean` function to calculate the average age of the respondents in this subset. To do this, use the bracket subsetting and the `college.aged` logical vector that has already been created. 
+
+```{r generate-ages}
+ages <- c(31, 20, 43, 45, 41, 46, 28, 49, 61, 19, 39)
+```
+
+```{r logsubset, exercise = TRUE, exercise.setup = "generate-ages"}
+## here's the college.aged logical vector
+college.aged <- (ages >= 18) & (ages <= 22)
+
+## calculate the average age among the college-aged in the sample
+
+```
+
+```{r logsubset-solution}
+mean(ages[college.aged])
+```
+
+```{r logsubset-check}
+grade_code()
+```
+
+### Subsetting a data frame
+
+
+You can use the same logical statements you have been using to create subsets of a data frame. These can often be helpful because we'll want to calculate various quantities of interest for different subsets of the data. For this exercise, we will use the `resume` data frame made up of the variables `firstname`, `sex`, `race`, and `call`.
+
+#### Exercise 
+
+- Use the `subset` function to create a subset of the `resume` data frame that is only female names that sound white. Save this subset as `resume.wf`
+- Use the `head` function to print out the first 6 lines of this subset. 
+- Calculate the mean of the `call` variable in this subset.
+
+
+```{r subset, exercise = TRUE}
+## you might want to run the code first to see what
+## the resume data looks like again
+resume
+
+## create the subset for white female names and
+## assign it to resume.wf
+
+## print the first 6 lines of the subset
+
+
+## calculate the mean of the callback variable (call)
+
+```
+
+```{r subset-solution}
+resume.wf <- subset(resume, subset = (race == "white" & sex == "female"))
+head(resume.wf)
+mean(resume.wf$call)
+```
+
+```{r subset-check}
+grade_result(
+  pass_if(~ identical(.result, mean(subset(resume, subset = (race == "white" & sex == "female"))$call)))
+)
+```
+
+
+### Comparing means across treatment conditions
+
+
+You can use the same ideas as in the last step to create a different subset of the data corresponding to white-sounding female names. Then, you can compare the average callback for the white-female names to the average callback for the black-female names. This will give you a sense of how the employer callback rate varies by racial group of the applicant for females.
+
+#### Exercise
+
+- Create a subset of the `resume` data for black-sounding female names. 
+- Print the difference in means between the `call` variable in the white-sounding name subset and the black-sounding name subset.
+
+```{r effect, exercise = TRUE}
+## create the subset for white female names
+resume.wf <- subset(resume, subset = (race == "white" & sex == "female"))
+
+## create the subset for black female names
+resume.bf <- 
+
+## calculate the difference in callback means
+
+```
+
+```{r effect-solution}
+## create the subset for white female names
+resume.wf <- subset(resume, subset = (race == "white" & sex == "female"))
+
+## create the subset for black female names
+resume.bf <- subset(resume, subset = (race == "black" & sex == "female"))
+
+## compare the difference in means
+mean(resume.wf$call) - mean(resume.bf$call)
+```
+
+```{r effect-check}
+grade_code("You just analyzed an experiment! Way to go!")
+```
+
+
+### Using simple conditional statements
+
+
+What if we wanted to create a new vector that depends on whether a statement is true or false? For example, suppose you wanted to create an indicator variable for whether or not a specific resume had the name "Carrie." From, the last few examples, you know that `resume$firstname == "Carrie"` will give you a vector of `TRUE` and `FALSE` values based on whether or not the name for that unit is "Carrie." We can then use this to get create a new variable using the `ifelse(X, Y, Z)` command. This command takes a logical vector as `X` and returns a new vector of the same length as `X` that has the value `Y` if that value in `X` is TRUE and `Z` if that value in `X` is FALSE.
+
+
+#### Exercise
+
+- Use the `ifelse` function to create a new variable called `carrie` that is 1 if the resume name (`firstname`) is `"Carrie"` and 0 otherwise. 
+- Print the first six lines of `resume` using the `head` function to see the new variable.
+
+```{r ifelse, exercise = TRUE}
+## create a new variable called carrie
+resume$carrie <- 
+
+## print the first 6 lines of the updated resume
+
+```
+
+```{r ifelse-solution}
+## create a new variable called carrie
+resume$carrie <- ifelse(resume$firstname == "Carrie", 1, 0)
+
+## print the first 6 lines of the updated resume
+head(resume)
+```
+
+```{r ifelse-check}
+grade_conditions(
+  pass_if(~ identical(resume$carrie, ifelse(resume$firstname == "Carrie", 1, 0)))
+)
+```
+
+
+### Factor variables
+
+
+You have seen that creating subsets can be helpful for calculating different quantities or statistics for specific subgroups in the data. When there is more than 1 or 2 subgroups of interest, however, this can be a cumbersome process. For that reason, it's helpful to know about factor variables. Basically, a factor variable is a categorical variable that takes a finite number of distinct values. 
+
+Any variable can be turned into a factor by calling the `as.factor()` function like so:
+
+    mydata$myvar <- as.factor(mydata$myvar)
+
+This will take the variable `myvar` and create a factor variable with levels that are observed in that variable. Most often, you will convert a character variable to a factor.
+
+#### Exercise 
+
+- Finish the code below that creates the `type` character variable. Fill in the last values of `race` and `sex` and add the label `WhiteMale` to this last type. 
+- Convert the `resume$type` variable to a factor variable using `as.factor()`.
+
+```{r factor-setup}
+resume$carrie <- ifelse(resume$firstname == "Carrie", 1, 0)
+```
+
+```{r factor, exercise = TRUE}
+## fill in the last line of code to create a character vector for the type of 
+## application that was sent
+resume$type <- NA
+resume$type[resume$race == "black" & resume$sex == "female"] <- "BlackFemale"
+resume$type[resume$race == "black" & resume$sex == "male"] <- "BlackMale"
+resume$type[resume$race == "white" & resume$sex == "female"] <- "WhiteFemale"
+resume$type[resume$race == ??? & resume$sex == ???] <- 
+
+## turn the character vector into a factor
+resume$type <- 
+```
+
+```{r factor-solution}
+## fill in the last line of code to create a character vector for the type of 
+## application that was sent
+resume$type <- NA
+resume$type[resume$race == "black" & resume$sex == "female"] <- "BlackFemale"
+resume$type[resume$race == "black" & resume$sex == "male"] <- "BlackMale"
+resume$type[resume$race == "white" & resume$sex == "female"] <- "WhiteFemale"
+resume$type[resume$race == "white" & resume$sex == "male"] <- "WhiteMale"
+
+## turn the character vector into a factor
+resume$type <- as.factor(resume$type)
+```
+
+```{r factor-check}
+grade_code("Fantastic, you got that factor loaded up and ready to go. Now, let's see what you can do with it.")
+```
+
+
+### Using factors
+
+
+Imagine that you wanted to calculate the average callback for each level of `type`. You could create a subset for each level of `type` and then use `mean` on each one of those subsets. But that would take 8 lines of code! 
+
+A more efficient way to do this task would be to use the `tapply(X, INDEX, FUN)` function, which allows you to compute a function (`FUN`) on subsets of the data (`X`) defined by a factor variable (`INDEX`). For instance, suppose we had a `grades` data frame that had student exam grades out of 100 in the `exam` variable and a factor variable called `section` that reported which section they were enrolled in. Then we could calculate the average exam score within sections as:
+
+    tapply(grades$exam, grades$section, mean)
+
+
+#### Exercise
+
+- Use the `table()` function on the `type` variable to see how many fictitious applications were sent out with each type of name. 
+
+```{r get-tapply}
+resume$carrie <- ifelse(resume$firstname == "Carrie", 1, 0)
+resume$type <- NA
+resume$type[resume$race == "black" & resume$sex == "female"] <- "BlackFemale"
+resume$type[resume$race == "black" & resume$sex == "male"] <- "BlackMale"
+resume$type[resume$race == "white" & resume$sex == "female"] <- "WhiteFemale"
+resume$type[resume$race == "white" & resume$sex == "male"] <- "WhiteMale"
+
+## turn the character vector into a factor
+resume$type <- as.factor(resume$type)
+```
+
+```{r table-type, exercise = TRUE, exercise.setup = "get-tapply"}
+## get the number of observations for each level of the type variable
+
+```
+
+```{r table-type-solution}
+table(resume$type)
+```
+
+```{r table-type-check}
+grade_code()
+```
+
+- Use the `tapply()` function to calculate the `mean` of the `call` variable in each level of `type`.
+
+
+
+```{r tapply, exercise = TRUE, exercise.setup = "get-tapply"}
+## use the `tapply` function to calculate the mean in each level of type
+
+```
+
+```{r tapply-solution}
+## use the `tapply` function to calculate the mean in each level of type
+tapply(resume$call, resume$type, mean)
+```
+
+```{r tapply-check}
+grade_code("Great work, you have the skills you need to analyze experiments and observational data!")
+```
+
+## Submit
+
+```{r context="setup"}
+submission_ui
+```
+
+```{r context="server"}
+submission_server()
+```

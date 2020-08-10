@@ -1,0 +1,493 @@
+---
+title: "QSS Tutorial 3: Measurment"
+output:
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+description: >
+  This tutorial will cover basic descriptive statistics and
+  data visualization.
+---
+
+```{r setup, include=FALSE}
+library(gradethis)
+library(learnr)
+library(qsslearnr)
+learnr:::install_knitr_hooks()
+#initialize_tutorial()
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = FALSE)
+tut_reptitle <- "QSS Tutorial Week 3: Output Report"
+star <- read.csv("https://assets.datacamp.com/production/repositories/3045/datasets/04251b0be6529e4b5f636fb5666f87cf3ad10635/STAR.csv")
+```
+
+## Measurement
+
+### Small class size data
+
+
+In this chapter, you'll analyze data from the STAR project, which is a four-year randomized trial on the effectiveness of small class sizes on education performance. The `star` data frame as been loaded into your space so that you can play around with it a bit.
+
+#### Exercises
+- Use the `head` function on the `star` to see what the data looks like.
+
+```{r head-star, exercise = TRUE}
+
+```
+
+```{r head-star-solution}
+head(star)
+```
+
+```{r head-star-check}
+grade_code()
+```
+
+- Use the `dim` function on the `star` to see what the dimensions of the data look like. 
+
+```{r dim-star, exercise = TRUE}
+
+```
+
+```{r dim-star-solution}
+dim(star)
+```
+
+```{r dim-star-check}
+grade_code()
+```
+
+
+- Use the `summary` function on the `star` to get a sense for each variable.
+
+```{r summary-star, exercise = TRUE}
+
+```
+
+```{r summary-star-solution}
+summary(star)
+```
+
+```{r summary-star-check}
+grade_code()
+```
+
+
+
+### Handling missing data
+
+
+You probably noticed that there were some `NA` values in the data when you used the `head()` function. These are **missing values**, where the value for that unit on that variable is missing or unknown. These values pose problems when we are trying to calculate quantities of interest like means or medians because R doesn't know how to handle them. 
+
+The first tool in your toolkit for missing data is the `is.na()` function. When you pass a vector `x` to `is.na(x)`, it will return a vector of the same length where each entry is `TRUE` if the value of `x` is `NA` and `FALSE` otherwise. Using logicals, you can easily get the opposite vector `!is.na(x)` which is `TRUE` when `x` is observed and `FALSE` when `x` is missing.
+
+#### Exercises
+- Use the `is.na` and `head` functions to show whether or not the first 6 values of the `g4math` variable from the `star` data frame are missing.
+
+```{r headna, exercise = TRUE}
+
+```
+
+```{r headna-solution}
+head(is.na(star$g4math))
+```
+
+```{r headna-check}
+grade_code()
+```
+
+- Use the `is.na` and `sum` functions to show how many values of the `g4math` variable are missing.
+
+
+```{r sumna, exercise = TRUE}
+
+```
+
+```{r sumna-solution}
+sum(is.na(star$g4math))
+```
+
+```{r sumna-check}
+grade_code()
+```
+
+
+- Use the `is.na` and `mean` functions to show what proportion of the `g4math` variable is missing.
+
+
+```{r meanna, exercise = TRUE}
+
+```
+
+```{r meanna-solution}
+mean(is.na(star$g4math))
+```
+
+```{r meanna-check}
+grade_code()
+```
+
+
+
+### Calculating means in the fact of missing data
+
+Missing values makes it difficult to calculate numerical quantities of interest like the mean, median, standard deviation, or variance. Many of these function will simply return `NA` if there is a single missing value in the vector. We can instruct many function to ignore the missing values and do their calculation on just the observed data by using the `na.rm = TRUE` argument. For instance, suppose we have `x <- c(NA, 1,2,3)`, then `mean(x)` will return `NA`, but `mean(x, na.rm = TRUE)` will return `2`.
+
+#### Exercises
+- Try to calculate the `mean` of the `g4math` variable in the `star` data frame without setting `na.rm`.
+
+```{r mean-with-na, exercise = TRUE}
+
+```
+
+```{r mean-with-na-solution}
+mean(star$g4math)
+```
+
+```{r mean-with-na-check}
+grade_code()
+```
+
+- Try to calculate the `mean` of the `g4math` variable when setting `na.rm = TRUE`.
+
+```{r mean-narm, exercise = TRUE}
+
+```
+
+```{r mean-narm-solution}
+mean(star$g4math, na.rm = TRUE)
+```
+
+```{r mean-narm-check}
+grade_code()
+```
+
+
+### Visualizing data: the barplot
+
+
+The **barplot** is a useful way to visualize a categorical or factor variable. In this exercise, you are going to visualize the `classtype` variable from the `star` data frame, which can take on the following values:
+
+- `1` = small class
+- `2` = regular class
+- `3` = regular class with aid
+
+#### Exercises
+- Use the `table` function to create a vector of counts `classcounts` for each category of the `classtype` in the `star` data. 
+- Pass this `classcounts` vector to the `barplot` function.
+
+```{r barplot, exercise = TRUE}
+## creat a vector called classcounts that has
+## the counts of each category of classtype
+
+
+## pass classcounts to barplot
+
+```
+
+```{r barplot-solution}
+classcounts <- table(star$classtype)
+
+## pass classcounts to barplot
+barplot(classcounts)
+```
+
+```{r barplot-check}
+grade_code("Awesome. The graph is looking a little unhelpful, though. Let's spruce it up.")
+```
+
+### Making the barplot readable
+
+The default barplot usually isn't all that readable.
+
+#### Exercises
+
+- Create a vector of character labels called `classnames` that has the values `"Small class"` (for 1), `"Regular class"` (for 2), and `"Regular class with aid"` (for 3).
+- Call `barplot` with the heights as before, but now passing `classnames` to the `names.arg` argument and use `"Number of students"` as the `ylab` argument.
+- Make sure to separate the arguments in the barplot call with commas.
+
+```{r barplot-labels, exercise = TRUE}
+## create a vector giving the counts of each category of classtype
+classcounts <- table(star$classtype)
+
+## create a vector of labels called classnames
+
+
+## pass classcounts to barplot and set the y-axis label
+
+
+```
+
+```{r barplot-labels-solution}
+classcounts <- table(star$classtype)
+
+## create a vector of labels
+classnames <- c("Small class", "Regular class", "Regular class with aid")
+
+## pass classcounts to barplot and set the y-axis label
+barplot(classcounts, names.arg = classnames, ylab = "Number of students")
+```
+
+```{r barplot-labels-check}
+grade_code("Great job, that barplot looks a ton better.")
+```
+
+
+### Histograms
+
+For quantitative (numerical) variables, the barplot won't work because there are too many unique values. In this case, you will often use a histogram to visualize the a numerical variable.
+
+#### Exercises
+- Use the `hist` function to create a histogram for the `g4math` variable in the `star` data frame. 
+- Be sure to use the `freq = FALSE` argument to the `hist` function to get the histogram. 
+- Make sure to separate the arguments in function calls with commas. 
+- Remember that you can access a particular variable using the `$`.
+
+```{r hist, exercise = TRUE}
+## create a histogram of g4math
+
+```
+
+
+```{r hist-solution}
+## create a histogram of g4math
+hist(star$g4math, freq = FALSE)
+```
+
+```{r hist-check}
+grade_code("Great job, though the graph is a bit spartan. Let's make it more readable.")
+```
+
+### Sprucing up the histogram
+
+There are several arguments you can pass to `hist` that will improve its readability:
+
+- `main`: a character string that prints a main title for the plot. 
+- `xlab`, `ylab`: character strings that set the labels for the x (horizontal) and y (vertical) axes 
+- `xlim`, `ylim`: numeric vectors of length 2 to specify the interval for the x and y axes.
+
+#### Exercises
+- Create a histogram (with `freq = FALSE`) where you (a) set the y-axis to be between `0` and `0.015` using the `ylim` argument, (b) include an informative x-axis label using the `xlab` argument, and (c) include a title for the plot using the `main` argument. 
+- Make sure to separate the arguments in function calls with commas.
+
+
+```{r hist-nice, exercise = TRUE}
+## create the histogram with the specifications given in the instructions
+
+```
+
+
+```{r hist-nice-solution}
+## create the histogram with the specifications given in the instructions
+hist(star$g4math, freq = FALSE, xlab = "Score", main = "Distribution of fourth-grade math scores", ylim = c(0,0.015))
+```
+
+```{r hist-nice-check}
+grade_code()
+```
+
+### Adding lines and text to a plot
+
+We'll often want to add more information to a plot to make it even more readable. You can do that with commands that add to the current plot, such as `abline` and `text`. `abline(v=1)` will add a vertical line to the plot at the specified value (`1` in this example). 
+
+#### Exercises
+- Use the `abline` function to add a vertical line at the mean of the `g4math` variable from the `star` data. Remember, there are missing values in that variable so be sure to use the `na.rm = TRUE` argument to drop them. 
+
+```{r hist-line, exercise = TRUE}
+hist(star$g4math, freq = FALSE, xlab = "Score", main = "Distribution of fourth-grade math scores", ylim = c(0,0.015))
+
+## add a vertical line at the mean of the variable
+
+```
+
+```{r hist-line-solution}
+hist(star$g4math, freq = FALSE, xlab = "Score", main = "Distribution of fourth-grade math scores", ylim = c(0,0.015))
+
+## add a vertical line at the mean of the variable
+abline(v = mean(star$g4math, na.rm = TRUE))
+
+
+```
+
+```{r hist-line-check}
+grade_code()
+```
+
+
+### Adding text to a plot
+
+We'll sometimes want to add text to a plot to make it more informative. `text(x,y,z)` adds a character string `z` centered at point on the (`x`, `y`) on the plot. You can use the axis labels to see where you might want to add these parts of the plot.
+
+#### Exercise
+
+- Use the `text` function to add the string `Average Score` to the plot at the point (750, 0.014). 
+- Make sure to separate the arguments in function calls with commas.
+
+```{r hist-text, exercise = TRUE}
+hist(star$g4math, freq = FALSE, xlab = "Score", main = "Distribution of fourth-grade math scores", ylim = c(0,0.015))
+abline(v = mean(star$g4math, na.rm = TRUE))
+
+## add the text "Average Score" at the specified location
+
+```
+
+```{r hist-text-solution}
+hist(star$g4math, freq = FALSE, xlab = "Score", main = "Distribution of fourth-grade math scores", ylim = c(0,0.015))
+
+## add a vertical line at the mean of the variable
+abline(v = mean(star$g4math, na.rm = TRUE))
+
+## add the text "Average Score" at the specified location
+text(x = 750, y = 0.014, "Average Score")
+```
+
+```{r hist-text-check}
+grade_code()
+```
+
+### Boxplots
+
+Boxplots are useful tools to visualize how the distribution of a continuous variable changes across levels of a categorical variable. There are several ways to specify a boxplot, but one of the most useful is with what R calls a formula:
+    boxplot(numvar ~ catvar, data = mydata)
+Here, the first argument are the two variables of interest separated by the tilde character `~`. On the left hand side is the numerical variable that you are investigating and on the right hand side is the categorical variable we want to subset by. The `data` argument tells the function where the function can find these variables (that is, in what data frame are these variables).
+
+#### Exercises
+- Call the `boxplot` function using the `g4math` is the numerical variable and `classtype` is the categorical variable. Pass the `star` data frame to the `data` argument. Include an informative y-axis label with `ylab` argument. Finally, pass the `classnames` vector to the `names` argument to place labels on the boxplots.
+
+```{r boxplot, exercise = TRUE}
+## labels for the class type
+classnames <- c("Small class", "Regular class", "Regular class with aid")
+
+## create a box plot with the characteristics specified in the instructions
+
+```
+
+
+```{r boxplot-solution}
+classnames <- c("Small class", "Regular class", "Regular class with aid")
+boxplot(g4math ~ classtype, data = star, ylab = "Math scores", names = classnames)
+```
+
+```{r boxplot-check}
+grade_code()
+```
+
+### Scatter plots
+
+Now you'll think more about to measure bivariate relationships---that is, the relationship between two variables. The `plot(x,y)` function will take two vectors and plot a series of points on a two-dimensional grid where the x-coordinates come from the `x` vector and the y-coordinates come from the `y` vector. For instance, `plot(x = c(1,2), y = c(3,4))` will plot two points, one at (1,3) and the other at (2,4). You will use this plot to explore the relationship between math and reading test scores in the `star` data.
+
+#### Exercises
+- Create a scatter plot using the `plot` function with `g4math` on the x-axis and `g4reading` on the y-axis, both from the `star` data. 
+- Remember you can access a particular variable in a data frame using the `$` symbol.
+
+```{r scatter, exercise = TRUE}
+## produce a scatterplot of g4math on the x-axis and g4reading on the y-axis
+
+```
+
+```{r scatter-solution}
+## produce a scatterplot of g4math on the x-axis and g4reading on the y-axis
+plot(star$g4math, star$g4reading)
+```
+
+```{r scatter-check}
+grade_code("Ok, great plot. Let's make a bit more polished.")
+```
+
+
+### Plotting two sets of points
+
+Often we want to plot certain pints differently than others. For instance, maybe you want to see how the relationship between math and reading scores differs between students in small classes versus those not in small classes. To do this, we can use subsets and the `points` function.
+
+After using the `plot` function, you can add more points to the current plot by using the `points(x,y)` function, where the points are plotted very similarly to `plot`.
+
+#### Exercises
+- Create a subset of the `star` data called `small.class` which is when `classtype` is equal to 1. Create a second subset called `reg.class` which is when `classtype` is not equal to 1. 
+- Use the `plot` function to create a scatter plot of `g4math` and `g4reading` from the `small.class`. Change the color of the points by including the `col = "indianred"` argument. 
+- Use the `points` function to add the points of `g4math` and `g4reading` from the `reg.class`. Change the color of the points by including the `col = "dodgerblue"` argument. 
+- Remember that you can use `x == y` to test if `x` is equal to `y` and `x != y` to test if `x` is not equal to `y`
+
+```{r plot-points, exercise = TRUE}
+## create a subset for small classes called small.class (classtype is 1)
+
+## create a subset for regular classes called reg.class (classtype is not 1)
+
+
+## use the plot command for the small.class and use one color
+
+
+## use the points command for the reg.class and use another color
+
+```
+
+
+```{r plot-points-solution}
+## create a subset for small classes (classtype is 1)
+small.class <- subset(star, classtype == 1)
+
+## create a subset for regular classes (classtype is not 1)
+reg.class <- subset(star, classtype != 1)
+
+## use the plot command for the small.class and use one color
+plot(small.class$g4math, small.class$g4reading, col = "indianred")
+
+## use the points command for the reg.class and use another color
+points(reg.class$g4math, reg.class$g4reading, col = "dodgerblue")
+```
+
+```{r plot-points-check}
+grade_conditions(
+  pass_if(~ identical(small.class, subset(star, classtype == 1))),
+  pass_if(~ identical(reg.class, subset(star, classtype != 1))),
+  pass_if(~ function_called(.code, fn = "plot")),
+  pass_if(~ function_called(.code, fn = "points"))
+)
+```
+
+### Finalizing your scatter plot
+
+The scatter plot is looking very good, but it could use a little bit of polish. Let's add axis labels and a title. Remember that you can add these to the plot via the `xlab`, `ylab`, and `main`. Also, it's important to note that you can only add these to the initial `plot` function; adding them to the `points` or `text` or `abline` functions won't have any effect.
+
+#### Exercises
+- Take the current plot and add the following arguments: `xlab`, `ylab`, and `main`. Make them informative.
+
+```{r niceplot, exercise = TRUE}
+small.class <- subset(star, classtype == 1)
+
+## create a subset for regular classes (classtype is not 1)
+reg.class <- subset(star, classtype != 1)
+
+## add the arguments to make the plot more readable
+plot(small.class$g4math, small.class$g4reading, col = "indianred")
+points(reg.class$g4math, reg.class$g4reading, col = "dodgerblue")
+```
+
+
+```{r niceplot-solution}
+small.class <- subset(star, classtype == 1)
+
+## create a subset for regular classes (classtype is not 1)
+reg.class <- subset(star, classtype != 1)
+
+## add the arguments to make the plot more readable
+plot(small.class$g4math, small.class$g4reading, col = "indianred", 
+xlab = "Fourth Grad Math Scores", ylab = "Fourth Grade Reading Score", main = "Math vs Reading")
+points(reg.class$g4math, reg.class$g4reading, col = "dodgerblue")
+```
+
+```{r niceplot-check}
+grade_conditions(
+  pass_if(~ function_called(.code, fn = "plot", has_args = c("xlab", "ylab", "main"))),
+  pass_if(~ function_called(.code, fn = "points"))
+)
+```
+
+## Submit
+
+```{r context="setup"}
+submission_ui
+```
+
+```{r context="server"}
+submission_server()
+```

@@ -1,0 +1,48 @@
+---
+params:
+  student_name: "Student T."
+  reportdate: !r Sys.Date()
+  reporttitle: "Week 0 Tutorial Report"
+  checked: 0
+  output: !r tibble::tibble(id = "test", checked = FALSE, correct = NA)
+title: "`r params$reporttitle`"
+author: "`r params$student_name`"
+date: "`r params$reportdate`"
+header-includes:
+- \usepackage{booktabs}
+output: pdf_document
+---
+
+
+```{r, echo = FALSE, }
+library(qsslearnr)
+checked_prop <- sum(params$output$checked) / length(params$output$checked)
+```
+
+Congrats on getting through this tutorial! Please upload this PDF to Gradescope. 
+
+## Tutorial progress:
+
+- Exercises attempted: `r sum(params$output$checked)` 
+- Exercises completed correctly: `r sum(params$output$correct, na.rm = TRUE)`
+- Total exercises:  `r length(params$output$checked)`
+
+\newpage
+
+## Progress detail
+
+Here is a detailed view of your progress
+
+```{r, echo = FALSE, center = TRUE}
+knitr::kable(params$output, "latex", booktabs = TRUE)
+```
+
+\newpage
+
+## Environment
+
+```{r, echo = TRUE}
+R.version
+Sys.time()
+Sys.info()[c("user", "effective_user")]
+```
