@@ -93,7 +93,7 @@ mydiff <-
 ```
 
 ```{r storing-check}
-grade_conditions(
+grade_result_strict(
   pass_if(~ identical(mydiff, 7)),
   pass_if(~ identical(.result, 7))
 )
@@ -156,7 +156,7 @@ result2 <- result
 ```
 
 ```{r copying-check}
-grade_conditions(
+grade_result_strict(
   pass_if(~ identical(result2, 8 - 2)),
   pass_if(~ identical(.result, 10 - 2)),
   pass_if(~ identical(result, 10 - 2))
@@ -302,7 +302,7 @@ world.pop
 ```
 
 ```{r seq-check}
-grade_conditions(
+grade_result_strict(
   pass_if(~ identical(year, seq(1950, 2010, by = 10))),
   pass_if(~ identical(.result, c("1950" = 2525779, "1960" = 3026003, "1970" = 3691173, "1980" = 4449049, "1990" = 5320817, "2000" = 6127700, "2010" = 6916183)))
 )

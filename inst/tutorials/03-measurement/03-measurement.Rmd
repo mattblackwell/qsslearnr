@@ -436,7 +436,7 @@ points(reg.class$g4math, reg.class$g4reading, col = "dodgerblue")
 ```
 
 ```{r plot-points-check}
-grade_conditions(
+grade_result_strict(
   pass_if(~ identical(small.class, subset(star, classtype == 1))),
   pass_if(~ identical(reg.class, subset(star, classtype != 1))),
   pass_if(~ function_called(.code, fn = "plot")),
@@ -476,7 +476,7 @@ points(reg.class$g4math, reg.class$g4reading, col = "dodgerblue")
 ```
 
 ```{r niceplot-check}
-grade_conditions(
+grade_result_strict(
   pass_if(~ function_called(.code, fn = "plot", has_args = c("xlab", "ylab", "main"))),
   pass_if(~ function_called(.code, fn = "points"))
 )

@@ -99,7 +99,7 @@ sex.call.tab <-
 ```
 
 ```{r table-check}
-grade_conditions(
+grade_result_strict(
   pass_if(~ identical(sex.call.tab, table(resume$sex, resume$call))),
   pass_if(~ identical(.result, table(resume$sex, resume$call)))
 )
@@ -124,7 +124,7 @@ x <-
 ```
 
 ```{r logical-check}
-grade_conditions(
+grade_result_strict(
   pass_if(~ identical(x, c(TRUE, TRUE, FALSE, FALSE))),
   pass_if(~ identical(x, 2L))
 )
@@ -143,7 +143,7 @@ z <-
 ```
 
 ```{r logical2-check}
-grade_conditions(
+grade_result_strict(
   pass_if(~ identical(z, c(TRUE, FALSE, FALSE, FALSE))),
   pass_if(~ identical(.result, 0.25))
 )
@@ -244,7 +244,7 @@ sum(college.aged)
 ```
 
 ```{r ages-check}
-grade_conditions(
+grade_result_strict(
   pass_if(~ identical(college.aged, (ages >= 18) & (ages <= 22))),
   pass_if(~ identical(.result, sum((ages >= 18) & (ages <= 22))))
 )
@@ -387,7 +387,7 @@ head(resume)
 ```
 
 ```{r ifelse-check}
-grade_conditions(
+grade_result_strict(
   pass_if(~ identical(resume$carrie, ifelse(resume$firstname == "Carrie", 1, 0)))
 )
 ```
