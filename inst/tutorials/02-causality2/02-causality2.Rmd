@@ -1,5 +1,5 @@
 ---
-title: "QSS Tutorial Week 2: Causality II"
+title: "QSS Tutorial 2: Causality II"
 output:
   learnr::tutorial:
     progressive: true
@@ -17,7 +17,7 @@ learnr:::install_knitr_hooks()
 #initialize_tutorial()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
-tut_reptitle <- "QSS Tutorial Week 2: Output Report"
+tut_reptitle <- "QSS Tutorial 2: Output Report"
 data(resume, package = "qss")
 ```
 

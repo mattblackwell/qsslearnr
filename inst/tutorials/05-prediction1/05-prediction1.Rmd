@@ -1,5 +1,5 @@
 ---
-title: "QSS Tutorial Week 5: Prediction I"
+title: "QSS Tutorial 5: Prediction I"
 output:
   learnr::tutorial:
     progressive: true
@@ -16,8 +16,10 @@ learnr:::install_knitr_hooks()
 #initialize_tutorial()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
-tut_reptitle <- "QSS Tutorial Week 4: Output Report"
+tut_reptitle <- "QSS Tutorial 5: Output Report"
 n <- 10
+x <- sample(100)
+y <- x + rnorm(100, mean = 0, sd = 0.5)
 ```
 
 ## Prediction 
@@ -167,6 +169,121 @@ for(i in 1:50){
 
 ```{r fizzbuzz2-check}
 grade_code()
+```
+
+
+### Linear regression
+
+```{r lm-multi, echo = FALSE}
+quiz("",
+     question("We use the regression line to predict the value of the outcome variable y hat, otherwise known as:",
+              answer("predicted value"),
+              answer("fitted value"),
+              answer("both of these", correct = TRUE)),
+     question("The differences between the observed outcome and its predicted value is called a:",
+              answer("residual"),
+              answer("prediction error"),
+              answer("either of these", correct = TRUE)),
+     question("An R^2 close to 1 suggests the model fits:",
+         answer("well", correct = TRUE),
+         answer("not well")),
+     question("With a single binary independent variable, what is the interpretation of the slope coefficient in a linear regression model?",
+              answer("Average outcome in the `X = 1` group"),
+              answer("Average outcome in the `X = 0` group"),
+              answer("Differences in means between the `X=1` and `X=0` groups", correct = TRUE))
+     )
+```
+
+
+In the following box, type answer to the following question: The intercept in the model $Y_i = \alpha + \beta X_i + \epsilon_i$ represents the average value of $Y_i$ when $X_i$ is equal to what?
+
+```{r intercept, exercise = TRUE}
+
+```
+
+```{r intercept-check}
+grade_result(
+  pass_if(~ identical(.result, 0), "Good job!")
+)
+```
+
+
+
+
+### Running regressions in R
+
+We have included two vectors `x` and `y`. Regress `y` on `x` and assign it to an object called `fit` and print that object to see what the output looks like. 
+
+```{r fit, exercise = TRUE}
+
+```
+
+```{r fit-solution}
+fit <- lm(y ~ x)
+fit
+```
+
+```{r fit-check}
+grade_result(
+  pass_if(~ identical(.result, lm(y ~ x)), "Good job!")
+)
+```
+
+### Accessing output from lm
+
+Now, use the `coef()` function to access
+
+```{r coef-setup}
+fit <- lm(y ~ x)
+```
+
+```{r coef, exercise = TRUE}
+fit <- lm(y ~ x)
+
+```
+
+```{r coef-check}
+grade_result(
+  pass_if(~ identical(.result, coef(fit)), "Good job!")
+)
+```
+
+
+Now you can also access the fitted values using either the `fitted()` or `predict()` function. Print the fitted values here:
+
+```{r fitted}
+fit <- lm(y ~ x)
+
+``` 
+
+```{r fitted-check}
+grade_result(
+  pass_if(~ identical(.result, fitted(fit)) | identical(.result, predict(fit)),
+          "Good job!")
+)
+```
+
+### Model fit
+
+Use the `summary()` function to access the value of $R^2$. Remember that you have to access a particular name from that summary using the `$`.
+
+```{r rsq}
+fit <- lm(y ~ x)
+
+```
+
+
+
+```{r rsq-check}
+grade_result(
+  pass_if(~ identical(.result, summary(fit)$r.squared), "Good job!")
+)
+```
+
+### Binary predictors
+
+```{r binary, echo = FALSE}
+
 ```
 
 ## Submit

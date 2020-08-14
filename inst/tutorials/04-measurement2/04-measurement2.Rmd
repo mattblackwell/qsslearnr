@@ -1,5 +1,5 @@
 ---
-title: "QSS Tutorial Week 4: Measurment II"
+title: "QSS Tutorial 4: Measurment II"
 output:
   learnr::tutorial:
     progressive: true
@@ -17,7 +17,7 @@ learnr:::install_knitr_hooks()
 #initialize_tutorial()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
-tut_reptitle <- "QSS Tutorial Week 4: Output Report"
+tut_reptitle <- "QSS Tutorial 4: Output Report"
 data(STAR, package = "qss")
 star <- STAR
 ```
