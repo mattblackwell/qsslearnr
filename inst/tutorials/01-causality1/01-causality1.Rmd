@@ -1,5 +1,5 @@
 ---
-title: "QSS Tutorial 1: Causality"
+title: "QSS Tutorial Week 1: Causality I"
 output:
   learnr::tutorial:
     progressive: true
