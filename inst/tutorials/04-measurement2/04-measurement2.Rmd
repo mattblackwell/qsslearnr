@@ -23,6 +23,28 @@ star <- read.csv("https://assets.datacamp.com/production/repositories/3045/datas
 
 ## Measurement
 
+
+
+### Conceptual questions
+
+```{r concept, echo=FALSE}
+quiz(caption = "",
+     question("In section 3.6 of QSS, what kind of plot are we using to visualize ideological differences between Democrats and Republicans?",
+              answer("scatterplot", correct = TRUE),
+              answer("bar plot"),
+              answer("histogram")),
+     question("To estimate the correlation between two variables x and y, we need to know the mean of each as well as the:",
+              answer("maximum"),
+              answer("standard deviation", correct = TRUE),
+              answer("length")),
+     question("What type of relationships does correlation measure?",
+              answer("linear relationships", correct = TRUE),
+              answer("nonlinear relationships"),
+              answer("both"))
+     )
+```
+
+
 We'll continue to analyze data from the STAR project, which is a four-year randomized trial on the effectiveness of small class sizes on education performance. The `star` data frame as been loaded into your space so that you can play around with it a bit.
 
 ### Boxplots
