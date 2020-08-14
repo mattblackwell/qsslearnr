@@ -1,0 +1,180 @@
+---
+title: "QSS Tutorial Week 5: Prediction I"
+output:
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+description: >
+  This tutorial will cover basic loops and if statements
+---
+
+```{r setup, include=FALSE}
+library(gradethis)
+library(learnr)
+library(qsslearnr)
+learnr:::install_knitr_hooks()
+#initialize_tutorial()
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = FALSE)
+tut_reptitle <- "QSS Tutorial Week 4: Output Report"
+n <- 10
+```
+
+## Prediction 
+
+
+
+### Conceptual questions
+
+```{r concept, echo=FALSE}
+quiz(caption = "",
+     question("True or False: Loops can simplify our programming code when we want to repeatedly execute code chunks over and over again.",
+              answer("True", correct = TRUE),
+              answer("False")),
+     question("To iterate meanst to: ",
+              answer("perform repeatedly", correct = TRUE),
+              answer("perform once"),
+              answer("skip over"))
+     )
+```
+
+
+### Loops
+
+Suppose we assign `n <- 10` how many times will the loop `for (i in 1:n)` iterate?
+
+```{r n_times, exercise = TRUE}
+
+```
+
+```{r n_times-check}
+grade_result(
+  pass_if(~ identical(.result, 10), "Good job!")
+)
+```
+
+
+### if statement
+
+```{r ifs, echo=FALSE}
+question("In the conditional expression `if (Y) {expression1}`, `expression1` will be executed if `Y` is:",
+         answer("`TRUE`", correct = TRUE),
+         answer("`FALSE`"))
+```
+
+
+
+```{r for-if, echo=FALSE}
+question("A conditional statement that is nested within a loop is executed _____ the loop.",
+         answer("inside", correct = TRUE),
+         answer("outside"))
+```
+
+
+### Loop practice
+
+It is often helpful to create an empty vector to store the computational output from a loop. You can think of this as a bookshelf with spots for the result of each iteration of the loop. 
+
+Create a vector called `output` that is filled with `NA` values and has length `n`.
+
+```{r holder, exercise = TRUE}
+output <-  
+```
+
+```{r holder-check}
+grade_result(
+  pass_if(~ identical(output, rep(NA, n)), "Good job!")
+)
+```
+
+### Printing to the screen
+
+In R, it's often very useful to print something to the screen and this is especially helpful when using loops. This can help us diagnose problems in the loop. 
+
+Use the `cat()` function to put together a phrase and the object `n`. The final output should read `The object n has value 10`.
+
+```{r cat, exercise = TRUE}
+
+```
+
+```{r cat-solution}
+cat("The object n has value", n)
+```
+
+```{r cat-check}
+grade_code()
+```
+
+### unique 
+
+We've added the following 
+
+
+```{r unique, exercise = TRUE}
+fruit <- c("apple", "orange", "banana", "orange", "apple", "apple")
+
+```
+
+```{r unique-solution}
+unique(fruit)
+```
+
+```{r unique-check}
+grade_code()
+```
+
+### FizzBuzz
+
+Here is a variant of the classic "FizzBuzz" coding question. Write a for loop that executes the code
+     cat("The following number i is divisible by 3", i, "\n")
+for numbers from 1 to 50 (inclusive) only for the numbers divisible by 3. Include brackets for the conditional.
+
+```{r fizzbuzz, exercise = TRUE}
+
+```
+
+
+```{r fizzbuzz-solution}
+for(i in 1:50){if (i %% 3 == 0) { cat("The following number i is divisible by 3", i, "\n") }}
+```
+
+```{r fizzbuzz-check}
+grade_code()
+```
+
+### Adding a condition
+
+Continuing from the previous FizzBuzz code you wrote, if the number is divisible by 5 (but not by 3), execute the code 
+   cat("The following number i is divisible by 5", i, "\n")
+
+```{r fizzbuzz2, exercise = TRUE}
+for(i in 1:50){
+  if (i %% 3 == 0) {
+    cat("The following number i is divisible by 3", i, "\n")
+  }
+}
+```
+
+```{r fizzbuzz2-solution}
+for(i in 1:50){
+  if (i %% 3 == 0) {
+    cat("The following number i is divisible by 3", i, "\n")
+  } else if (i %% 5 == 0) {
+    cat("The following number i is divisible by 5", i, "\n")
+  }
+}
+```
+
+```{r fizzbuzz2-check}
+grade_code()
+```
+
+## Submit
+
+```{r context="setup"}
+submission_ui
+```
+
+```{r context="server"}
+submission_server()
+```
