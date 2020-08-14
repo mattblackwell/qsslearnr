@@ -1,0 +1,135 @@
+---
+title: "QSS Tutorial 6: Prediction II"
+output:
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+description: >
+  This tutorial will cover basic loops and if statements
+---
+
+```{r setup, include=FALSE}
+library(gradethis)
+library(learnr)
+library(qsslearnr)
+learnr:::install_knitr_hooks()
+#initialize_tutorial()
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = FALSE)
+tut_reptitle <- "QSS Tutorial 6: Output Report"
+n <- 10
+data(progresa, package = "qss")
+```
+
+## Prediction 
+
+
+
+### Conceptual questions
+
+```{r concept, echo=FALSE}
+quiz(caption = "",
+     question("How can regression models be used to draw causal inference?",
+              answer("by predicting counterfactual outcomes", correct = TRUE),
+              answer("by randomizing outcomes"),
+              answer("by fitting a line")),
+     question("Even if the average treatment effect is positive, the same treatment may not affect everyone in the positive direction. This is an example of:",
+              answer("heterogenous treatment effects", correct = TRUE),
+              answer("homogenous treatment effects"),
+              answer("both of these"))
+     )
+```
+
+
+### Accessing the R squared
+
+Today we will use a dataset designed to investigate the impact of Mexico's conditional cash transfer program, _Progresa_, on political outcomes such as voter turnout. See Section 4.5.2 in QSS for more information on this study. We have loaded the `progresa` data into this tutorial session. First, run a regression of turnout (`t2000`) on treatment status (`treatment`) to get a sense for the estimated effect of receiving the program earlier versus later. Save the regression to the object `fit` and print that object. 
+
+```{r progressa, exercise = TRUE}
+
+
+```
+
+```{r n_times-check}
+grade_result(
+  pass_if(~ identical(.result, lm(t2000 ~ treatment, data = progresa))),
+  pass_if(~ identical(.result, lm(progresa$t2000 ~ progresa$treatment, data = progresa)),
+          "Right! Remember that when you pass the `data` argument, you don't need to explicitly refer to the data frame in the formula."),
+  pass_if(~ identical(.result, lm(progresa$t2000 ~ progresa$treatment)),
+          "Good job! You might try using the `data` argument next time.")
+)
+```
+
+Now, add the variable `avgpoverty` as an additional control variable to the regression (saving it as `fit_2var`) and print that new model. 
+
+```{r progresa-2var, exercise = TRUE}
+
+  
+```
+
+```{r progresa-2var-solution}
+fit_2var <- lm(t2000 ~ treatment + avgpoverty, data = progresa)
+fit_2var
+```
+
+```{r progresa-2var-check}
+grade_result(
+  pass_if(~ identical(.result, lm(t2000 ~ treatment + avgpoverty, data = progresa))),
+  pass_if(~ identical(.result, lm(progresa$t2000 ~ progresa$treatment + progresa$avgpoverty, data = progresa)),
+          "Right! Remember that when you pass the `data` argument, you don't need to explicitly refer to the data frame in the formula."),
+  pass_if(~ identical(.result, coef(lm(progresa$t2000 ~ progresa$treatment + progresa$avgpoverty))),
+          "Good job! You might try using the `data` argument next time.")
+)
+```
+
+
+### Estimating interactions
+
+Now, let's see how the effect of treatment varies by the average level of poverty. To do this, specify an interaction between `treatment` and `avgpoverty` using the `:` or `*` operators. Save this new model as `fit_int` and print it after running it. 
+
+```{r progresa-int, exercise = TRUE}
+
+```
+
+```{r progresa-int-solution}
+fit_int <- lm(t2000 ~ treatment * avgpoverty, data = progresa)
+fit_int
+```
+
+```{r progresa-int-check}
+grade_result(
+  pass_if(~ identical(.result, lm(t2000 ~ treatment * avgpoverty, data = progresa))),
+  pass_if(~ identical(.result, lm(progresa$t2000 ~ progresa$treatment * progresa$avgpoverty, data = progresa)),
+          "Right! Remember that when you pass the `data` argument, you don't need to explicitly refer to the data frame in the formula."),
+  pass_if(~ identical(.result, coef(lm(progresa$t2000 ~ progresa$treatment * progresa$avgpoverty))),
+          "Good job! You might try using the `data` argument next time.")
+)
+```
+
+
+### Nonlinearities 
+
+Finally, let's investigate the relationship between poverty and turnout. Run a regression of turnout on `avgpoverty` and it squared term to account for any possible nonlinearities. Save the output as `fit_sq` and print it out. 
+
+```{r nonlin, exercise = TRUE}
+
+```
+
+```{r nonlin-solution}
+fit_sq <- lm(t2000 ~ avgpoverty + I(avgpoverty ^ 2), data = progresa)
+fit_sq
+```
+
+```{r nonlin-check}
+grade_code()
+```
+
+## Submit
+
+```{r context="setup"}
+submission_ui
+```
+
+```{r context="server"}
+submission_server()
+```
