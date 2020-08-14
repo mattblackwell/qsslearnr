@@ -1,0 +1,180 @@
+---
+title: "QSS Tutorial 8: Probability II"
+output:
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+description: >
+  This tutorial will cover random variables and their distributions.
+---
+
+```{r setup, include=FALSE}
+library(gradethis)
+library(learnr)
+library(qsslearnr)
+learnr:::install_knitr_hooks()
+#initialize_tutorial()
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = FALSE)
+tut_reptitle <- "QSS Tutorial 7: Output Report"
+```
+
+## Prediction 
+
+### Uniform distribution
+
+What is the probability that a random variable with a uniform distribution in the range [1, 4] takes on a value less than or equal to 2.5?
+
+```{r uniform, exercise = TRUE}
+
+```
+
+```{r uniform-check}
+grade_result(pass_if(~ identical(.result, 0.5)))
+```
+
+### Variance
+
+```{r var, echo = FALSE}
+question("Suppose I give you a random variable X, such that its mean is 0 and that the expectation of X^2 is 5. What is the variance of X?",
+         answer("2"),
+         answer("3"),
+         answer("4"),
+         answer("5", correct = TRUE))
+```
+
+```{r var2, echo = FALSE}
+question("If the variance of X is b, what is the variance of 2*X?",
+         answer("0.5 * b"),
+         answer("b"),
+         answer("2 * b"),
+         answer("4 * b", correct = TRUE))
+```
+
+### Voters
+
+Suppose there are 10 voters in an election for two candidates A and B. Each voter independently chooses to vote for A with probability 0.1, and for B with probability 0.9. 
+
+```{r voters, echo = FALSE}
+question("What is the approximate probability that A gets at least 1 vote?",
+         answer("0.65", correct = TRUE),
+         answer("0.5"),
+         answer("0.75"),
+         answer("0.25"))
+```
+
+### Normal distribution
+
+```{r normal, echo = FALSE}
+question("Roughly what percentage of data with a standard normal distribution falls within +/- one standard deviation from the mean?",
+         answer("33%"),
+         answer("50%"),
+         answer("66%", correct = TRUE),
+         answer("87%"))
+```
+
+
+### Central limit theorem
+
+Suppose the standard deviation of a given population is 10. What is the standard deviation of sample mean within a sample of size 25 from that population?
+
+```{r clt, exercise = TRUE}
+
+```
+
+```{r clt-check}
+grade_result(pass_if(~ .identical(.result, 2)))
+```
+
+### Conceptual questions
+
+```{r concept, echo=FALSE}
+quiz(caption = "",
+     question("How can regression models be used to draw causal inference?",
+              answer("by predicting counterfactual outcomes", correct = TRUE),
+              answer("by randomizing outcomes"),
+              answer("by fitting a line")),
+     question("Even if the average treatment effect is positive, the same treatment may not affect everyone in the positive direction. This is an example of:",
+              answer("heterogenous treatment effects", correct = TRUE),
+              answer("homogenous treatment effects"),
+              answer("both of these"))
+     )
+```
+
+
+
+### Bounding probabilities
+
+Suppose that P(A)=0.4 and P(B)=0.3. What is the minimum value of P(A and not B)?
+
+```{r ltp, exercise = TRUE}
+
+```
+
+```{r ltp-check}
+grade_result(pass_if(~ identical(.result, 0.1)))
+```
+
+<div id="filter-hint">
+**Hint:** See the Law of Total Probability. What happens if B is entirely contained in A?
+</div>
+
+
+### Combinations/Permutations
+
+```{r combn, echo = FALSE}
+question("Out of all possible anagrams for the word CHAIR (including the original word), what is the probability that the letter I comes first?",
+         answer("0.1"),
+         answer("0.2", correct = TRUE),
+         answer("0.3"),
+         answer("0.4"))
+```
+
+
+### Independence
+
+Let A and B be two independent variables that take on only the values 0 and 1. If P(A=1, B=1)=0.12, P(A=0, B=1)=0.28, and P(A=1)=0.3, what is P(A=0, B=0)?
+
+```{r indep, exercise = TRUE}
+
+```
+
+```{r indep-check}
+grade_result(pass_if(~ identical(.result, 0.42)))
+```
+
+
+### Bayes' Rule
+
+A disease affects 1% of the population. The only test for the disease returns positive 99% of the time the disease is actually there, though it returns positive 20% of the time if the disease is not actually there. You take this test and it returns positive. What is the probability you have the disease (rounded to nearest 0.01)?
+
+```{r bayes, exercise = TRUE}
+
+```
+
+
+```{r exercise-check}
+grade_result(pass_if(~ identical(.result, 0.05)))
+```
+
+### A couple of coins
+
+You have a bucket with 2 coins: one is a regular coin, while the other has heads on both sides. You pick a coin at random and flip it: it turns up heads. What is the probability you chose the fair coin (express to the nearest 0.01)?
+
+```{r coins, exercise = TRUE}
+
+```
+
+```{r coins-check}
+grade_result(pass_if(~ .identical(.result, 0.33)))
+```
+
+## Submit
+
+```{r context="setup"}
+submission_ui
+```
+
+```{r context="server"}
+submission_server()
+```
