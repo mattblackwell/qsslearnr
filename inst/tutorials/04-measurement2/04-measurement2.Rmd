@@ -18,7 +18,8 @@ learnr:::install_knitr_hooks()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial Week 4: Output Report"
-star <- read.csv("https://assets.datacamp.com/production/repositories/3045/datasets/04251b0be6529e4b5f636fb5666f87cf3ad10635/STAR.csv")
+data(STAR, package = "qss")
+star <- STAR
 ```
 
 ## Measurement

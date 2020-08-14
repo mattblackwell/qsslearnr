@@ -18,7 +18,7 @@ learnr:::install_knitr_hooks()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial Week 2: Output Report"
-resume <- read.csv("https://assets.datacamp.com/production/repositories/3045/datasets/38c2c61fdfeb49d7210c008970d2d280a03715fd/resume.csv")
+data(resume, package = "qss")
 ```
 
 

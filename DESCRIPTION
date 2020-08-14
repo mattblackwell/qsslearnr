@@ -16,5 +16,6 @@ Imports:
   learnr,
   gradethis (>= 0.1.0.9004),
   rlang,
-  base64enc
+  base64enc,
+  qss
 RoxygenNote: 7.0.2
