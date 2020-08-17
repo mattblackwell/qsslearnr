@@ -1,0 +1,134 @@
+---
+title: "QSS Tutorial 9: Uncertainty II"
+output:
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+description: >
+  This tutorial will cover random variables and their distributions.
+---
+
+```{r setup, include=FALSE}
+library(gradethis)
+library(learnr)
+library(qsslearnr)
+learnr:::install_knitr_hooks()
+#initialize_tutorial()
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = FALSE)
+tut_reptitle <- "QSS Tutorial 9: Output Report"
+```
+
+## Uncertainty
+
+```{r random, echo = FALSE}
+question(
+  paste0("Which statement best describes how complete randomization",
+         " differs from simple randomization?"),
+  answer("Only part of our sample is randomly chosen"),
+  answer("We randomize part of the sample but do not randomize the treatment"),
+  answer("We choose how much of the sample receives treatment a priori",
+         correct = TRUE),
+  answer("we randomize the sample, a priori")
+)
+```
+
+
+```{r mse, echo = FALSE}
+question(
+  paste0("Let variance and bias be denoted by V(x) and B(x) respectively. ",
+         "The the mean squared error (MSE) equals:"),
+  answer("V(x^2) + B(x)"),
+  answer("V(x) + B(x^2)"),
+  answer("V(x)^2 + B(x)"),
+  answer("V(x) + B(x)^2", correct = TRUE)
+)
+```
+
+
+The variance in a population is 5. For a sample of size 10 from that population, what is the variance in the sample mean (express your answer to the nearest 0.1)?
+
+```{r sample-mean-var, exercise = TRUE}
+
+```
+
+```{r sample-mean-var-check}
+grade_result(
+  pass_if(
+    ~ identical(.result, 0.5)
+  )
+)
+```
+
+
+```{r alpha-ci, echo = TRUE}
+question(
+  "In the context of confidence intervals, what is alpha?",
+  answer("The probability that, over repeated sampling, the confidence interval does not contain the true value of a parameter.", correct = TRUE),
+  answer("The probability that the confidence interval contains the true value of a parameter, base on the sample size."),
+  answer("The probability that the confidence interval contains the true value of a parameter, regardless of the sample size."),
+  answer("The bias in the probability that the confidence interval contains the true value of a parameter")
+)
+```
+
+
+In our sample of voters we find that 40% of the participants support
+Trump. If we want our 95% confidence interval for the true population
+proportion to be within +/- 1% of the true value, what is the minimum
+number of participants we must ask?
+
+```{r margin, exercise = TRUE}
+
+```
+
+```{r margin-check}
+grade_result(pass_if(~ identical(.result, 9220)))
+```
+
+
+I flip a fair coin 27 times. What is the variance in the expected
+number of heads (express to the nearest 0.001)?
+
+```{r coin-var, exercise = TRUE}
+
+```
+
+```{r coin-var-check}
+grade_result(pass_if(~ identical(.result, 0.009)))
+```
+
+Now, I flip a coin of unknown bias 10 times. It comes up heads 8
+times. What is the (non-negative) margin of error, calculated from a
+95% confidence interval for the true probability the coin comes up
+heads (to the nearest 0.01)?
+
+
+```{r coin-moe, exersise = TRUE}
+
+```
+
+```{r coin-moe-check}
+grade_result(pass_if(~ .identical(.result, 0.25)))
+```
+
+```{r coin-qs, echo = FALSE}
+question(
+  paste0("In a sample 50% of the times a coin has landed tails. ",
+         "For 95% confidence and a margin of error of 0.001, roughly how many flips should you we need to check if the coin is actually fair?")
+  answer("100,000"),
+  answer("500,000"),
+  answer("1,000,000", correct = TRUE),
+  answer("5,000,000")
+)
+```
+
+
+## Submit
+
+```{r context="setup"}
+submission_ui
+```
+
+```{r context="server"}
+submission_server()
+```
