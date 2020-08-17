@@ -1,0 +1,168 @@
+---
+title: "QSS Tutorial 10: Uncertainty II"
+output:
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+description: >
+  This tutorial will cover random variables and their distributions.
+---
+
+```{r setup, include=FALSE}
+library(gradethis)
+library(learnr)
+library(qsslearnr)
+learnr:::install_knitr_hooks()
+#initialize_tutorial()
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = FALSE)
+tut_reptitle <- "QSS Tutorial 10: Output Report"
+```
+
+## Uncertainty II
+
+```{r null, echo = FALSE}
+question(
+  paste0("Suppose you wish to test whether education has an effect on wages.",
+         " What could be the null hypothesis?"),
+  answer("Education has no effect on wages", correct = TRUE),
+  answer("Education has an effect on wages"),
+  answer(" Wages has no effect on education"),
+  answer("Wages has an effect on education")
+)
+```
+
+
+```{r error-type, echo = FALSE}
+question(
+  paste0("When hiring, large companies get tons of overqualified applicants, ",
+         "so they are fine with rejecting qualified applicants, though they do",
+         " want to make sure selected applicants are actually qualified.",
+         "Given the null hypothesis that applicants are not qualified, ",
+         "do large companies care more about Type I or Type II errors?"),
+  answer("Type I", correct = TRUE),
+  answer("Type II")
+)
+```
+
+
+```{r sided, echo = TRUE}
+question(
+  paste0(
+    "You wish to conduct a study to test whether students at your university",
+    "sleep more hours than the national average. What t-test should you use?"
+  ),
+  answer("two-sample, one-sided"),
+  answer("two-sample, two-sided"),
+  answer("one-sample, one-sided", correct = TRUE),
+  ansser("one-sample, two-sided")
+)
+```
+
+You have a coin which you suspect is unfair and instead shows heads
+with probability 0.7. So, you decide to test this by flipping it
+exactly once: if heads comes up, you say it is unfair, otherwise, you
+say it is fair. What is the power of this test (express to the nearest
+0.1)?
+
+```{r coin, exercise = TRUE}
+
+```
+
+```{r coin-check}
+grade_result(pass_if(~ identical(.result, 0.7)))
+```
+
+
+
+Flipping a coin once is not super informative, you think to yourself,
+and so decide to flip the coin two more times. If any heads appear,
+you say the coin is unfair, otherwise, you say it is fair. With these
+three flips in total, what is the power of the test now (express to
+the nearest 0.001)?
+
+```{r coin2, exercise = TRUE}
+
+```
+
+```{r coin2-check}
+grade_result(
+  pass_if(
+    ~ identical(.result, 0.973)
+  )
+)
+```
+
+
+```{r power, echo = TRUE}
+question(
+  "What does the quantity (1- power) represent?",
+  answer("The probability of true positive."),
+  answer("The probability of true negative."),
+  answer("The probability of false positive."),
+  answer("The probability of false negative.", correct = TRUE)
+)
+```
+
+```{r multtest, echo = FALSE}
+question(
+  paste0(
+    "You repeatedly run statistical tests until you get significance",
+    "This fallacy is known as:"
+  ),
+  answer("multiple testing", correct = TRUE),
+  answer("repeated error detection"),
+  answer("likelihood fallacy"),
+  answer("multiple hypothesis detection")
+)
+```
+
+```{r unfair, echo = FALSE}
+question(
+  paste0(
+    "You think a die is unfair, so you roll twice.",
+    "If you get 2 sixes in a row, you deem it unfair.",
+    "What is the probability of a Type I error in this test?"
+  ),
+  answer("1/2"),
+  answer("1/6"),
+  answer("1/12"),
+  answer("1/36", correct = TRUE)
+)
+```
+
+
+```{r nytx-tests, echo = FALSE}
+question(
+  paste0(
+    "You wish to test whether political sentiment of the average Texan is",
+    "significantly different from that of the average New Yorker.",
+    "What test would be appropriate?"
+  ),
+  answer("one-sample t-test"),
+  answer("two-sample z-test"),
+  answer("two-sample t-test", correct = TRUE),
+  answer("one-sample z-test")
+)
+```
+
+```{r tvz, echo = FALSE}
+question(
+  "How does a t-test primary differ from a z-test?",
+  answer("You do not know the population mean"),
+  answer("You do not know the population standard deviation",
+         correct = TRUE),
+  answer("You do not know the confidence level"),
+  answer("You do not know if the data is normally distributed")
+)
+```
+
+## Submit
+
+```{r context="setup"}
+submission_ui
+```
+
+```{r context="server"}
+submission_server()
+```
