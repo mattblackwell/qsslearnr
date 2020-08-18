@@ -5,7 +5,7 @@ output:
     progressive: true
 runtime: shiny_prerendered
 description: >
-  This tutorial will cover random variables and their distributions.
+  This tutorial will cover hypothesis tests.
 ---
 
 ```{r setup, include=FALSE}
@@ -19,7 +19,9 @@ knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 10: Output Report"
 ```
 
-## Uncertainty II
+## Hypothesis Tests
+
+### Null hypotheses
 
 ```{r null, echo = FALSE}
 question(
@@ -32,6 +34,7 @@ question(
 )
 ```
 
+### Type I and Type II errors
 
 ```{r error-type, echo = FALSE}
 question(
@@ -46,6 +49,8 @@ question(
 ```
 
 
+### One-sided vs two-sided tests
+
 ```{r sided, echo = TRUE}
 question(
   paste0(
@@ -58,6 +63,9 @@ question(
   ansser("one-sample, two-sided")
 )
 ```
+
+
+### Power
 
 You have a coin which you suspect is unfair and instead shows heads
 with probability 0.7. So, you decide to test this by flipping it
@@ -73,7 +81,7 @@ say it is fair. What is the power of this test (express to the nearest
 grade_result(pass_if(~ identical(.result, 0.7)))
 ```
 
-
+### 
 
 Flipping a coin once is not super informative, you think to yourself,
 and so decide to flip the coin two more times. If any heads appear,
@@ -93,6 +101,7 @@ grade_result(
 )
 ```
 
+### 
 
 ```{r power, echo = TRUE}
 question(
@@ -103,6 +112,9 @@ question(
   answer("The probability of false negative.", correct = TRUE)
 )
 ```
+
+### 
+
 
 ```{r multtest, echo = FALSE}
 question(
@@ -116,6 +128,8 @@ question(
   answer("multiple hypothesis detection")
 )
 ```
+
+### Calculating Type I error
 
 ```{r unfair, echo = FALSE}
 question(
@@ -132,6 +146,8 @@ question(
 ```
 
 
+### t-tests vs z-tests
+
 ```{r nytx-tests, echo = FALSE}
 question(
   paste0(
@@ -145,6 +161,8 @@ question(
   answer("one-sample z-test")
 )
 ```
+
+### 
 
 ```{r tvz, echo = FALSE}
 question(

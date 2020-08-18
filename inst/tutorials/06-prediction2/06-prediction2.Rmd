@@ -5,7 +5,8 @@ output:
     progressive: true
 runtime: shiny_prerendered
 description: >
-  This tutorial will cover basic loops and if statements
+  This tutorial will cover more advanced regression, including
+  interactions and nonlinearities.
 ---
 
 ```{r setup, include=FALSE}
@@ -21,7 +22,7 @@ n <- 10
 data(progresa, package = "qss")
 ```
 
-## Prediction 
+## Extending Linear Regression 
 
 
 
@@ -59,6 +60,8 @@ grade_result(
           "Good job! You might try using the `data` argument next time.")
 )
 ```
+
+### Add another covariate
 
 Now, add the variable `avgpoverty` as an additional control variable to the regression (saving it as `fit_2var`) and print that new model. 
 

@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 7: Output Report"
 ```
 
-## Prediction 
+## Probability Basics 
 
 
 
@@ -46,6 +46,10 @@ Suppose that P(A)=0.4 and P(B)=0.3. What is the minimum value of P(A and not B)?
 
 ```{r ltp, exercise = TRUE}
 
+```
+
+```{r ltp-solution}
+0.4 - 0.3
 ```
 
 ```{r ltp-check}

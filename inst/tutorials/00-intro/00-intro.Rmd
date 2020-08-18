@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 0: Output Report"
 ```
 
-## Introduction to R
+## Basics of R
 
 ### R as a calculator
  
@@ -162,6 +162,8 @@ grade_result_strict(
   pass_if(~ identical(result, 10 - 2))
 )
 ```
+
+## Working with Data
 
 ### Working with real data
 

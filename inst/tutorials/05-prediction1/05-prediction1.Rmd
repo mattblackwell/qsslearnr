@@ -33,7 +33,7 @@ quiz(caption = "",
      question("True or False: Loops can simplify our programming code when we want to repeatedly execute code chunks over and over again.",
               answer("True", correct = TRUE),
               answer("False")),
-     question("To iterate meanst to: ",
+     question("To iterate means to: ",
               answer("perform repeatedly", correct = TRUE),
               answer("perform once"),
               answer("skip over"))
@@ -45,14 +45,12 @@ quiz(caption = "",
 
 Suppose we assign `n <- 10` how many times will the loop `for (i in 1:n)` iterate?
 
-```{r n_times, exercise = TRUE}
 
-```
 
-```{r n_times-check}
-grade_result(
-  pass_if(~ identical(.result, 10), "Good job!")
-)
+```{r n_times, eccho = FALSE}
+question_text("Number of iterations:",
+              answer("10", correct = TRUE),
+              allow_retry = TRUE)
 ```
 
 
@@ -194,16 +192,14 @@ quiz("",
      )
 ```
 
+### Interpreting intercepts
 
 In the following box, type answer to the following question: The intercept in the model $Y_i = \alpha + \beta X_i + \epsilon_i$ represents the average value of $Y_i$ when $X_i$ is equal to what?
 
-```{r intercept, exercise = TRUE}
-
-```
-
-```{r intercept-check}
-grade_result(
-  pass_if(~ identical(.result, 0), "Good job!")
+```{r intercept, echo = FALSE}
+question_text(
+  "The intercept is the average of Y when X is equal to:",
+  answer("0", correct = TRUE)
 )
 ```
 
@@ -278,12 +274,6 @@ fit <- lm(y ~ x)
 grade_result(
   pass_if(~ identical(.result, summary(fit)$r.squared), "Good job!")
 )
-```
-
-### Binary predictors
-
-```{r binary, echo = FALSE}
-
 ```
 
 ## Submit

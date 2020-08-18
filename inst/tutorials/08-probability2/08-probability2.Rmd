@@ -19,36 +19,39 @@ knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 8: Output Report"
 ```
 
-## Probability II
+## Random Variables and Large Samples
 
 ### Uniform distribution
 
-What is the probability that a random variable with a uniform distribution in the range [1, 4] takes on a value less than or equal to 2.5?
 
-```{r uniform, exercise = TRUE}
 
+```{r uniform, echo = FALSE}
+question_text(
+  "What is the probability that a random variable with a uniform distribution in the range [1, 4] takes on a value less than or equal to 2.5?",
+  answer("0.5", correct = TRUE)
+)
 ```
 
-```{r uniform-check}
-grade_result(pass_if(~ identical(.result, 0.5)))
-```
 
 ### Variance
 
 ```{r var, echo = FALSE}
-question("Suppose I give you a random variable X, such that its mean is 0 and that the expectation of X^2 is 5. What is the variance of X?",
-         answer("2"),
-         answer("3"),
-         answer("4"),
-         answer("5", correct = TRUE))
-```
-
-```{r var2, echo = FALSE}
-question("If the variance of X is b, what is the variance of 2*X?",
-         answer("0.5 * b"),
-         answer("b"),
-         answer("2 * b"),
-         answer("4 * b", correct = TRUE))
+quiz(
+  question(
+    "Suppose I give you a random variable X, such that its mean is 0 and that the expectation of X^2 is 5. What is the variance of X?",
+    answer("2"),
+    answer("3"),
+    answer("4"),
+    answer("5", correct = TRUE)
+  ),
+  question(
+    "If the variance of X is b, what is the variance of 2*X?",
+    answer("0.5 * b"),
+    answer("b"),
+    answer("2 * b"),
+    answer("4 * b", correct = TRUE)
+  )
+)
 ```
 
 ### Voters
@@ -56,21 +59,25 @@ question("If the variance of X is b, what is the variance of 2*X?",
 Suppose there are 10 voters in an election for two candidates A and B. Each voter independently chooses to vote for A with probability 0.1, and for B with probability 0.9. 
 
 ```{r voters, echo = FALSE}
-question("What is the approximate probability that A gets at least 1 vote?",
-         answer("0.65", correct = TRUE),
-         answer("0.5"),
-         answer("0.75"),
-         answer("0.25"))
+question(
+  "What is the approximate probability that A gets at least 1 vote?",
+  answer("0.65", correct = TRUE),
+  answer("0.5"),
+  answer("0.75"),
+  answer("0.25")
+)
 ```
 
 ### Normal distribution
 
 ```{r normal, echo = FALSE}
-question("Roughly what percentage of data with a standard normal distribution falls within +/- one standard deviation from the mean?",
-         answer("33%"),
-         answer("50%"),
-         answer("66%", correct = TRUE),
-         answer("87%"))
+question(
+  "Roughly what percentage of data with a standard normal distribution falls within +/- one standard deviation from the mean?",
+  answer("33%"),
+  answer("50%"),
+  answer("66%", correct = TRUE),
+  answer("87%")
+)
 ```
 
 
@@ -80,6 +87,10 @@ Suppose the standard deviation of a given population is 10. What is the standard
 
 ```{r clt, exercise = TRUE}
 
+```
+
+```{r clt-hint-1}
+## See QSS 6.5.2. What does the CLT say about the variance of a sample?
 ```
 
 ```{r clt-check}

@@ -5,7 +5,7 @@ output:
     progressive: true
 runtime: shiny_prerendered
 description: >
-  This tutorial will cover random variables and their distributions.
+  This tutorial will cover inference, estimators, and confidence intervals.
 ---
 
 ```{r setup, include=FALSE}
@@ -19,7 +19,10 @@ knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 9: Output Report"
 ```
 
-## Uncertainty
+## Estimation and Confidence Intervals
+
+
+
 
 ```{r random, echo = FALSE}
 question(
@@ -33,6 +36,7 @@ question(
 )
 ```
 
+### Mean squared error
 
 ```{r mse, echo = FALSE}
 question(
@@ -45,6 +49,8 @@ question(
 )
 ```
 
+
+### Variance of the sample mean
 
 The variance in a population is 5. For a sample of size 10 from that population, what is the variance in the sample mean (express your answer to the nearest 0.1)?
 
@@ -60,6 +66,7 @@ grade_result(
 )
 ```
 
+### Confidence intervals
 
 ```{r alpha-ci, echo = TRUE}
 question(
@@ -71,6 +78,8 @@ question(
 )
 ```
 
+
+### Margin of error
 
 In our sample of voters we find that 40% of the participants support
 Trump. If we want our 95% confidence interval for the true population
@@ -86,6 +95,8 @@ grade_result(pass_if(~ identical(.result, 9220)))
 ```
 
 
+### Variance of a sum
+
 I flip a fair coin 27 times. What is the variance in the expected
 number of heads (express to the nearest 0.001)?
 
@@ -96,6 +107,8 @@ number of heads (express to the nearest 0.001)?
 ```{r coin-var-check}
 grade_result(pass_if(~ identical(.result, 0.009)))
 ```
+
+### Margin of error for sample proportions
 
 Now, I flip a coin of unknown bias 10 times. It comes up heads 8
 times. What is the (non-negative) margin of error, calculated from a
@@ -110,6 +123,8 @@ heads (to the nearest 0.01)?
 ```{r coin-moe-check}
 grade_result(pass_if(~ .identical(.result, 0.25)))
 ```
+
+### Confidence intervals for sample proportions
 
 ```{r coin-qs, echo = FALSE}
 question(
