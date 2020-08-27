@@ -1,11 +1,12 @@
 ---
 title: "QSS Tutorial 0: Introduction to R"
+tutorial:
+  id: "00-intro"
 output:
   learnr::tutorial:
     progressive: true
 runtime: shiny_prerendered
-description: >
-  This tutorial will introduce you to the basics of R. 
+description: "This tutorial will introduce you to the basics of R."
 ---
 
 ```{r setup, include=FALSE}
@@ -24,31 +25,30 @@ tut_reptitle <- "QSS Tutorial 0: Output Report"
 ### R as a calculator
  
 
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+First, we'll learn how to use R as a calculator.
 
 - Use the `+` sign to add 5 and 3
 
 ```{r add, exercise=TRUE}
-## Add together 5 and 3
 
 ```
 
 ```{r add-check}
 grade_result(
-  pass_if(~ identical(.result, 8), "Good job!")
+  pass_if(~ identical(.result, 8))
 )
 ```
 
 
 - Use the `-` sign to subtract 3 from 5
 
-```{r subtract, exercise=TRUE}
+```{r subtract, exercise=TRUE, exercise.lines = 5}
 
 ```
 
 ```{r subtract-check}
 grade_result(
-  pass_if(~ identical(.result, 2), "Good job!")
+  pass_if(~ identical(.result, 2))
 )
 ```
 
@@ -60,7 +60,7 @@ grade_result(
 
 ```{r divide-check}
 grade_result(
-  pass_if(~ identical(.result, 6/2), "Good job!")
+  pass_if(~ identical(.result, 6/2))
 )
 ```
 
@@ -73,7 +73,7 @@ grade_result(
 
 ```{r sqrt-check}
 grade_result(
-  pass_if(~ identical(.result, sqrt(16)), "Good job!")
+  pass_if(~ identical(.result, sqrt(16)), "Now you know how to use R as a calculator.")
 )
 ```
 
@@ -82,13 +82,14 @@ grade_result(
 
 You can save anything in R to an object. This is handy if you want to reuse some calculation later in your session.
 
-- Calculate the difference `8-1` and save it an object called `mydiff`. 
+- Replace `...` with the difference `8-1` to save it an object called `mydiff`. 
+- Print the value of `mydiff` to the console by typing it on its own line. 
 
-```{r storing, exercise=TRUE}
+```{r storing, exercise = TRUE, exercise.lines = 6}
 ## assign the difference here
-mydiff <-
+mydiff <- ...
 
-## print the value here
+## print the value of mydiff on the next line
 
 ```
 
@@ -105,24 +106,24 @@ grade_result_strict(
 
 A lot of the time we'll work with numbers in R, but we will also want to use a lot of text. This text can be helpful in producing labels for plots or for labeling categorical variables.
 
-- First, save the text `"social science"` to the variable `course`.
-- Next, save the text `"learning R"` to the same variable `course`.
+- First, save the text `"social science"` to the variable `course` (replace the first `...`).
+- Next, save the text `"learning R"` to the same variable `course` (replace the second `...`).
 - Finally, print the value of `course` to the console. What do you think it will say?
 
 ```{r strings, exercise=TRUE}
 ## save the first string
-course <- 
+course <- ...
 
 ## overwrite the course variable with the second phrase
-course <-
+course <- ...
 
-## print the value of course here
+## print the value of course on the next line
 
 ```
 
 ```{r strings-check}
 grade_result(
-  pass_if(~ identical(.result, "learning R"), "Great job!")
+  pass_if(~ identical(.result, "learning R"))
 )
 ```
 
@@ -145,9 +146,9 @@ result <- 8 - 2
 
 
 ## Overwrite "result"
-result <- 
+result <- ...
   
-## Print result
+## Print result on next line
  
 ```
 
@@ -184,10 +185,6 @@ world.pop <- c(2525779, 3026003, 3691173, 4449049, 5320817, 6127700, 6916183)
 world.pop
 ```
 
-```{r printdata-check}
-grade_code("Great.")
-```
-
 ### Indexing and subsetting
 
 
@@ -215,7 +212,7 @@ grade_result(
 
 
 ```{r indexing2, exercise=TRUE, exercise.setup = "worlddata"}
-## access and print the 4th value of world.pop
+## access and print the 1st and 4th value of world.pop
 
 ```
 
@@ -285,20 +282,23 @@ grade_code()
 ### Creating and using sequences
 
 Creating vectors using the `c()` command can be cumbersome and time consuming. Sometimes we can create vectors much more quickly. One place where we can do this is with sequences of numbers that follow a pre-specified pattern. In that case, we can use the `seq()` function. This function most commonly takes three arguments:
+
 - `from` - the first number in the sequence. 
 - `to` - the last number in the sequence
 - `by` - the increments between each value in the sequence. 
+
 We're going to use this to create a label for the  `world.pop` vector. We can assign these labels using the `names()` function.
 
 #### Instructions
 
 - Create a vector called `year` that is a sequence from 1950 to 2010 that increases in increments of 10 years and print it.
+- Assign this `year` vector to the `names(world.pop)` to set the names of the `world.pop` vector.
 
 ```{r seq, exercise = TRUE, exercise.setup = "worlddata"}
 ## create a vector with a sequence from 1950 to 2010 by 10
-year <-
+year <- ...
 
-names(world.pop) <- 
+names(world.pop) <- ...
 
 world.pop
 ```
@@ -350,7 +350,7 @@ We can apply many types of arithmetic operators such as addition, subtraction, m
 
 ```{r vector_math, exercise=TRUE, exercise.setup = "worlddata"}
 ## create the pop.million variable. 
-pop.million <- 
+pop.million <- ...
 
 ## print out the pop.million variable
 
@@ -363,12 +363,6 @@ grade_result(
 ```
 
 ### Working with a data.frame
-
-```yaml
-type: NormalExercise
-key: a15f6a4771
-xp: 100
-```
 
 A `data.frame` is an object in R that is basically like a spreadsheet with some number of rows (units) and some number of columns (variables) and a name for each column. There are a number of ways to interact with a `data.frame` to get useful information about it. For example, if I have a `data.frame` called `mydata`, I can do the following:
 
