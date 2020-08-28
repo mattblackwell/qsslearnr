@@ -3,18 +3,19 @@ title: "QSS Tutorial 2: Causality II"
 output:
   learnr::tutorial:
     progressive: true
+    ace_theme: github
+    theme: united
 runtime: shiny_prerendered
 description: >
   This tutorial will cover logicals, subsetting, factors, and
-  calculating means in experiments.
+  calculating means in experiments. Follows along to 
+  Chapter 2 of "Quantitative Social Science: An Introduction".
 ---
 
 ```{r setup, include=FALSE}
 library(gradethis)
 library(learnr)
 library(qsslearnr)
-learnr:::install_knitr_hooks()
-#initialize_tutorial()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 2: Output Report"
@@ -22,9 +23,8 @@ data(resume, package = "qss")
 ```
 
 
-## R for Causality Chapter in QSS
+## Conceptual Questions 
 
-This tutorial is a companion to Chapter 2 of "Quantitative Social Science: An Introduction". 
 
 ```{r rct, echo=FALSE}
 question('Which of the following approaches to identifying causal relationships is considered the "gold standard" in many scientific disciplines?',
@@ -44,7 +44,7 @@ question("With observational studies, it is often hard to establish that changes
          answer("All of these"))
 ```
 
-
+## More Logicals in R
 
 ### Complex relationals
 
@@ -110,7 +110,9 @@ mean(ages[college.aged])
 ```
 
 ```{r logsubset-check}
-grade_code()
+grade_result(
+  pass_if(~ identical(.result, mean(ages[college.aged])))
+)
 ```
 
 ### Using simple conditional statements
@@ -147,6 +149,7 @@ grade_result_strict(
 )
 ```
 
+## Factors variables in R
 
 ### Factor variables
 
@@ -259,9 +262,9 @@ grade_code("Great work, you have the skills you need to analyze experiments and 
 ## Submit
 
 ```{r context="setup"}
-submission_ui
+qsslearnr:::submission_ui
 ```
 
 ```{r context="server"}
-submission_server()
+qsslearnr:::submission_server()
 ```

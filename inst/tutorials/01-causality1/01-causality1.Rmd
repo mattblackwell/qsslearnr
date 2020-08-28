@@ -3,18 +3,19 @@ title: "QSS Tutorial 1: Causality I"
 output:
   learnr::tutorial:
     progressive: true
+    ace_theme: github
+    theme: united
 runtime: shiny_prerendered
 description: >
   This tutorial will cover logicals, subsetting, factors, and
-  calculating means in experiments.
+  calculating means in experiments. Companion to Chapter 2 of
+  "Quantitative Social Science: An Introduction".
 ---
 
 ```{r setup, include=FALSE}
 library(gradethis)
 library(learnr)
 library(qsslearnr)
-learnr:::install_knitr_hooks()
-#initialize_tutorial()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 1: Output Report"
@@ -22,46 +23,48 @@ data(resume, package = "qss")
 ```
 
 
-## R for Causality Chapter in QSS
 
-This tutorial is a companion to Chapter 2 of "Quantitative Social Science: An Introduction". 
+## Conceptual Questions
+
 
 ```{r concept-quiz, echo=FALSE}
-quiz(caption = "Conceptual Questions",
-     question("Suppose a variable is binary, that is, it takes on values of either 0 or 1 (for example, female gender). Which of the following is the same as its sample mean?",
-              answer("the sample median"),
-              answer("the sample rate of 1s", correct = TRUE),
-              answer("neither of these")
+quiz(
+  caption = "",
+  question(
+    "Suppose a variable is binary, that is, it takes on values of either 0 or 1 (for example, female gender). Which of the following is the same as its sample mean?",
+    answer("the sample median"),
+    answer("the sample proportion of 1s", correct = TRUE),
+    answer("neither of these")
   ),
-  question("What kind of value is `FALSE`?",
-           answer("character"),
-           answer("logical", correct = TRUE),
-           answer("binary"),
-           answer("numeric")),
-  question("In order to calculate the mean of a variable we have used the `length()` function in the denominator. The `length()` of a vector is equivalent to:",
-           answer("the number of elements", correct = TRUE),
-           answer("the height"),
-           answer("the maximum")
-           ),
-  question("How are factor variables different from categorical variables?",
-           answer("They are the same", correct = TRUE),
-           answer("Factor variables contain numeric values"),
-           answer("Categorical variables tend to have more levels or categories")),
-  question('Which of the following approaches to identifying causal relationships is considered the "gold standard" in many scientific disciplines?',
-              answer("Randomized controlled trials"),
-              answer("Randomized experiments"),
-              answer("Either of these", correct = TRUE)
-         )
+  question(
+    "What kind of value is `FALSE`?",
+    answer("character"),
+    answer("logical", correct = TRUE),
+    answer("binary"),
+    answer("numeric")
+  ),
+  question(
+    "In order to calculate the mean of a variable we have used the `length()` function in the denominator. The `length()` of a vector is equivalent to:",
+    answer("the number of elements", correct = TRUE),
+    answer("the height"),
+    answer("the maximum")
+  ),
+  question(
+    "How are factor variables different from categorical variables?",
+    answer("They are the same", correct = TRUE),
+    answer("Factor variables contain numeric values"),
+    answer("Categorical variables tend to have more levels or categories")
+  )
 )
 ```
 
 
-
+## Working with Logicals in R
 
 ### Exploring the resume data
 
 
-In this chapter, we are going to be working with the resume data from Section 2.1 of Imai. This data comes from an experiment where researchers sent fictitious resumes with different names that implied different race and gender combinations to see if potential employers were more likely to call back names associated with different racial groups and genders. 
+In this tutorial, we are going to be working with the resume data from Section 2.1 of QSS. This data comes from an experiment where researchers sent fictitious resumes with different names that implied different race and gender combinations to see if potential employers were more likely to call back names associated with different racial groups and genders. 
 
 Let's first explore the data a bit. It's stored as `resume`.
 
@@ -122,21 +125,16 @@ To help you analyze this data, you can use a cross tabulation. Cross tabulation 
 
 #### Exercise
 
-- Using the `table` function, create a cross tab of the `sex` and `call` variables in the resume data and assign this table to `sex.call.tab`
-- Print the resulting cross tab.
+- Using the `table` function, create a cross tab of the `sex` and `call` variables in the resume data.
 
 ```{r table, exercise = TRUE}
-## create a contingency table of sex and call
-sex.call.tab <- 
-
-## print the contingency table
 
 ```
 
 ```{r table-check}
-grade_result_strict(
-  pass_if(~ identical(sex.call.tab, table(resume$sex, resume$call))),
-  pass_if(~ identical(.result, table(resume$sex, resume$call)))
+grade_result(
+  pass_if(~ identical(.result, table(resume$sex, resume$call))),
+  pass_if(~ identical(.result, table(resume$call, resume$sex)))
 )
 ```
 
@@ -158,10 +156,18 @@ x <-
 
 ```
 
+
+```{r logical-hint}
+x <- c()
+
+mean(x)
+```
+
+
 ```{r logical-check}
 grade_result_strict(
   pass_if(~ identical(x, c(TRUE, TRUE, FALSE, FALSE))),
-  pass_if(~ identical(x, 2L))
+  pass_if(~ identical(.result, 2L))
 )
 ```
 
@@ -177,6 +183,13 @@ z <-
 
 ```
 
+```{r logical2-hint}
+z <- c()
+
+mean(z)
+```
+
+
 ```{r logical2-check}
 grade_result_strict(
   pass_if(~ identical(z, c(TRUE, FALSE, FALSE, FALSE))),
@@ -189,9 +202,12 @@ grade_result_strict(
 
 
 We often combine logical statements using AND (`&`) and OR (`|`) in R. For AND statements, both expressions have to be true for the whole expression to be true:
+
 - `TRUE & FALSE`, `FALSE & TRUE`, and `FALSE & FALSE` are `FALSE`
 - `TRUE & TRUE` is `TRUE`
+
 For OR statements, either statement being true makes the whole expression true:
+
 - `TRUE | FALSE`, `FALSE | TRUE`, and `TRUE | TRUE` are `TRUE`
 - `FALSE | FALSE` is `FALSE`
 
@@ -246,14 +262,22 @@ x <- c(-2, -1, 0, 1, 2)
 
 ```{r compare-check}
 grade_result(
+  fail_if(~ identical(.result, x > 0),
+          "Did you forget the 'or equal to' part of the comparison?"),
   pass_if(~ identical(.result, x >= 0))
 )
 ```
 
+## Subsets in R
+
 ### Subsetting a data frame
 
 
-You can use the same logical statements you have been using to create subsets of a data frame. These can often be helpful because we'll want to calculate various quantities of interest for different subsets of the data. For this exercise, we will use the `resume` data frame made up of the variables `firstname`, `sex`, `race`, and `call`.
+You can use the same logical statements you have been using to create subsets of a data frame. These can often be helpful because we'll want to calculate various quantities of interest for different subsets of the data. For this exercise, we will use the `resume` data frame made up of the variables `firstname`, `sex`, `race`, and `call`. As a reminder, here is what the data look like:
+
+```{r}
+resume
+```
 
 #### Exercise 
 
@@ -263,12 +287,9 @@ You can use the same logical statements you have been using to create subsets of
 
 
 ```{r subset, exercise = TRUE}
-## you might want to run the code first to see what
-## the resume data looks like again
-resume
-
 ## create the subset for white female names and
 ## assign it to resume.wf
+resume.wf <- ...
 
 ## print the first 6 lines of the subset
 

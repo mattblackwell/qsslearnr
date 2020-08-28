@@ -93,13 +93,8 @@ submission_ui <- shiny::div(
     shiny::tags$li("Enter your name into the text box below.."),
     shiny::tags$li("Click the Download button next to generate a report PDF with a summary of your work. "),
     shiny::tags$li("Upload this file to the appropriate assignment on Gradescope.")),
-  shiny::fluidPage(
-    shiny::mainPanel(
-      shiny::div(id = "form",
-                 shiny::textInput("name", "Your Name"),
-                 shiny::downloadButton(outputId = "download_report", label = "Download"))
-    )
-  )
+  shiny::textInput("name", "Your Name"),
+  shiny::downloadButton(outputId = "download_report", label = "Download")
 )
 
 utils::globalVariables(c("input", "session", "download_report"))

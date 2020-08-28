@@ -5,6 +5,8 @@ tutorial:
 output:
   learnr::tutorial:
     progressive: true
+    ace_theme: github
+    theme: united
 runtime: shiny_prerendered
 description: "This tutorial will introduce you to the basics of R."
 ---
@@ -13,8 +15,6 @@ description: "This tutorial will introduce you to the basics of R."
 library(gradethis)
 library(learnr)
 library(qsslearnr)
-learnr:::install_knitr_hooks()
-#initialize_tutorial()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 0: Output Report"
@@ -377,7 +377,10 @@ These are super useful functions Let's use some of these on a data frame, `UNpop
 #### Exercise
 
 ```{r unpop}
-UNpop <- read.csv("https://assets.datacamp.com/production/repositories/3045/datasets/24085883b6c1a2a2b3fa9b6d997efee6df7a4333/UNpop.csv")
+UNpop <- data.frame(
+  year = seq(1950, 2010, by = 10),
+  world.pop <- c(2525779, 3026003, 3691173, 4449049, 5320817, 6127700, 6916183)
+)
 ```
 
 - Print the `UNpop` data frame.
