@@ -37,10 +37,14 @@ submission_server <- function(input, output) {
         objs = learnr:::submissions_from_state_objects(objs)
         out <- tibble::tibble(
           id = purrr::map_chr(objs, "id"),
-          checked = purrr::map_lgl(objs, function(x) x$data$checked),
+          answers = purrr::map_chr(objs, list("data", "answer"),
+                                    .default = NA),
+          checked = purrr::map_lgl(objs, list("data", "checked"),
+                                   .default = NA),
           correct = purrr::map_lgl(objs, list("data", "feedback", "correct"),
                                    .default = NA)
         )
+        out$attempted <- !is.na(out$answers) | out$checked
         params <- list(reporttitle = tut_reptitle,
                        output = out,
                        student_name = input$name)

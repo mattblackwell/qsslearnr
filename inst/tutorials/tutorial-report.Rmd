@@ -23,8 +23,7 @@ Congrats on getting through this tutorial! Please upload this PDF to Gradescope.
 
 ## Tutorial progress:
 
-- Exercises attempted: `r sum(params$output$checked)` 
-- Exercises completed correctly: `r sum(params$output$correct, na.rm = TRUE)`
+- Exercises attempted: `r sum(params$output$attempted)` 
 - Total exercises:  `r length(params$output$checked)`
 
 \newpage
@@ -34,7 +33,7 @@ Congrats on getting through this tutorial! Please upload this PDF to Gradescope.
 Here is a detailed view of your progress
 
 ```{r, echo = FALSE, center = TRUE}
-knitr::kable(params$output, "latex", booktabs = TRUE)
+knitr::kable(params$output[, c("id", "attempted")], "latex", booktabs = TRUE)
 ```
 
 \newpage
