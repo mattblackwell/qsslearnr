@@ -3,18 +3,19 @@ title: "QSS Tutorial 3: Measurment I"
 output:
   learnr::tutorial:
     progressive: true
+    ace_theme: github
+    theme: united
 runtime: shiny_prerendered
 description: >
   This tutorial will cover basic descriptive statistics and
-  data visualization.
+  data visualization. Companion to Chapter 3 of "Quantitative Social
+  Science: An Introduction."
 ---
 
 ```{r setup, include=FALSE}
 library(gradethis)
 library(learnr)
 library(qsslearnr)
-learnr:::install_knitr_hooks()
-#initialize_tutorial()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 3: Output Report"
@@ -22,7 +23,7 @@ data(STAR, package = "qss")
 star <- STAR
 ```
 
-## Measurement
+## Handling Missing Data in R
 
 ### Small class size data
 
@@ -94,7 +95,9 @@ head(is.na(star$g4math))
 ```
 
 ```{r headna-check}
-grade_code()
+grade_result(
+  pass_if(~ identical(.result, head(is.na(star$g4math))))
+)
 ```
 
 - Use the `is.na` and `sum` functions to show how many values of the `g4math` variable are missing.
@@ -146,7 +149,9 @@ mean(star$g4math)
 ```
 
 ```{r mean-with-na-check}
-grade_code()
+grade_code(
+  correct = "This isn't that useful though!"
+)
 ```
 
 - Try to calculate the `mean` of the `g4math` variable when setting `na.rm = TRUE`.
@@ -163,8 +168,9 @@ mean(star$g4math, na.rm = TRUE)
 grade_code()
 ```
 
+## Visualizing Data
 
-### Visualizing data: the barplot
+### Barplots
 
 
 The **barplot** is a useful way to visualize a categorical or factor variable. In this exercise, you are going to visualize the `classtype` variable from the `star` data frame, which can take on the following values:
@@ -229,10 +235,6 @@ classnames <- c("Small class", "Regular class", "Regular class with aid")
 barplot(classcounts, names.arg = classnames, ylab = "Number of students")
 ```
 
-```{r barplot-labels-check}
-grade_code("Great job, that barplot looks a ton better.")
-```
-
 
 ### Histograms
 
@@ -281,10 +283,6 @@ There are several arguments you can pass to `hist` that will improve its readabi
 ```{r hist-nice-solution}
 ## create the histogram with the specifications given in the instructions
 hist(star$g4math, freq = FALSE, xlab = "Score", main = "Distribution of fourth-grade math scores", ylim = c(0,0.015))
-```
-
-```{r hist-nice-check}
-grade_code()
 ```
 
 ### Adding lines and text to a plot

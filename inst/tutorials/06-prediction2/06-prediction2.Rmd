@@ -3,6 +3,8 @@ title: "QSS Tutorial 6: Prediction II"
 output:
   learnr::tutorial:
     progressive: true
+    ace_theme: github
+    theme: united
 runtime: shiny_prerendered
 description: >
   This tutorial will cover more advanced regression, including
@@ -13,8 +15,6 @@ description: >
 library(gradethis)
 library(learnr)
 library(qsslearnr)
-learnr:::install_knitr_hooks()
-#initialize_tutorial()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 6: Output Report"
@@ -42,21 +42,26 @@ quiz(caption = "",
 ```
 
 
-### Accessing the R squared
+### First regression
 
 Today we will use a dataset designed to investigate the impact of Mexico's conditional cash transfer program, _Progresa_, on political outcomes such as voter turnout. See Section 4.5.2 in QSS for more information on this study. We have loaded the `progresa` data into this tutorial session. First, run a regression of turnout (`t2000`) on treatment status (`treatment`) to get a sense for the estimated effect of receiving the program earlier versus later. Save the regression to the object `fit` and print that object. 
 
-```{r progressa, exercise = TRUE}
+```{r progresa, exercise = TRUE}
 
 
 ```
 
-```{r n_times-check}
+```{r progresa-hint}
+fit <- lm(_y_ ~ _x_, data = _dataname_)
+fit
+```
+
+```{r progresa-check}
 grade_result(
-  pass_if(~ identical(.result, lm(t2000 ~ treatment, data = progresa))),
-  pass_if(~ identical(.result, lm(progresa$t2000 ~ progresa$treatment, data = progresa)),
+  pass_if(~ isTRUE(all.equal(.result, lm(t2000 ~ treatment, data = progresa)))),
+  pass_if(~ isTRUE(all.equal(.result, lm(progresa$t2000 ~ progresa$treatment, data = progresa))),
           "Right! Remember that when you pass the `data` argument, you don't need to explicitly refer to the data frame in the formula."),
-  pass_if(~ identical(.result, lm(progresa$t2000 ~ progresa$treatment)),
+  pass_if(~ isTRUE(all.equal(.result, lm(progresa$t2000 ~ progresa$treatment))),
           "Good job! You might try using the `data` argument next time.")
 )
 ```
@@ -77,10 +82,10 @@ fit_2var
 
 ```{r progresa-2var-check}
 grade_result(
-  pass_if(~ identical(.result, lm(t2000 ~ treatment + avgpoverty, data = progresa))),
-  pass_if(~ identical(.result, lm(progresa$t2000 ~ progresa$treatment + progresa$avgpoverty, data = progresa)),
+  pass_if(~ isTRUE(all.equal(.result, lm(t2000 ~ treatment + avgpoverty, data = progresa)))),
+  pass_if(~ isTRUE(all.equal(.result, lm(progresa$t2000 ~ progresa$treatment + progresa$avgpoverty, data = progresa))),
           "Right! Remember that when you pass the `data` argument, you don't need to explicitly refer to the data frame in the formula."),
-  pass_if(~ identical(.result, coef(lm(progresa$t2000 ~ progresa$treatment + progresa$avgpoverty))),
+  pass_if(~ isTRUE(all.equal(.result, coef(lm(progresa$t2000 ~ progresa$treatment + progresa$avgpoverty)))),
           "Good job! You might try using the `data` argument next time.")
 )
 ```
@@ -101,10 +106,11 @@ fit_int
 
 ```{r progresa-int-check}
 grade_result(
-  pass_if(~ identical(.result, lm(t2000 ~ treatment * avgpoverty, data = progresa))),
-  pass_if(~ identical(.result, lm(progresa$t2000 ~ progresa$treatment * progresa$avgpoverty, data = progresa)),
+  pass_if(~ isTRUE(all.equal(.result, lm(t2000 ~ treatment * avgpoverty, data = progresa)))),
+  pass_if(~ isTRUE(all.equal(.result, lm(t2000 ~ treatment + avgpoverty +  treatment:avgpoverty, data = progresa)))),
+  pass_if(~ isTRUE(all.equal(.result, lm(progresa$t2000 ~ progresa$treatment * progresa$avgpoverty, data = progresa))),
           "Right! Remember that when you pass the `data` argument, you don't need to explicitly refer to the data frame in the formula."),
-  pass_if(~ identical(.result, coef(lm(progresa$t2000 ~ progresa$treatment * progresa$avgpoverty))),
+  pass_if(~ isTRUE(all.equal(.result, coef(lm(progresa$t2000 ~ progresa$treatment * progresa$avgpoverty)))),
           "Good job! You might try using the `data` argument next time.")
 )
 ```

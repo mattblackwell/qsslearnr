@@ -3,6 +3,8 @@ title: "QSS Tutorial 4: Measurment II"
 output:
   learnr::tutorial:
     progressive: true
+    ace_theme: github
+    theme: united
 runtime: shiny_prerendered
 description: >
   This tutorial will cover basic descriptive statistics and
@@ -13,8 +15,6 @@ description: >
 library(gradethis)
 library(learnr)
 library(qsslearnr)
-learnr:::install_knitr_hooks()
-#initialize_tutorial()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 4: Output Report"
@@ -22,11 +22,8 @@ data(STAR, package = "qss")
 star <- STAR
 ```
 
-## Measurement
+## Conceptual Questions
 
-
-
-### Conceptual questions
 
 ```{r concept, echo=FALSE}
 quiz(caption = "",
@@ -46,15 +43,22 @@ quiz(caption = "",
 ```
 
 
+
+## More visualization 
+
+
 We'll continue to analyze data from the STAR project, which is a four-year randomized trial on the effectiveness of small class sizes on education performance. The `star` data frame as been loaded into your space so that you can play around with it a bit.
 
 ### Boxplots
 
 Boxplots are useful tools to visualize how the distribution of a continuous variable changes across levels of a categorical variable. There are several ways to specify a boxplot, but one of the most useful is with what R calls a formula:
+
     boxplot(numvar ~ catvar, data = mydata)
+
 Here, the first argument are the two variables of interest separated by the tilde character `~`. On the left hand side is the numerical variable that you are investigating and on the right hand side is the categorical variable we want to subset by. The `data` argument tells the function where the function can find these variables (that is, in what data frame are these variables).
 
 #### Exercises
+
 - Call the `boxplot` function using the `g4math` is the numerical variable and `classtype` is the categorical variable. Pass the `star` data frame to the `data` argument. Include an informative y-axis label with `ylab` argument. Finally, pass the `classnames` vector to the `names` argument to place labels on the boxplots.
 
 ```{r boxplot, exercise = TRUE}
@@ -71,9 +75,6 @@ classnames <- c("Small class", "Regular class", "Regular class with aid")
 boxplot(g4math ~ classtype, data = star, ylab = "Math scores", names = classnames)
 ```
 
-```{r boxplot-check}
-grade_code()
-```
 
 ### Scatter plots
 
@@ -90,7 +91,7 @@ Now you'll think more about to measure bivariate relationships---that is, the re
 
 ```{r scatter-solution}
 ## produce a scatterplot of g4math on the x-axis and g4reading on the y-axis
-plot(star$g4math, star$g4reading)
+plot(x = star$g4math, y = star$g4reading)
 ```
 
 ```{r scatter-check}
@@ -105,6 +106,7 @@ Often we want to plot certain pints differently than others. For instance, maybe
 After using the `plot` function, you can add more points to the current plot by using the `points(x,y)` function, where the points are plotted very similarly to `plot`.
 
 #### Exercises
+
 - Create a subset of the `star` data called `small.class` which is when `classtype` is equal to 1. Create a second subset called `reg.class` which is when `classtype` is not equal to 1. 
 - Use the `plot` function to create a scatter plot of `g4math` and `g4reading` from the `small.class`. Change the color of the points by including the `col = "indianred"` argument. 
 - Use the `points` function to add the points of `g4math` and `g4reading` from the `reg.class`. Change the color of the points by including the `col = "dodgerblue"` argument. 
@@ -141,9 +143,7 @@ points(reg.class$g4math, reg.class$g4reading, col = "dodgerblue")
 ```{r plot-points-check}
 grade_result_strict(
   pass_if(~ identical(small.class, subset(star, classtype == 1))),
-  pass_if(~ identical(reg.class, subset(star, classtype != 1))),
-  pass_if(~ function_called(.code, fn = "plot")),
-  pass_if(~ function_called(.code, fn = "points"))
+  pass_if(~ identical(reg.class, subset(star, classtype != 1)))
 )
 ```
 
@@ -176,13 +176,6 @@ reg.class <- subset(star, classtype != 1)
 plot(small.class$g4math, small.class$g4reading, col = "indianred", 
 xlab = "Fourth Grad Math Scores", ylab = "Fourth Grade Reading Score", main = "Math vs Reading")
 points(reg.class$g4math, reg.class$g4reading, col = "dodgerblue")
-```
-
-```{r niceplot-check}
-grade_result_strict(
-  pass_if(~ function_called(.code, fn = "plot", has_args = c("xlab", "ylab", "main"))),
-  pass_if(~ function_called(.code, fn = "points"))
-)
 ```
 
 ## Submit
