@@ -1,13 +1,20 @@
 Package: qsslearnr
 Type: Package
-Version: 0.1.0.9001
+Version: 0.1.0.9002
 Title: Learnr tutorials based on Quantitative Social Science
-Description: A series of 'learnr' tutorials based on Quantitative Social Science by Kosuke Imai
+Description: A series of 'learnr' tutorials based on "Quantitative Social
+  Science: An Introduction" by Kosuke Imai from Princeton University
+  Press. Some tutorials are modified version of the original swirl
+  course for QSS called qss-swirl by Kosuke Imai and collaborators. 
 Authors@R:
   c(person(given = "Matthew",
            family = "Blackwell",
            role = c("aut", "cre"),
-           email = "mblackwell@gov.harvard.edu"))
+           email = "mblackwell@gov.harvard.edu"),
+    person(given = "Kosuke",
+           family = "Imai",
+           role = c("ctb"),
+           email = "imai@harvard.edu"))
 Depends:
   R (>= 3.6.0)
 Imports:
@@ -18,4 +25,7 @@ Imports:
   rlang,
   base64enc,
   qss
+License: GPL-3
+URL: https://github.com/mattblackwell/qsslearnr
+BugReports: https://github.com/mattblackwell/qsslearnr/issues
 RoxygenNote: 7.0.2
