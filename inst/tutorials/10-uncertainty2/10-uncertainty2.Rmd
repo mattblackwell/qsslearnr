@@ -3,6 +3,8 @@ title: "QSS Tutorial 10: Uncertainty II"
 output:
   learnr::tutorial:
     progressive: true
+    ace_theme: github
+    theme: united
 runtime: shiny_prerendered
 description: >
   This tutorial will cover hypothesis tests.
@@ -12,8 +14,6 @@ description: >
 library(gradethis)
 library(learnr)
 library(qsslearnr)
-learnr:::install_knitr_hooks()
-#initialize_tutorial()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 10: Output Report"
@@ -40,7 +40,7 @@ question(
 question(
   paste0("When hiring, large companies get tons of overqualified applicants, ",
          "so they are fine with rejecting qualified applicants, though they do",
-         " want to make sure selected applicants are actually qualified.",
+         " want to make sure selected applicants are actually qualified. ",
          "Given the null hypothesis that applicants are not qualified, ",
          "do large companies care more about Type I or Type II errors?"),
   answer("Type I", correct = TRUE),
@@ -51,7 +51,7 @@ question(
 
 ### One-sided vs two-sided tests
 
-```{r sided, echo = TRUE}
+```{r sided}
 question(
   paste0(
     "You wish to conduct a study to test whether students at your university",
@@ -60,7 +60,7 @@ question(
   answer("two-sample, one-sided"),
   answer("two-sample, two-sided"),
   answer("one-sample, one-sided", correct = TRUE),
-  ansser("one-sample, two-sided")
+  answer("one-sample, two-sided")
 )
 ```
 
@@ -71,39 +71,41 @@ You have a coin which you suspect is unfair and instead shows heads
 with probability 0.7. So, you decide to test this by flipping it
 exactly once: if heads comes up, you say it is unfair, otherwise, you
 say it is fair. What is the power of this test (express to the nearest
-0.1)?
+0.1)? Hint: think of the coin being fair as the null and the coin being
+unfair as the alternative. 
 
-```{r coin, exercise = TRUE}
 
+```{r coin}
+question_text(
+  "Answer:",
+  answer("0.7", correct = TRUE),
+  answer(".7", correct = TRUE),
+  allow_retry = TRUE
+)
 ```
 
-```{r coin-check}
-grade_result(pass_if(~ identical(.result, 0.7)))
-```
 
-### 
+### Coin flips, redux
 
 Flipping a coin once is not super informative, you think to yourself,
 and so decide to flip the coin two more times. If any heads appear,
 you say the coin is unfair, otherwise, you say it is fair. With these
-three flips in total, what is the power of the test now (express to
-the nearest 0.001)?
+**three** flips in total, what is the power of the test now (express to
+the nearest 0.001)?  Hint: what's the probability of drawing no heads 
+under the alternative?
 
-```{r coin2, exercise = TRUE}
-
-```
-
-```{r coin2-check}
-grade_result(
-  pass_if(
-    ~ identical(.result, 0.973)
-  )
+```{r coin2}
+question_text(
+  "Answer:",
+  answer("0.973", correct = TRUE),
+  answer(".973", correct = TRUE),
+  allow_retry = TRUE
 )
 ```
 
-### 
+### Power and errors in testing
 
-```{r power, echo = TRUE}
+```{r power}
 question(
   "What does the quantity (1- power) represent?",
   answer("The probability of true positive."),
@@ -113,13 +115,13 @@ question(
 )
 ```
 
-### 
+### Running lots of tests
 
 
-```{r multtest, echo = FALSE}
+```{r multtest}
 question(
   paste0(
-    "You repeatedly run statistical tests until you get significance",
+    "You repeatedly run statistical tests until you get significance. ",
     "This fallacy is known as:"
   ),
   answer("multiple testing", correct = TRUE),
@@ -131,11 +133,11 @@ question(
 
 ### Calculating Type I error
 
-```{r unfair, echo = FALSE}
+```{r unfair}
 question(
   paste0(
-    "You think a die is unfair, so you roll twice.",
-    "If you get 2 sixes in a row, you deem it unfair.",
+    "You think a die is unfair, so you roll twice. ",
+    "If you get 2 sixes in a row, you deem it unfair. ",
     "What is the probability of a Type I error in this test?"
   ),
   answer("1/2"),
@@ -146,13 +148,13 @@ question(
 ```
 
 
-### t-tests vs z-tests
+### Types of tests
 
-```{r nytx-tests, echo = FALSE}
+```{r nytx-tests}
 question(
   paste0(
-    "You wish to test whether political sentiment of the average Texan is",
-    "significantly different from that of the average New Yorker.",
+    "You wish to test whether political sentiment of the average Texan is ",
+    "significantly different from that of the average New Yorker. ",
     "What test would be appropriate?"
   ),
   answer("one-sample t-test"),
@@ -162,9 +164,9 @@ question(
 )
 ```
 
-### 
+### z-tests vs t-tests
 
-```{r tvz, echo = FALSE}
+```{r tvz}
 question(
   "How does a t-test primary differ from a z-test?",
   answer("You do not know the population mean"),

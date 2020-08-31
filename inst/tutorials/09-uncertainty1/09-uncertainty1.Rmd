@@ -1,8 +1,10 @@
 ---
-title: "QSS Tutorial 9: Uncertainty II"
+title: "QSS Tutorial 9: Uncertainty I"
 output:
   learnr::tutorial:
     progressive: true
+    ace_theme: github
+    theme: united
 runtime: shiny_prerendered
 description: >
   This tutorial will cover inference, estimators, and confidence intervals.
@@ -12,8 +14,6 @@ description: >
 library(gradethis)
 library(learnr)
 library(qsslearnr)
-learnr:::install_knitr_hooks()
-#initialize_tutorial()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 9: Output Report"
@@ -21,10 +21,10 @@ tut_reptitle <- "QSS Tutorial 9: Output Report"
 
 ## Estimation and Confidence Intervals
 
+### Randomization
 
 
-
-```{r random, echo = FALSE}
+```{r random}
 question(
   paste0("Which statement best describes how complete randomization",
          " differs from simple randomization?"),
@@ -38,12 +38,12 @@ question(
 
 ### Mean squared error
 
-```{r mse, echo = FALSE}
+```{r mse}
 question(
   paste0("Let variance and bias be denoted by V(x) and B(x) respectively. ",
          "The the mean squared error (MSE) equals:"),
   answer("V(x^2) + B(x)"),
-  answer("V(x) + B(x^2)"),
+  answer("V(x) + B(x^2 )"),
   answer("V(x)^2 + B(x)"),
   answer("V(x) + B(x)^2", correct = TRUE)
 )
@@ -54,21 +54,18 @@ question(
 
 The variance in a population is 5. For a sample of size 10 from that population, what is the variance in the sample mean (express your answer to the nearest 0.1)?
 
-```{r sample-mean-var, exercise = TRUE}
-
-```
-
-```{r sample-mean-var-check}
-grade_result(
-  pass_if(
-    ~ identical(.result, 0.5)
-  )
+```{r sample-mean}
+question_text(
+  "Answer",
+  answer("0.5", correct = TRUE),
+  answer(".5", correct = TRUE),
+  allow_retry = TRUE
 )
 ```
 
 ### Confidence intervals
 
-```{r alpha-ci, echo = TRUE}
+```{r alpha-ci}
 question(
   "In the context of confidence intervals, what is alpha?",
   answer("The probability that, over repeated sampling, the confidence interval does not contain the true value of a parameter.", correct = TRUE),
@@ -90,38 +87,73 @@ number of participants we must ask?
 
 ```
 
+```{r margin-hint}
+## Use these two values and check the defintion of the MOE
+sd_est <- sqrt(0.4 * (1 - 0.4))
+z_val <- 1.96
+
+```
+
+```{r margin-solution}
+## Use these two values and check the defintion of the MOE
+sd_est <- sqrt(0.4 * (1 - 0.4))
+z_val <- 1.96
+
+(z_val * sd_est / 0.01) ^ 2
+```
+
+
 ```{r margin-check}
-grade_result(pass_if(~ identical(.result, 9220)))
+grade_result(
+  fail_if(~ identical(round(.result), 9600), "Did you use 2 instead of 1.96 for the critical value?"),
+  pass_if(~ identical(round(.result), 9220))
+)
 ```
 
 
-### Variance of a sum
+### Variance of a sample proportion
 
-I flip a fair coin 27 times. What is the variance in the expected
-number of heads (express to the nearest 0.001)?
+I flip a fair coin 27 times. What is the variance of the sample proportion of heads (express to the nearest 0.001)? Hint: what does the central limit theorem say?
 
-```{r coin-var, exercise = TRUE}
 
+```{r coin-var}
+question_text(
+  "Answer (to the nearest 0.001)",
+  answer("0.009", correct = TRUE),
+  answer(".009", correct = TRUE),
+  allow_retry = TRUE
+)
 ```
 
-```{r coin-var-check}
-grade_result(pass_if(~ identical(.result, 0.009)))
-```
-
-### Margin of error for sample proportions
+### Margin of error for sample proportions {data-allow-skip=TRUE}
 
 Now, I flip a coin of unknown bias 10 times. It comes up heads 8
 times. What is the (non-negative) margin of error, calculated from a
 95% confidence interval for the true probability the coin comes up
-heads (to the nearest 0.01)?
+heads? Use the console below for calculations and then enter the 
+probability below  (to the nearest 0.01).
 
 
-```{r coin-moe, exersise = TRUE}
+```{r coinmoecalc, exercise = TRUE}
 
 ```
 
-```{r coin-moe-check}
-grade_result(pass_if(~ .identical(.result, 0.25)))
+```{r coinmoecalc-hint}
+## 1.96 * sqrt(__var__ / __n__)
+```
+
+```{r coinmoecalc-solution}
+1.96 * sqrt(0.8 * (1 - 0.8) / 10)
+```
+
+
+```{r coin-moe}
+question_text(
+  "Answer (to the nearest 0.01)",
+  answer("0.25", correct = TRUE),
+  answer(".25", correct = TRUE),
+  allow_retry = TRUE
+)
 ```
 
 ### Confidence intervals for sample proportions
@@ -129,7 +161,7 @@ grade_result(pass_if(~ .identical(.result, 0.25)))
 ```{r coin-qs, echo = FALSE}
 question(
   paste0("In a sample 50% of the times a coin has landed tails. ",
-         "For 95% confidence and a margin of error of 0.001, roughly how many flips should you we need to check if the coin is actually fair?")
+         "For 95% confidence and a margin of error of 0.001, roughly how many flips should you we need to check if the coin is actually fair?"),
   answer("100,000"),
   answer("500,000"),
   answer("1,000,000", correct = TRUE),

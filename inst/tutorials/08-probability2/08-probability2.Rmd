@@ -3,6 +3,8 @@ title: "QSS Tutorial 8: Probability II"
 output:
   learnr::tutorial:
     progressive: true
+    ace_theme: github
+    theme: united
 runtime: shiny_prerendered
 description: >
   This tutorial will cover random variables and their distributions.
@@ -12,8 +14,6 @@ description: >
 library(gradethis)
 library(learnr)
 library(qsslearnr)
-learnr:::install_knitr_hooks()
-#initialize_tutorial()
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 8: Output Report"
@@ -28,7 +28,9 @@ tut_reptitle <- "QSS Tutorial 8: Output Report"
 ```{r uniform, echo = FALSE}
 question_text(
   "What is the probability that a random variable with a uniform distribution in the range [1, 4] takes on a value less than or equal to 2.5?",
-  answer("0.5", correct = TRUE)
+  answer("0.5", correct = TRUE),
+  answer(".5", correct = TRUE),
+  allow_retry = TRUE
 )
 ```
 
@@ -37,6 +39,7 @@ question_text(
 
 ```{r var, echo = FALSE}
 quiz(
+  caption = "", 
   question(
     "Suppose I give you a random variable X, such that its mean is 0 and that the expectation of X^2 is 5. What is the variance of X?",
     answer("2"),
@@ -54,9 +57,21 @@ quiz(
 )
 ```
 
-### Voters
+### Voters {data-allow-skip=TRUE}
 
-Suppose there are 10 voters in an election for two candidates A and B. Each voter independently chooses to vote for A with probability 0.1, and for B with probability 0.9. 
+Suppose there are 10 voters in an election for two candidates A and B. Each voter independently chooses to vote for A with probability 0.1, and for B with probability 0.9. Use the console below to do calculations. 
+
+```{r voterscalc, exercise = TRUE}
+
+```
+
+```{r voterscalc-hint}
+## what is the probability of all votes going to B
+p_all_B <- (0.9) ^ 10
+```
+
+
+
 
 ```{r voters, echo = FALSE}
 question(
@@ -85,18 +100,13 @@ question(
 
 Suppose the standard deviation of a given population is 10. What is the standard deviation of sample mean within a random sample of size 25 from that population?
 
-```{r clt, exercise = TRUE}
-
+```{r clt}
+question_text(
+  "Answer:",
+  answer("2", correct = TRUE),
+  allow_retry = TRUE
+)
 ```
-
-```{r clt-hint-1}
-## See QSS 6.5.2. What does the CLT say about the variance of a sample?
-```
-
-```{r clt-check}
-grade_result(pass_if(~ .identical(.result, 2)))
-```
-
 
 ## Submit
 
