@@ -64,13 +64,13 @@ quiz(
 ### Exploring the resume data
 
 
-In this tutorial, we are going to be working with the resume data from Section 2.1 of QSS. This data comes from an experiment where researchers sent fictitious resumes with different names that implied different race and gender combinations to see if potential employers were more likely to call back names associated with different racial groups and genders. 
+In this tutorial, we are going to be working with the resume data from Section 2.1 of QSS. This data comes from an experiment where researchers sent fictitious resumes with different names that implied different race and gender combinations to see if potential employers were more likely to call back names associated with different racial groups and genders.
 
 Let's first explore the data a bit. It's stored as `resume`.
 
-#### Exercise 
+#### Exercise
 
-- Use the `head` function to show the first six lines of the `resume` data. 
+- Use the `head` function to show the first six lines of the `resume` data.
 
 
 ```{r head, exercise=TRUE}
@@ -86,7 +86,7 @@ head(resume)
 grade_code()
 ```
 
-- Print out the dimension of the `resume` data. 
+- Print out the dimension of the `resume` data.
 
 
 ```{r resume-dim, exercise=TRUE}
@@ -126,6 +126,7 @@ To help you analyze this data, you can use a cross tabulation. Cross tabulation 
 #### Exercise
 
 - Using the `table` function, create a cross tab of the `sex` and `call` variables in the resume data.
+- Recall that a variable in the data frame can be accessed with `$`.
 
 ```{r table, exercise = TRUE}
 
@@ -145,12 +146,12 @@ Pretty soon, you'll be doing more complicated subsetting in R. To do this, it's 
 
 #### Exercises
 
-- Create a vector called `x` that contains two `TRUE` values and two `FALSE` values in that order. 
-- Find the sum of that vector. 
+- Create a vector called `x` that contains two `TRUE` values and two `FALSE` values in that order.
+- Find the sum of that vector.
 
 ```{r logical, exercise = TRUE}
 ## creat a vector with two TRUE values and two FALSE values
-x <- 
+x <-
 
 ## take the sum of this vector
 
@@ -172,12 +173,12 @@ grade_result_strict(
 ```
 
 
-- Create a vector called `z` that contains one `TRUE` values and three `FALSE` values in that order. 
-- Find the mean of that vector. 
+- Create a vector called `z` that contains one `TRUE` values and three `FALSE` values in that order.
+- Find the mean of that vector.
 
 ```{r logical2, exercise = TRUE}
 ## creat a vector with one TRUE values and three FALSE values
-z <- 
+z <-
 
 ## take the mean of this vector
 
@@ -236,7 +237,7 @@ When we use these to compare two objects in R, we end us with a logical object. 
 
 #### Exercises
 
-- Test if 10 is greater than 5. 
+- Test if 10 is greater than 5.
 
 ```{r gt-test, exercise=TRUE}
 
@@ -279,10 +280,10 @@ You can use the same logical statements you have been using to create subsets of
 resume
 ```
 
-#### Exercise 
+#### Exercise
 
 - Use the `subset` function to create a subset of the `resume` data frame that is only female names that sound white. Save this subset as `resume.wf`
-- Use the `head` function to print out the first 6 lines of this subset. 
+- Use the `head` function to print out the first 6 lines of this subset.
 - Calculate the mean of the `call` variable in this subset.
 
 
@@ -318,7 +319,7 @@ You can use the same ideas as in the last step to create a different subset of t
 
 #### Exercise
 
-- Create a subset of the `resume` data for black-sounding female names. 
+- Create a subset of the `resume` data for black-sounding female names.
 - Print the difference in means between the `call` variable in the white-sounding name subset and the black-sounding name subset.
 
 ```{r effect, exercise = TRUE}
@@ -326,7 +327,7 @@ You can use the same ideas as in the last step to create a different subset of t
 resume.wf <- subset(resume, subset = (race == "white" & sex == "female"))
 
 ## create the subset for black female names
-resume.bf <- 
+resume.bf <-
 
 ## calculate the difference in callback means
 
