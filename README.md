@@ -3,7 +3,7 @@
 This package contains [`learnr`](https://rstudio.github.io/learnr/index.html) tutorials based on [*Quantitative Social Science: An Introduction*](http://qss.princeton.press/) by [Kosuke Imai](https://imai.fas.harvard.edu/) from Princeton University Press. To install this package, first install the `learnr` and [`gradethis`](https://github.com/rstudio-education/gradethis) packages:
 
 ``` r
-remotes::install_github("rstudio-education/learnr")
+remotes::install_github("rstudio/learnr")
 remotes::install_github("rstudio-education/gradethis")
 remotes::install_github("mattblackwell/qsslearnr")
 ```
