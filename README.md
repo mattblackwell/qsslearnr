@@ -1,6 +1,6 @@
 # qsslearnr: Interactive Tutorials for Quantitative Social Science
 
-This package contains `learnr` tutorials based on *Quantitative Social Science: An Introduction* by Kosuke Imai. To install this package, first install the `learnr` and `gradethis` packages:
+This package contains `learnr` tutorials based on [*Quantitative Social Science: An Introduction*][http://qss.princeton.press/] by [Kosuke Imai][https://imai.fas.harvard.edu/] from Princeton University Press. To install this package, first install the `learnr` and `gradethis` packages:
 
 ``` r
 remotes::install_github("rstudio-education/learnr")
@@ -23,3 +23,12 @@ learnr::run_tutorial(package = "qsslearnr")
 The interface to the tutorials will look like this:
 
 ![Screenshot of qsslearnr](man/figures/qsslearnr-screenshot.png)
+
+
+## Submission Reports
+
+At the end of each tutorial, students can download submission reports that describe what questions and exercises they attempted. Students can then upload these PDFs to a learning management system like Canvas or Gradescope. 
+
+## Other QSS tutorials
+
+The material in these tutorials largely follows the original swirl course, [`qss-swirl`][https://github.com/kosukeimai/qss-swirl]. 
