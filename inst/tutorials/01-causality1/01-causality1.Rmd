@@ -161,7 +161,7 @@ x <-
 ```{r logical-hint}
 x <- c()
 
-mean(x)
+sum(x)
 ```
 
 
