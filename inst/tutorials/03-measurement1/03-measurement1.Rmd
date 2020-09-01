@@ -45,7 +45,7 @@ head(star)
 grade_code()
 ```
 
-- Use the `dim` function on the `star` to see what the dimensions of the data look like. 
+- Use the `dim` function on the `star` to see what the dimensions of the data look like.
 
 ```{r dim-star, exercise = TRUE}
 
@@ -79,7 +79,7 @@ grade_code()
 ### Handling missing data
 
 
-You probably noticed that there were some `NA` values in the data when you used the `head()` function. These are **missing values**, where the value for that unit on that variable is missing or unknown. These values pose problems when we are trying to calculate quantities of interest like means or medians because R doesn't know how to handle them. 
+You probably noticed that there were some `NA` values in the data when you used the `head()` function. These are **missing values**, where the value for that unit on that variable is missing or unknown. These values pose problems when we are trying to calculate quantities of interest like means or medians because R doesn't know how to handle them.
 
 The first tool in your toolkit for missing data is the `is.na()` function. When you pass a vector `x` to `is.na(x)`, it will return a vector of the same length where each entry is `TRUE` if the value of `x` is `NA` and `FALSE` otherwise. Using logicals, you can easily get the opposite vector `!is.na(x)` which is `TRUE` when `x` is observed and `FALSE` when `x` is missing.
 
@@ -180,7 +180,7 @@ The **barplot** is a useful way to visualize a categorical or factor variable. I
 - `3` = regular class with aid
 
 #### Exercises
-- Use the `table` function to create a vector of counts `classcounts` for each category of the `classtype` in the `star` data. 
+- Use the `table` function to create a vector of counts `classcounts` for each category of the `classtype` in the `star` data.
 - Pass this `classcounts` vector to the `barplot` function.
 
 ```{r barplot, exercise = TRUE}
@@ -241,9 +241,9 @@ barplot(classcounts, names.arg = classnames, ylab = "Number of students")
 For quantitative (numerical) variables, the barplot won't work because there are too many unique values. In this case, you will often use a histogram to visualize the a numerical variable.
 
 #### Exercises
-- Use the `hist` function to create a histogram for the `g4math` variable in the `star` data frame. 
-- Be sure to use the `freq = FALSE` argument to the `hist` function to get the histogram. 
-- Make sure to separate the arguments in function calls with commas. 
+- Use the `hist` function to create a histogram for the `g4math` variable in the `star` data frame.
+- Be sure to use the `freq = FALSE` argument to the `hist` function to get the histogram.
+- Make sure to separate the arguments in function calls with commas.
 - Remember that you can access a particular variable using the `$`.
 
 ```{r hist, exercise = TRUE}
@@ -265,12 +265,12 @@ grade_code("Great job, though the graph is a bit spartan. Let's make it more rea
 
 There are several arguments you can pass to `hist` that will improve its readability:
 
-- `main`: a character string that prints a main title for the plot. 
-- `xlab`, `ylab`: character strings that set the labels for the x (horizontal) and y (vertical) axes 
+- `main`: a character string that prints a main title for the plot.
+- `xlab`, `ylab`: character strings that set the labels for the x (horizontal) and y (vertical) axes
 - `xlim`, `ylim`: numeric vectors of length 2 to specify the interval for the x and y axes.
 
 #### Exercises
-- Create a histogram (with `freq = FALSE`) where you (a) set the y-axis to be between `0` and `0.015` using the `ylim` argument, (b) include an informative x-axis label using the `xlab` argument, and (c) include a title for the plot using the `main` argument. 
+- Create a histogram (with `freq = FALSE`) where you (a) set the y-axis to be between `0` and `0.015` using the `ylim` argument, (b) include an informative x-axis label using the `xlab` argument, and (c) include a title for the plot using the `main` argument.
 - Make sure to separate the arguments in function calls with commas.
 
 
@@ -287,10 +287,11 @@ hist(star$g4math, freq = FALSE, xlab = "Score", main = "Distribution of fourth-g
 
 ### Adding lines and text to a plot
 
-We'll often want to add more information to a plot to make it even more readable. You can do that with commands that add to the current plot, such as `abline` and `text`. `abline(v=1)` will add a vertical line to the plot at the specified value (`1` in this example). 
+We'll often want to add more information to a plot to make it even more readable. You can do that with commands that add to the current plot, such as `abline` and `text`.
+`abline(v = 1)` will add a vertical line to the plot at the specified value (`1` in this example).
 
 #### Exercises
-- Use the `abline` function to add a vertical line at the mean of the `g4math` variable from the `star` data. Remember, there are missing values in that variable so be sure to use the `na.rm = TRUE` argument to drop them. 
+- Use the `abline` function to add a vertical line at the mean of the `g4math` variable from the `star` data. Remember, there are missing values in that variable so be sure to use the `na.rm = TRUE` argument to drop them.
 
 ```{r hist-line, exercise = TRUE}
 hist(star$g4math, freq = FALSE, xlab = "Score", main = "Distribution of fourth-grade math scores", ylim = c(0,0.015))
@@ -319,7 +320,7 @@ We'll sometimes want to add text to a plot to make it more informative. `text(x,
 
 #### Exercise
 
-- Use the `text` function to add the string `Average Score` to the plot at the point (750, 0.014). 
+- Use the `text` function to add the string `Average Score` to the plot at the point (750, 0.014).
 - Make sure to separate the arguments in function calls with commas.
 
 ```{r hist-text, exercise = TRUE}

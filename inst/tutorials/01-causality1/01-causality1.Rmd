@@ -126,7 +126,7 @@ To help you analyze this data, you can use a cross tabulation. Cross tabulation 
 #### Exercise
 
 - Using the `table` function, create a cross tab of the `sex` and `call` variables in the resume data.
-- Recall that a variable in the data frame can be accessed with `$`.
+- Remember that a variable in the data frame can be accessed with `$`.
 
 ```{r table, exercise = TRUE}
 
@@ -161,7 +161,7 @@ x <-
 ```{r logical-hint}
 x <- c()
 
-mean(x)
+sum(x)
 ```
 
 

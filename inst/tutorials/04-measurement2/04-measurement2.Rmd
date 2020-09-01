@@ -44,7 +44,7 @@ quiz(caption = "",
 
 
 
-## More visualization 
+## More visualization
 
 
 We'll continue to analyze data from the STAR project, which is a four-year randomized trial on the effectiveness of small class sizes on education performance. The `star` data frame as been loaded into your space so that you can play around with it a bit.
@@ -81,7 +81,7 @@ boxplot(g4math ~ classtype, data = star, ylab = "Math scores", names = classname
 Now you'll think more about to measure bivariate relationships---that is, the relationship between two variables. The `plot(x,y)` function will take two vectors and plot a series of points on a two-dimensional grid where the x-coordinates come from the `x` vector and the y-coordinates come from the `y` vector. For instance, `plot(x = c(1,2), y = c(3,4))` will plot two points, one at (1,3) and the other at (2,4). You will use this plot to explore the relationship between math and reading test scores in the `star` data.
 
 #### Exercises
-- Create a scatter plot using the `plot` function with `g4math` on the x-axis and `g4reading` on the y-axis, both from the `star` data. 
+- Create a scatter plot using the `plot` function with `g4math` on the x-axis and `g4reading` on the y-axis, both from the `star` data.
 - Remember you can access a particular variable in a data frame using the `$` symbol.
 
 ```{r scatter, exercise = TRUE}
@@ -107,9 +107,9 @@ After using the `plot` function, you can add more points to the current plot by 
 
 #### Exercises
 
-- Create a subset of the `star` data called `small.class` which is when `classtype` is equal to 1. Create a second subset called `reg.class` which is when `classtype` is not equal to 1. 
-- Use the `plot` function to create a scatter plot of `g4math` and `g4reading` from the `small.class`. Change the color of the points by including the `col = "indianred"` argument. 
-- Use the `points` function to add the points of `g4math` and `g4reading` from the `reg.class`. Change the color of the points by including the `col = "dodgerblue"` argument. 
+- Create a subset of the `star` data called `small.class` which is when `classtype` is equal to 1. Create a second subset called `reg.class` which is when `classtype` is not equal to 1.
+- Use the `plot` function to create a scatter plot of `g4math` and `g4reading` from the `small.class`. Change the color of the points by including the `col = "indianred"` argument.
+- Use the `points` function to add the points of `g4math` and `g4reading` from the `reg.class`. Change the color of the points by including the `col = "dodgerblue"` argument.
 - Remember that you can use `x == y` to test if `x` is equal to `y` and `x != y` to test if `x` is not equal to `y`
 
 ```{r plot-points, exercise = TRUE}
@@ -173,8 +173,10 @@ small.class <- subset(star, classtype == 1)
 reg.class <- subset(star, classtype != 1)
 
 ## add the arguments to make the plot more readable
-plot(small.class$g4math, small.class$g4reading, col = "indianred", 
-xlab = "Fourth Grad Math Scores", ylab = "Fourth Grade Reading Score", main = "Math vs Reading")
+plot(small.class$g4math, small.class$g4reading, col = "indianred",
+     xlab = "Fourth Grad Math Scores",
+     ylab = "Fourth Grade Reading Score",
+     main = "Math vs Reading")
 points(reg.class$g4math, reg.class$g4reading, col = "dodgerblue")
 ```
 
