@@ -104,7 +104,8 @@ p_pos_nd <- 0.2 ## P(Pos | no disease)
 question_text(
   "Probability (to the nearest 0.01)",
   answer("0.05", correct = TRUE),
-  answer(".05", correct = TRUE)
+  answer(".05", correct = TRUE),
+  allow_retry = TRUE
 )
 ```
 
