@@ -130,7 +130,7 @@ question(
 
 Based on the previous question, what is the probability of C being pardoned?  Use this code block to perform calculations and enter the probability below (expressed to the nearest 0.01).
 
-```{r prisoner-calc, exercise = TRUE}
+```{r prisoner-calc, exercise = FALSE}
 
 ```
 
