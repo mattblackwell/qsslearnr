@@ -135,6 +135,16 @@ resume$carrie <-
 
 ```
 
+```{r ifelse-hint}
+## create a new variable called carrie
+resume$carrie <- ifelse(???, 1, 0)
+
+## print the first 6 lines of the updated resume
+head(resume)
+```
+
+
+
 ```{r ifelse-solution}
 ## create a new variable called carrie
 resume$carrie <- ifelse(resume$firstname == "Carrie", 1, 0)
@@ -182,6 +192,19 @@ resume$type[resume$race == ??? & resume$sex == ???] <-
 
 ## turn the character vector into a factor
 resume$type <-
+```
+
+```{r factor-hint}
+## fill in the last line of code to create a character vector for the type of
+## application that was sent
+resume$type <- NA
+resume$type[resume$race == "black" & resume$sex == "female"] <- "BlackFemale"
+resume$type[resume$race == "black" & resume$sex == "male"] <- "BlackMale"
+resume$type[resume$race == "white" & resume$sex == "female"] <- "WhiteFemale"
+resume$type[resume$race == ??? & resume$sex == ???] <- "WhiteMale"
+
+## turn the character vector into a factor
+resume$type <- as.factor(...)
 ```
 
 ```{r factor-solution}
