@@ -42,7 +42,7 @@ question(
 question(
   paste0("Let variance and bias be denoted by V(x) and B(x) respectively. ",
          "The the mean squared error (MSE) equals:"),
-  answer("V(x^2) + B(x)"),
+  answer("V(x^2 ) + B(x)"),
   answer("V(x) + B(x^2 )"),
   answer("V(x)^2 + B(x)"),
   answer("V(x) + B(x)^2", correct = TRUE)
@@ -130,7 +130,7 @@ question_text(
 Now, I flip a coin of unknown bias 10 times. It comes up heads 8
 times. What is the (non-negative) margin of error, calculated from a
 95% confidence interval for the true probability the coin comes up
-heads? Use the console below for calculations and then enter the 
+heads? Use the console below for calculations and then enter the
 probability below  (to the nearest 0.01).
 
 
