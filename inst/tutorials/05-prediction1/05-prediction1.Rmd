@@ -276,7 +276,9 @@ grade_result(
 
 ### Model fit
 
-Use the `summary()` function to access the value of $R^2$. Remember that you have to access a particular name from that summary using the `$`.
+Use the `summary()` function to access the value of $R^2$, which is named `r.squared` inside
+the `summary()` output.
+Remember that you have to access a particular name from that summary using the `$`.
 
 ```{r rsq, exercise = TRUE}
 fit <- lm(y ~ x)
