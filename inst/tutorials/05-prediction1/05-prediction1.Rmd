@@ -74,9 +74,9 @@ question("A conditional statement that is nested within a loop is executed _____
 
 ### Loop practice
 
-It is often helpful to create an empty vector to store the computational output from a loop. You can think of this as a bookshelf with spots for the result of each iteration of the loop. 
+It is often helpful to create an empty vector to store the computational output from a loop. You can think of this as a bookshelf with spots for the result of each iteration of the loop.
 
-Create a vector called `output` that is filled with `NA` values and has length `n`. We've already loaded `n` into your environment with a value of 10. 
+Create a vector called `output` that is filled with `NA` values and has length `n`. We've already loaded `n` into your environment with a value of 10.
 
 ```{r holder, exercise = TRUE}
 output <-  
@@ -90,7 +90,7 @@ grade_result(
 
 ### Printing to the screen
 
-In R, it's often very useful to print something to the screen and this is especially helpful when using loops. This can help us diagnose problems in the loop. 
+In R, it's often very useful to print something to the screen and this is especially helpful when using loops. This can help us diagnose problems in the loop.
 
 Use the `cat()` function to put together a phrase and the object `n`. The final output should read `The object n has value 10`.
 
@@ -106,9 +106,9 @@ cat("The object n has value", n)
 grade_code()
 ```
 
-### unique 
+### unique
 
-We've added the following vector `fruit` to the code. Use the `unique` function to determine the different types of fruit in the vector. This function will take a vector and return a new vector with the unique values of the original vector. 
+We've added the following vector `fruit` to the code. Use the `unique` function to determine the different types of fruit in the vector. This function will take a vector and return a new vector with the unique values of the original vector.
 
 
 ```{r unique, exercise = TRUE}
@@ -132,7 +132,9 @@ Here is a variant of the classic "FizzBuzz" coding question. Write a for loop th
 
      cat("The following number i is divisible by 3", i, "\n")
 
-for numbers from 1 to 50 (inclusive) only for the numbers divisible by 3. Include brackets for the conditional. Remember that you can find if a number `A` is divisible by another number `B` by using `A %% B == 0`. 
+for numbers from 1 to 50 (inclusive) only for the numbers divisible by 3. Include brackets for the conditional. Remember that you can find if a number `A` is divisible by another number `B` by using `A %% B == 0`.
+
+`"\n"` at the end of `cat()` adds a line break to the output.
 
 ```{r fizzbuzz, exercise = TRUE}
 
@@ -225,7 +227,7 @@ question_text(
 
 ### Running regressions in R
 
-We have included two vectors `x` and `y`. Regress `y` on `x` and assign it to an object called `fit` and print that object to see what the output looks like. 
+We have included two vectors `x` and `y`. Regress `y` on `x` and assign it to an object called `fit` and print that object to see what the output looks like.
 
 ```{r lm, exercise = TRUE}
 
@@ -263,7 +265,7 @@ Now you can also access the fitted values using either the `fitted()` or `predic
 ```{r fitted, exercise = TRUE}
 fit <- lm(y ~ x)
 
-``` 
+```
 
 ```{r fitted-check}
 grade_result(
