@@ -106,9 +106,9 @@ fit_int
 
 ```{r progresa-int-check}
 grade_result(
+  pass_if(~ isTRUE(all.equal(.result, lm(t2000 ~ treatment + avgpoverty +  treatment:avgpoverty, data = progresa)))),
   pass_if(~ isTRUE(all.equal(.result, lm(t2000 ~ treatment * avgpoverty, data = progresa)))),
   pass_if(~ isTRUE(all.equal(.result, lm(t2000 ~ treatment + avgpoverty + treatment * avgpoverty, data = progresa)))),
-  pass_if(~ isTRUE(all.equal(.result, lm(t2000 ~ treatment + avgpoverty +  treatment:avgpoverty, data = progresa)))),
   pass_if(~ isTRUE(all.equal(.result, lm(progresa$t2000 ~ progresa$treatment * progresa$avgpoverty, data = progresa))),
           "Right! Remember that when you pass the `data` argument, you don't need to explicitly refer to the data frame in the formula."),
   pass_if(~ isTRUE(all.equal(.result, coef(lm(progresa$t2000 ~ progresa$treatment * progresa$avgpoverty)))),
