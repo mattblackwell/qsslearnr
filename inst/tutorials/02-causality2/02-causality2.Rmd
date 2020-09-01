@@ -8,7 +8,7 @@ output:
 runtime: shiny_prerendered
 description: >
   This tutorial will cover logicals, subsetting, factors, and
-  calculating means in experiments. Follows along to 
+  calculating means in experiments. Follows along to
   Chapter 2 of "Quantitative Social Science: An Introduction".
 ---
 
@@ -23,7 +23,7 @@ data(resume, package = "qss")
 ```
 
 
-## Conceptual Questions 
+## Conceptual Questions
 
 
 ```{r rct, echo=FALSE}
@@ -53,19 +53,19 @@ In this exercise, you have the ages of a sample of 15 people, stored in the `age
 
 #### Exercise
 
-- Create a logical vector, called `college.aged`, which indicates which observations in `ages` are greater than or equal to 18 and less than or equal to 22. Be sure to use parentheses to separate out the two logical statements. 
+- Create a logical vector, called `college.aged`, which indicates which observations in `ages` are greater than or equal to 18 and less than or equal to 22. Be sure to use parentheses to separate out the two logical statements.
 - Take the sum of the `college.aged` vector to determine how many 18-22 year olds there are in the sample.
 
 
 ```{r ages, exercise = TRUE, exercise.setup = "generate-ages"}
 ## check the value of the ages vector
-ages <- c(31, 33, 43, 45, 41, 46, 28, 49, 61, 19, 39)
+ages <- c(31, 20, 43, 45, 41, 46, 28, 49, 61, 19, 39)
 
 ## create a logical vector called college.aged
 ## that is TRUE for someone between 18-22, inclusive
 
 
-## find the number of college.aged respondents 
+## find the number of college.aged respondents
 
 ```
 
@@ -90,8 +90,8 @@ In the last exercise, you used logical statements to create a vector that told u
 
 #### Exercise
 
-- Use the brackets and the `college.aged` logical vector that has already been created to subset `ages` to the value only between 18 and 22, inclusive. 
-- Use the `mean` function to calculate the average age of the respondents in this subset. To do this, use the bracket subsetting and the `college.aged` logical vector that has already been created. 
+- Use the brackets and the `college.aged` logical vector that has already been created to subset `ages` to the value only between 18 and 22, inclusive.
+- Use the `mean` function to calculate the average age of the respondents in this subset. To do this, use the bracket subsetting and the `college.aged` logical vector that has already been created.
 
 ```{r generate-ages}
 ages <- c(31, 20, 43, 45, 41, 46, 28, 49, 61, 19, 39)
@@ -117,23 +117,33 @@ grade_result(
 
 ### Using simple conditional statements
 
-For this exercise, we'll use the resume data once again. 
+For this exercise, we'll use the resume data once again.
 
 What if we wanted to create a new vector that depends on whether a statement is true or false? For example, suppose you wanted to create an indicator variable for whether or not a specific resume had the name "Carrie." From, the last few examples, you know that `resume$firstname == "Carrie"` will give you a vector of `TRUE` and `FALSE` values based on whether or not the name for that unit is "Carrie." We can then use this to get create a new variable using the `ifelse(X, Y, Z)` command. This command takes a logical vector as `X` and returns a new vector of the same length as `X` that has the value `Y` if that value in `X` is TRUE and `Z` if that value in `X` is FALSE.
 
 
 #### Exercise
 
-- Use the `ifelse` function to create a new variable called `carrie` that is 1 if the resume name (`firstname`) is `"Carrie"` and 0 otherwise. 
+- Use the `ifelse` function to create a new variable called `carrie` that is 1 if the resume name (`firstname`) is `"Carrie"` and 0 otherwise.
 - Print the first six lines of `resume` using the `head` function to see the new variable.
 
 ```{r ifelse, exercise = TRUE}
 ## create a new variable called carrie
-resume$carrie <- 
+resume$carrie <-
 
 ## print the first 6 lines of the updated resume
 
 ```
+
+```{r ifelse-hint}
+## create a new variable called carrie
+resume$carrie <- ifelse(???, 1, 0)
+
+## print the first 6 lines of the updated resume
+head(resume)
+```
+
+
 
 ```{r ifelse-solution}
 ## create a new variable called carrie
@@ -154,7 +164,7 @@ grade_result_strict(
 ### Factor variables
 
 
-You have seen that creating subsets can be helpful for calculating different quantities or statistics for specific subgroups in the data. When there is more than 1 or 2 subgroups of interest, however, this can be a cumbersome process. For that reason, it's helpful to know about factor variables. Basically, a factor variable is a categorical variable that takes a finite number of distinct values. 
+You have seen that creating subsets can be helpful for calculating different quantities or statistics for specific subgroups in the data. When there is more than 1 or 2 subgroups of interest, however, this can be a cumbersome process. For that reason, it's helpful to know about factor variables. Basically, a factor variable is a categorical variable that takes a finite number of distinct values.
 
 Any variable can be turned into a factor by calling the `as.factor()` function like so:
 
@@ -162,9 +172,9 @@ Any variable can be turned into a factor by calling the `as.factor()` function l
 
 This will take the variable `myvar` and create a factor variable with levels that are observed in that variable. Most often, you will convert a character variable to a factor.
 
-#### Exercise 
+#### Exercise
 
-- Finish the code below that creates the `type` character variable. Fill in the last values of `race` and `sex` and add the label `WhiteMale` to this last type. 
+- Finish the code below that creates the `type` character variable. Fill in the last values of `race` and `sex` and add the label `WhiteMale` to this last type.
 - Convert the `resume$type` variable to a factor variable using `as.factor()`.
 
 ```{r factor-setup}
@@ -172,20 +182,33 @@ resume$carrie <- ifelse(resume$firstname == "Carrie", 1, 0)
 ```
 
 ```{r factor, exercise = TRUE}
-## fill in the last line of code to create a character vector for the type of 
+## fill in the last line of code to create a character vector for the type of
 ## application that was sent
 resume$type <- NA
 resume$type[resume$race == "black" & resume$sex == "female"] <- "BlackFemale"
 resume$type[resume$race == "black" & resume$sex == "male"] <- "BlackMale"
 resume$type[resume$race == "white" & resume$sex == "female"] <- "WhiteFemale"
-resume$type[resume$race == ??? & resume$sex == ???] <- 
+resume$type[resume$race == ??? & resume$sex == ???] <-
 
 ## turn the character vector into a factor
-resume$type <- 
+resume$type <-
+```
+
+```{r factor-hint}
+## fill in the last line of code to create a character vector for the type of
+## application that was sent
+resume$type <- NA
+resume$type[resume$race == "black" & resume$sex == "female"] <- "BlackFemale"
+resume$type[resume$race == "black" & resume$sex == "male"] <- "BlackMale"
+resume$type[resume$race == "white" & resume$sex == "female"] <- "WhiteFemale"
+resume$type[resume$race == ??? & resume$sex == ???] <- "WhiteMale"
+
+## turn the character vector into a factor
+resume$type <- as.factor(...)
 ```
 
 ```{r factor-solution}
-## fill in the last line of code to create a character vector for the type of 
+## fill in the last line of code to create a character vector for the type of
 ## application that was sent
 resume$type <- NA
 resume$type[resume$race == "black" & resume$sex == "female"] <- "BlackFemale"
@@ -205,7 +228,7 @@ grade_code("Fantastic, you got that factor loaded up and ready to go. Now, let's
 ### Using factors
 
 
-Imagine that you wanted to calculate the average callback for each level of `type`. You could create a subset for each level of `type` and then use `mean` on each one of those subsets. But that would take 8 lines of code! 
+Imagine that you wanted to calculate the average callback for each level of `type`. You could create a subset for each level of `type` and then use `mean` on each one of those subsets. But that would take 8 lines of code!
 
 A more efficient way to do this task would be to use the `tapply(X, INDEX, FUN)` function, which allows you to compute a function (`FUN`) on subsets of the data (`X`) defined by a factor variable (`INDEX`). For instance, suppose we had a `grades` data frame that had student exam grades out of 100 in the `exam` variable and a factor variable called `section` that reported which section they were enrolled in. Then we could calculate the average exam score within sections as:
 
@@ -214,7 +237,7 @@ A more efficient way to do this task would be to use the `tapply(X, INDEX, FUN)`
 
 #### Exercise
 
-- Use the `table()` function on the `type` variable to see how many fictitious applications were sent out with each type of name. 
+- Use the `table()` function on the `type` variable to see how many fictitious applications were sent out with each type of name.
 
 ```{r get-tapply}
 resume$carrie <- ifelse(resume$firstname == "Carrie", 1, 0)
