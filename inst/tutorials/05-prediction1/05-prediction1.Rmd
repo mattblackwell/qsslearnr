@@ -246,7 +246,7 @@ grade_result(
 
 ### Accessing output from lm
 
-Now, use the `coef()` function to access
+Now, use the `coef()` function to access coefficients in the `fit` object.
 
 ```{r coef, exercise = TRUE}
 fit <- lm(y ~ x)
