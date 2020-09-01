@@ -59,7 +59,7 @@ In this exercise, you have the ages of a sample of 15 people, stored in the `age
 
 ```{r ages, exercise = TRUE, exercise.setup = "generate-ages"}
 ## check the value of the ages vector
-ages <- c(31, 33, 43, 45, 41, 46, 28, 49, 61, 19, 39)
+ages <- c(31, 20, 43, 45, 41, 46, 28, 49, 61, 19, 39)
 
 ## create a logical vector called college.aged
 ## that is TRUE for someone between 18-22, inclusive
