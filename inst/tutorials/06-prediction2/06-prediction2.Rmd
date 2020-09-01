@@ -22,7 +22,7 @@ n <- 10
 data(progresa, package = "qss")
 ```
 
-## Extending Linear Regression 
+## Extending Linear Regression
 
 
 
@@ -44,7 +44,7 @@ quiz(caption = "",
 
 ### First regression
 
-Today we will use a dataset designed to investigate the impact of Mexico's conditional cash transfer program, _Progresa_, on political outcomes such as voter turnout. See Section 4.5.2 in QSS for more information on this study. We have loaded the `progresa` data into this tutorial session. First, run a regression of turnout (`t2000`) on treatment status (`treatment`) to get a sense for the estimated effect of receiving the program earlier versus later. Save the regression to the object `fit` and print that object. 
+Today we will use a dataset designed to investigate the impact of Mexico's conditional cash transfer program, _Progresa_, on political outcomes such as voter turnout. See Section 4.5.2 in QSS for more information on this study. We have loaded the `progresa` data into this tutorial session. First, run a regression of turnout (`t2000`) on treatment status (`treatment`) to get a sense for the estimated effect of receiving the program earlier versus later. Save the regression to the object `fit` and print that object.
 
 ```{r progresa, exercise = TRUE}
 
@@ -68,11 +68,11 @@ grade_result(
 
 ### Add another covariate
 
-Now, add the variable `avgpoverty` as an additional control variable to the regression (saving it as `fit_2var`) and print that new model. 
+Now, add the variable `avgpoverty` as an additional control variable to the regression (saving it as `fit_2var`) and print that new model.
 
 ```{r progresa-2var, exercise = TRUE}
 
-  
+
 ```
 
 ```{r progresa-2var-solution}
@@ -93,7 +93,7 @@ grade_result(
 
 ### Estimating interactions
 
-Now, let's see how the effect of treatment varies by the average level of poverty. To do this, specify an interaction between `treatment` and `avgpoverty` using the `:` or `*` operators. Save this new model as `fit_int` and print it after running it. 
+Now, let's see how the effect of treatment varies by the average level of poverty. To do this, specify an interaction between `treatment` and `avgpoverty` using the `:` or `*` operators. Save this new model as `fit_int` and print it after running it.
 
 ```{r progresa-int, exercise = TRUE}
 
@@ -106,8 +106,9 @@ fit_int
 
 ```{r progresa-int-check}
 grade_result(
-  pass_if(~ isTRUE(all.equal(.result, lm(t2000 ~ treatment * avgpoverty, data = progresa)))),
   pass_if(~ isTRUE(all.equal(.result, lm(t2000 ~ treatment + avgpoverty +  treatment:avgpoverty, data = progresa)))),
+  pass_if(~ isTRUE(all.equal(.result, lm(t2000 ~ treatment * avgpoverty, data = progresa)))),
+  pass_if(~ isTRUE(all.equal(.result, lm(t2000 ~ treatment + avgpoverty + treatment * avgpoverty, data = progresa)))),
   pass_if(~ isTRUE(all.equal(.result, lm(progresa$t2000 ~ progresa$treatment * progresa$avgpoverty, data = progresa))),
           "Right! Remember that when you pass the `data` argument, you don't need to explicitly refer to the data frame in the formula."),
   pass_if(~ isTRUE(all.equal(.result, coef(lm(progresa$t2000 ~ progresa$treatment * progresa$avgpoverty)))),
@@ -116,9 +117,9 @@ grade_result(
 ```
 
 
-### Nonlinearities 
+### Nonlinearities
 
-Finally, let's investigate the relationship between poverty and turnout. Run a regression of turnout on `avgpoverty` and it squared term to account for any possible nonlinearities. Save the output as `fit_sq` and print it out. 
+Finally, let's investigate the relationship between poverty and turnout. Run a regression of turnout on `avgpoverty` and it squared term to account for any possible nonlinearities. Save the output as `fit_sq` and print it out.
 
 ```{r nonlin, exercise = TRUE}
 
