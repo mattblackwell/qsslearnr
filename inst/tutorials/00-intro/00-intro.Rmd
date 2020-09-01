@@ -379,7 +379,7 @@ These are super useful functions Let's use some of these on a data frame, `UNpop
 ```{r unpop}
 UNpop <- data.frame(
   year = seq(1950, 2010, by = 10),
-  world.pop <- c(2525779, 3026003, 3691173, 4449049, 5320817, 6127700, 6916183)
+  world.pop = c(2525779, 3026003, 3691173, 4449049, 5320817, 6127700, 6916183)
 )
 ```
 
