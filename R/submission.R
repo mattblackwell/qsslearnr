@@ -33,8 +33,8 @@ submission_server <- function(input, output) {
 
         
         # Set up parameters to pass to Rmd document
-        objs = learnr:::get_all_state_objects(session)
-        objs = learnr:::submissions_from_state_objects(objs)
+        objs <- learnr:::get_all_state_objects(session)
+        objs <- learnr:::submissions_from_state_objects(objs)
         out <- tibble::tibble(
           id = purrr::map_chr(objs, "id"),
           answers = purrr::map_chr(objs, list("data", "answer"),

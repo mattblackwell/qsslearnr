@@ -14,9 +14,10 @@ output: pdf_document
 ---
 
 
-```{r, echo = FALSE, }
+```{r, echo = FALSE}
 library(qsslearnr)
 checked_prop <- sum(params$output$checked) / length(params$output$checked)
+options(tinytex.verbose = TRUE)
 ```
 
 Congrats on getting through this tutorial! Please upload this PDF to Gradescope. 
