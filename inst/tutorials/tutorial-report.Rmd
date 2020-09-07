@@ -22,7 +22,6 @@ Congrats on getting through this tutorial! Please upload this PDF to Gradescope.
 ## Tutorial progress:
 
 - Exercises attempted: `r length(params$output$attempted)` 
-- Sections skipped:  `r params$skipped`
 
 \newpage
 
