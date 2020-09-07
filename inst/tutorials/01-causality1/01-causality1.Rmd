@@ -135,7 +135,9 @@ To help you analyze this data, you can use a cross tabulation. Cross tabulation 
 ```{r table-check}
 grade_result(
   pass_if(~ identical(.result, table(resume$sex, resume$call))),
-  pass_if(~ identical(.result, table(resume$call, resume$sex)))
+  pass_if(~ identical(.result, table(resume$call, resume$sex))),
+  pass_if(~ identical(.result, table(sex = resume$sex, call = resume$call))),
+  pass_if(~ identical(.result, table(call = resume$call, sex = resume$sex)))  
 )
 ```
 
