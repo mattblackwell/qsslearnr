@@ -3,14 +3,12 @@ params:
   student_name: "Student T."
   reportdate: !r Sys.Date()
   reporttitle: "Week 0 Tutorial Report"
+  skipped: 0
   checked: 0
   output: !r tibble::tibble(id = "test", checked = FALSE, correct = NA)
 title: "`r params$reporttitle`"
 author: "`r params$student_name`"
 date: "`r params$reportdate`"
-header-includes:
-- \usepackage{booktabs}
-output: pdf_document
 ---
 
 
@@ -23,8 +21,8 @@ Congrats on getting through this tutorial! Please upload this PDF to Gradescope.
 
 ## Tutorial progress:
 
-- Exercises attempted: `r sum(params$output$attempted)` 
-- Total exercises:  `r length(params$output$checked)`
+- Exercises attempted: `r length(params$output$attempted)` 
+- Sections skipped:  `r params$skipped`
 
 \newpage
 
@@ -33,7 +31,7 @@ Congrats on getting through this tutorial! Please upload this PDF to Gradescope.
 Here is a detailed view of your progress
 
 ```{r, echo = FALSE, center = TRUE}
-knitr::kable(params$output[, c("id", "attempted")], "latex", booktabs = TRUE)
+knitr::kable(params$output[, c("id", "attempted")], "latex")
 ```
 
 \newpage
