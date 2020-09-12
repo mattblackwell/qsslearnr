@@ -285,9 +285,9 @@ grade_code("Great work, you have the skills you need to analyze experiments and 
 ## Submit
 
 ```{r context="setup"}
-qsslearnr:::submission_ui
+submission_ui
 ```
 
 ```{r context="server"}
-qsslearnr:::submission_server()
+submission_server()
 ```
