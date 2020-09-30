@@ -1,0 +1,319 @@
+---
+title: "QSS Review Tutorial for Tidyverse Users"
+output:
+  learnr::tutorial:
+    progressive: true
+    ace_theme: github
+    theme: united
+runtime: shiny_prerendered
+description: >
+  This tutorial will cover some tidy ways to do things in
+  Chapter 2 of Quantitative Social Science.
+---
+
+```{r setup, include=FALSE}
+library(gradethis)
+library(learnr)
+library(qsslearnr)
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+data(resume, package = "qss")
+resume <- as_tibble(resume)
+```
+
+## Exploring data
+
+### Exploring the resume data
+
+
+In this tutorial, we are going to be working with the resume data from Section 2.1 of QSS. This data comes from an experiment where researchers sent fictitious resumes with different names that implied different race and gender combinations to see if potential employers were more likely to call back names associated with different racial groups and genders.
+
+Let's first explore the data a bit. It's stored as `resume`.
+
+- Use the `head` function to show a preview of the `resume` data.
+
+
+```{r head, exercise=TRUE}
+
+```
+
+```{r head-solution}
+head(resume)
+```
+
+- Print out the dimension of the `resume` data using the `dim()` function
+
+
+```{r resume-dim, exercise=TRUE}
+
+```
+
+```{r resume-dim-solution}
+dim(resume)
+```
+
+- Use the `summary` function to show a summary of the data.
+
+
+```{r res-summary, exercise=TRUE}
+
+```
+
+```{r res-summary-solution}
+summary(resume)
+```
+
+## Creating cross-tabs
+
+### Counting units with unique combinations of values
+
+
+To help you analyze this data, you can use a cross tabulation. Cross tabulation (or contingency table) is a table that quickly summarizes categorical data. For instance, in the resume data, we have a `sex` variable that tells us whether or not the fictitious resume had a male or a female name. 
+
+First, we want to see how many units are in each combination of different variables. To do this in tidy, leverage `group_by` and `summarize`:
+
+```{r, eval = FALSE, echo = TRUE}
+mydata %>%
+  group_by(var1, var2) %>%
+  summarize(n = n())
+```
+
+
+Use this approach to count the number of values for each combination of the `sex` and `call` variables in the resume data.
+
+```{r count, exercise = TRUE}
+
+```
+
+```{r count-hint}
+resume %>%
+  group_by(..., ...) %>%
+  summarize(n = n())
+```
+
+```{r count-solution}
+resume %>%
+  group_by(sex, call) %>%
+  summarize(n = n())
+```
+
+### Converting to cross-tab
+
+The above output from `count` gave us four rows, one for each combination of the values of the two variables. What we often want, however, is to convert that to a 2 by 2 table called a cross tab. Cross-tabs are usually presented as tables where the rows correspond to values of one variable, columns to the values of another variable and the each cell gives the number of units for that combination of values. 
+
+To do in a tidy way, we can reshape the output of the previous code using the `pivot_wider()` function:
+
+```{r eval = FALSE, echo = TRUE}
+mydata %>%
+  group_by(var1, var2) %>%
+  summarize(n = n()) %>%
+  pivot_wider(names_from = var2, values_from = n)
+```
+
+The easiest way to use this function is specify a `names_from` argument which names the variable you want to move to the columns and a `values_from` argument that takes the name of variable where we should get the values to move. In our case for the a cross-tab, we'll want to move the `call` variable to the columns and get the values from the `n` column. 
+
+
+Use this approach to turn the single-column of counts in the previous exercise into a 2x2 table with `sex` on the rows and `call` on the columns. 
+
+```{r crosstab, exercise = TRUE}
+resume %>%
+  group_by(sex, call) %>%
+  summarize(n = n())
+```
+
+```{r crosstab-hint}
+resume %>%
+  group_by(sex, call) %>%
+  summarize(n = n()) %>%
+  pivot_wider(names_from = ..., values_from = ...)
+```
+
+```{r crosstab-solution}
+resume %>%
+  group_by(sex, call) %>%
+  summarize(n = n()) %>%
+  pivot_wider(names_from = call, values_from = n)
+```
+
+### Proportions in crosstabs
+
+Another task we often want to do is to convert the counts in a cross-tab into proportions of the overall data. To do that, all we have to do is modify the `summarize()` call using `nrow()`:
+
+
+```{r eval = FALSE, echo = TRUE}
+mydata %>%
+  group_by(var1, var2) %>%
+  summarize(n = n() / nrow(mydata)) %>%
+  pivot_wider(names_from = var2, values_from = n)
+```
+
+Take the code from the previous cross-tab and turn it into a table of proportions. 
+
+```{r crosstab_prop, exercise = TRUE}
+resume %>%
+  group_by(sex, call) %>%
+  summarize(n = n()) %>%
+  pivot_wider(names_from = call, values_from = n)
+```
+
+```{r crosstab_prop-hint}
+resume %>%
+  group_by(..., ...) %>%
+  summarize(n = n() / ...) %>%
+  pivot_wider(names_from = ..., values_from = ...)
+```
+
+```{r crosstab_prop-solution}
+resume %>%
+  group_by(sex, call) %>%
+  summarize(n = n() / nrow(resume)) %>%
+  pivot_wider(names_from = call, values_from = n)
+```
+
+
+## Means and Differences in Means by Groups
+
+### Calculating a mean by groups 
+
+We often need to calculate the means of a variable (usually the outcome) within levels of another variable. To do this, we can use the same `group_by()` and `summarize()` approach:
+
+```{r eval = FALSE, echo = TRUE}
+mydata %>%
+  group_by(group_var) %>%
+  summarize(across(outcome_var, mean))
+```
+
+Here, `group_var` is the grouping variable and `outcome_var` is the variable we want to take the average of. 
+
+Calculate the average of the `call` variable within levels of the `race` variable.
+
+```{r avg_by_group, exercise = TRUE}
+
+```
+
+```{r avg_by_group-hint}
+resume %>%
+  group_by(...) %>%
+  summarize(across(..., mean))
+```
+
+```{r avg_by_group-solution}
+resume %>%
+  group_by(race) %>%
+  summarize(across(call, mean))
+```
+
+### Pulling the means into a vector
+
+Now, once we have the means, we may want to take differences between them. To do this, it's often easiest to use the `pull()` function after `summarize()` to get a vector with just the means:
+
+```{r, eval = FALSE, echo = TRUE}
+mydata %>%
+  group_by(group_var) %>%
+  summarize(across(outcome_var, mean)) %>%
+  pull(outcome_var, name = group_var)
+```
+
+The first argument to `pull()` is the column name of the variable you want to pull out (the outcome variable in this case). The second argument, `names` is the name of the variable that should provide the names of the vector. 
+
+Use this approach to create a vector (not a tibble) of the means of `call` within levels of `race`:
+
+```{r avgs_vec, exercise = TRUE}
+resume %>%
+  group_by(race) %>%
+  summarize(across(call, mean))
+```
+
+```{r avgs_vec-hint}
+resume %>%
+  group_by(race) %>%
+  summarize(across(call, mean)) %>%
+  pull(..., name = ...)
+```
+
+```{r avgs_vec-solution}
+resume %>%
+  group_by(race) %>%
+  summarize(across(call, mean)) %>%
+  pull(call, name = race)
+```
+
+### Calculating the difference in means/average treatment effect
+
+A common task in experiments or any data analysis is to compute the difference in means between two or more groups. We can do this with the output of the last step, where we have a vector of group means that are named with the values of the groups. From there, we can take differences between elements in the vector. For instance, let's say `group_var` has levels `a` and `b` and we want to know the difference in means between levels `a` and `b`. 
+
+```{r, eval = FALSE, echo = TRUE}
+avgs <- mydata %>%
+  group_by(group_var) %>%
+  summarize(across(outcome_var, mean)) %>%
+  pull(outcome_var, name = group_var)
+
+avgs["b"] - avgs["a"]
+```
+
+Now, use this approach to calculate the difference in mean callbacks (`call`) by race (`race`). Remember that the values of `race` is `"black"` and `"white"`.
+
+```{r diff_in_mean, exercise = TRUE}
+
+```
+
+```{r diff_in_mean-hint}
+avgs <- resume %>%
+  group_by(race) %>%
+  summarize(across(call, mean)) %>%
+  pull(call, name = race)
+
+avgs[...] - avgs[...]
+```
+
+```{r diff_in_mean-solution}
+avgs <- resume %>%
+  group_by(race) %>%
+  summarize(across(call, mean)) %>%
+  pull(call, name = race)
+
+avgs["black"] - avgs["white"]
+```
+
+### Calculating difference in means within groups
+
+Another common task is to calculate the difference in means between groups *within levels of another group*. For instance, we might want to know the effect of treatment within levels of gender or ideology. This is slightly more tricky than the last approach since we can't just use `pull()`. Instead, we'll need to use `pivot_wider` after we summarize and then create a new variable that calculates the differences. 
+
+```{r, eval = FALSE, echo = TRUE}
+mydata %>%
+  group_by(var1, var2) %>%
+  summarize(across(outcome_var, mean)) %>%
+  pivot_wider(names_from = var1, values_from = outcome_var) %>%
+  mutate(diff_in_means = b - a)
+```
+
+Again, here we have assumed that the levels of `var1` are `a` and `b`.
+
+Now, let's apply this to the resume data and find the difference in callback means between Black and White resumes within levels of the gender of the resume. Remember that the values of `race` is `"black"` and `"white"`.
+
+```{r diff_by_gender, exercise = TRUE}
+
+```
+
+```{r diff_by_gender-hint}
+resume %>%
+  group_by(race, ...) %>%
+  summarize(across(call, mean)) %>%
+  pivot_wider(names_from = ..., values_from = ...) %>%
+  mutate(diff_in_means = ... - ...)
+```
+
+
+```{r diff_by_gender-solution}
+resume %>%
+  group_by(race, sex) %>%
+  summarize(across(call, mean)) %>%
+  pivot_wider(names_from = race, values_from = call) %>%
+  mutate(diff_in_means = black - white)
+```
+
+
+## Conclusion
+
+Those are the main skills in QSS Chapter 2 that differ between the book's treatment and the tidy way of doing things. 
