@@ -1,5 +1,5 @@
 ---
-title: "Tidyverse version of QSS Tutorial 3: Measurment I"
+title: "Tidyverse QSS Tutorial 3: Measurment I"
 output:
   learnr::tutorial:
     progressive: true
@@ -48,7 +48,7 @@ as_tibble(star)
 grade_code()
 ```
 
-- Use the `str` function on the `star` to see what the data looks like. 
+- Use the `str` function on the `star` to see what the data looks like. You can always use `head` function to view the first six rows of the data set.
 
 ```{r str-star, exercise = TRUE}
 
@@ -63,7 +63,7 @@ grade_code()
 ```
 
 
-- Use the `glimpse` function on the `star` to see what the data looks like. `glimpse` is particularly useful when the data set contains a long list of variables (columns), as it allows you see every column in the data set. 
+- Use the `glimpse` function on the `star` to see what the data looks like. `glimpse` is particularly useful when the data set contains a long list of variables (columns), as it allows you to see every column by transposing the original data set. 
 
 ```{r glimpse-star, exercise = TRUE}
 
@@ -108,14 +108,14 @@ grade_code()
 
 
 
-### Data wrangling with Tidyverse: Handling missing data
+### Data wrangling with tidyverse: Handling missing data
 
 From the baseR version of the qss tutorials, you have already learnt the basic toolkit that allows you to identify and work with the missing values (`NA`s) in your data set. 
 
-Tidyverse also provides helpful tools for you to deal with the missing values. A value can be missing in one of two possible ways:a) explicitly as shown by a `NA` value; b) implicitly, as a value can simply not exist in the data. We use tidyverse to address the explicit missing values in this tutorial.  
+Tidyverse also provides helpful tools for you to deal with the missing values. A value can be missing in one of two possible ways: a) explicitly as shown by a `NA` value; b) implicitly, as a value can simply not exist in the data. We use tidyverse to address the explicit missing values in this tutorial.  
 
 #### Exercises
-- Use the `drop_na` functions to drop the rows with explicit missing values in variable `g4math`. However, it is always vital to make sure that you are not dropping the observations that are important in other representations of the data.
+- Use the `drop_na` functions to drop the rows with explicit missing values in variable `g4math`. However, it is vital to make sure that you are not dropping the observations that are important in other representations of the data. So be careful when you use `drop_na`.
 
 ```{r drop_na, exercise = TRUE}
 
@@ -146,6 +146,7 @@ The **barplot** is a useful way to visualize a categorical or factor variable. I
 #### Exercises
 - Use the `group_by` and `count` function to create a data frame of counts `classcounts` for each category of the `classtype` in the `star` data.
 - Use `geom_bar` function to plot a barplot for the `classcounts` data frame. Remeber to state `geom_bar(stat='identity')` to make sure ggpplot takes the correct input for x and y axes.
+- You are encouraged to use pipes.
 
 ```{r barplot, exercise = TRUE}
 ## creat a data frame called classcounts that has
@@ -162,7 +163,7 @@ classcounts <- star %>%
   count() # of uniques
 
 ## make a barplot with ggplot
-ggplot(classcounts, aes(x = classtype, y = n)) +
+classcounts %>% ggplot(aes(x = classtype, y = n)) +
   geom_bar(stat='identity') 
 
 ```
@@ -178,6 +179,7 @@ The default barplot usually isn't all that readable.
 #### Exercises
 
 - Use the function `scale_x_discrete(labels = c())` to name the categories of the dependent variable. Use `"Small class"` for 1, `"Regular class"` for 2, and `"Regular class with aid"` for 3. Remember to factorize the variable `classtype` in `aes()` with `factor()`, otherwise the x values will be defined as numeric rather than discrete. 
+- You are encouraged to use pipes.
 
 ```{r barplot-labels, exercise = TRUE}
 ## Use the function scale_x_discrete(labels = c()) 
@@ -191,20 +193,18 @@ The default barplot usually isn't all that readable.
 ```
 
 ```{r barplot-labels-solution}
-ggplot(classcounts, aes(x=factor(classtype), y = n)) +
+classcounts %>% ggplot(aes(x=factor(classtype), y = n)) +
   geom_bar(stat='identity') + 
    scale_x_discrete(labels = c(
      "1" = "Small class", 
      "2" = "Regular class", 
      "3" = "Regular class with aid"))
 
-
-labs( x = "New x axis label", y = "New y axis label",
-title ="Add a title above the plot",
 ```
 
 
 - Use the function `labs` to add the lables and title to the plot. Lable the x axis `"Classnames"`, the y axis `"Number of students"`, and the title `"The Distribution of Students in Different Class Types"`.
+- You are encouraged to use pipes.
 
 
 ```{r barplot-lab, exercise = TRUE}
@@ -215,7 +215,7 @@ title ="Add a title above the plot",
 ```
 
 ```{r barplot-lab-solution}
-ggplot(classcounts, aes(x=factor(classtype), y = n)) +
+classcounts %>% ggplot(aes(x=factor(classtype), y = n)) +
   geom_bar(stat='identity') + 
    scale_x_discrete(labels = c(
      "1" = "Small class", 
@@ -232,7 +232,8 @@ ggplot(classcounts, aes(x=factor(classtype), y = n)) +
 For quantitative (numerical) variables, the barplot won't work because there are too many unique values. In this case, you will often use a histogram to visualize the a numerical variable.
 
 #### Exercises
-- With `ggplot()`, use the `geom_histogram()` argument to create a histogram for the `g4math` variable in the `star` data frame.
+- With `ggplot()` function, use the `geom_histogram()` geom to create a histogram for the `g4math` variable in the `star` data frame.
+- You are encouraged to use pipes.
 
 ```{r hist, exercise = TRUE}
 ## create a histogram of g4math with ggplot
@@ -252,15 +253,16 @@ grade_code("Great job, though the graph is a bit spartan. Let's make it more rea
 
 ### Sprucing up the histogram
 
-Same as the barplot, there are several arguments you can pass to `ggplot()` that will improve its readability:
+Same as the barplot, there are several arguments you can pass to the `ggplot()` function that will improve its readability:
 
-- `aes(y = density)` argument in `geom_histogram` allows you to make a density plot with `ggplot`.
-- `labs` allows you to add character strings that prints a main title for the plot, and set the labels for the x (horizontal) and y (vertical) axes
+- `aes(y = ..density..)` argument in `geom_histogram` allows you to make a density plot with `ggplot`.
+- `labs` allows you to add character strings that prints a main title for the plot, and set the labels for the x (horizontal) and y (vertical) axes.
 - `lims`: to specify the interval for the x and y axes.
 
 #### Exercises
 - Create a histogram with `ggplot` where you (a) include `aes(y = ..density..)` argument in `geom_histogram` to make a density plot, (b) set the y-axis to be between `0` and `0.015` using the `lims` argument, (c) include an informative x-axis label using the `labs` argument, and (d) include a title for the plot using the `labs` argument.
 - Make sure to separate the arguments in function calls with commas.
+- You are encouraged to use pipes.
 
 
 ```{r hist-nice, exercise = TRUE}
@@ -280,14 +282,15 @@ star %>% ggplot(aes(x = g4math)) +
 
 ### Adding lines and text to a plot
 
-We'll often want to add more information to a plot to make it even more readable. You can do that with geoms that add to the current plot, such as `geom_abline` and `text`.
+We'll often want to add more information to a plot to make it even more readable. You can do that with geoms that add to the current plot, such as `geom_abline` and `annotate`.
 
+- `geom_abline`: adds a line with specific slope and intercept
 - `geom_vline`: adds a vertical line
 - `geom_hline`: adds a horizontal line
-- `geom_abline`: adds a line with specific slope and intercept
 
 #### Exercises
 - Use the `geom_vline` function to add a vertical line at the mean of the `g4math` variable from the `star` data. By default, missing values are removed by ggplot with a warning and you can use the `na.rm = TRUE` argument to silently remove them.
+- You are encouraged to use pipes.
 
 ```{r hist-line, exercise = TRUE}
 ## add a vertical line at the mean of the variable
@@ -295,30 +298,18 @@ star %>% ggplot(aes(x = g4math)) +
   geom_histogram(aes(y = ..density..)) +
   lims(y = c(0, 0.015)) +
   labs(x = "Score",
-       title = "Distribution of fourth-grade math scores")
-
-
+       title = "Distribution of fourth-grade math scores") +
+  geom_vline(data = , aes(xintercept = mean()))
 ```
 
 ```{r hist-line-solution}
-## compute the mean of g4math
-mean_g4math <- star %>%
-  select(g4math) %>%
-  mean(na.rm = TRUE)
-
-## add a vertical line at the mean of the variable
-ggplot(star, aes(x = g4math)) +
+## add a vertical line at the mean of the variable with geom_vline
+star %>% ggplot(aes(x = g4math)) +
   geom_histogram(aes(y = ..density..)) +
   lims(y = c(0, 0.015)) +
   labs(x = "Score",
        title = "Distribution of fourth-grade math scores") +
-  geom_vline(data = star, aes(xintercept = mean))
-
-
-
-## add a vertical line at the mean of the variable
-abline(v = mean(star$g4math, na.rm = TRUE))
-
+  geom_vline(data = star, aes(xintercept = mean(g4math, na.rm = TRUE)))
 
 ```
 
@@ -334,6 +325,7 @@ We'll sometimes want to add text to a plot to make it more informative. `annotat
 
 - Use the `annotate` function to add the string `Average Score` to the plot at the point (750, 0.014).
 - Make sure to separate the arguments in function calls with commas.
+- You are encouraged to use pipes.
 
 ```{r hist-text, exercise = TRUE}
 ## add the text "Average Score" at the specified location
@@ -342,7 +334,7 @@ We'll sometimes want to add text to a plot to make it more informative. `annotat
 
 ```{r hist-text-solution}
 ## add the text "Average Score" at the specified location
-ggplot(star, aes(x = g4math)) +
+star %>% ggplot(aes(x = g4math)) +
   geom_histogram(aes(y = ..density..)) +
   lims(y = c(0, 0.015)) +
   labs(x = "Score",

@@ -14,7 +14,7 @@
 <meta name="allow-skip" content="false" />
 <meta name="learnr-version-prerender" content="0.10.1.9022" />
 
-<title>Tidyverse version of QSS Tutorial 3: Measurment I</title>
+<title>Tidyverse QSS Tutorial 3: Measurment I</title>
 
 <!-- header-includes START -->
 <!-- HEAD_CONTENT -->
@@ -139,7 +139,8 @@ data-diagnostics="1" data-startover="1" data-lines="0">
 </div>
 <ul>
 <li>Use the <code>str</code> function on the <code>star</code> to see
-what the data looks like.</li>
+what the data looks like. You can always use <code>head</code> function
+to view the first six rows of the data set.</li>
 </ul>
 <div class="tutorial-exercise" data-label="str-star" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0">
@@ -154,7 +155,8 @@ data-lines="0">
 <li>Use the <code>glimpse</code> function on the <code>star</code> to
 see what the data looks like. <code>glimpse</code> is particularly
 useful when the data set contains a long list of variables (columns), as
-it allows you see every column in the data set.</li>
+it allows you to see every column by transposing the original data
+set.</li>
 </ul>
 <div class="tutorial-exercise" data-label="glimpse-star"
 data-completion="1" data-diagnostics="1" data-startover="1"
@@ -198,12 +200,12 @@ data-diagnostics="1" data-startover="1" data-lines="0">
 </div>
 <div id="section-data-wrangling-with-tidyverse-handling-missing-data"
 class="section level3">
-<h3>Data wrangling with Tidyverse: Handling missing data</h3>
+<h3>Data wrangling with tidyverse: Handling missing data</h3>
 <p>From the baseR version of the qss tutorials, you have already learnt
 the basic toolkit that allows you to identify and work with the missing
 values (<code>NA</code>s) in your data set.</p>
 <p>Tidyverse also provides helpful tools for you to deal with the
-missing values. A value can be missing in one of two possible ways:a)
+missing values. A value can be missing in one of two possible ways: a)
 explicitly as shown by a <code>NA</code> value; b) implicitly, as a
 value can simply not exist in the data. We use tidyverse to address the
 explicit missing values in this tutorial.</p>
@@ -212,8 +214,9 @@ explicit missing values in this tutorial.</p>
 <ul>
 <li>Use the <code>drop_na</code> functions to drop the rows with
 explicit missing values in variable <code>g4math</code>. However, it is
-always vital to make sure that you are not dropping the observations
-that are important in other representations of the data.</li>
+vital to make sure that you are not dropping the observations that are
+important in other representations of the data. So be careful when you
+use <code>drop_na</code>.</li>
 </ul>
 <div class="tutorial-exercise" data-label="drop_na" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0">
@@ -254,6 +257,7 @@ of the <code>classtype</code> in the <code>star</code> data.</li>
 <code>classcounts</code> data frame. Remeber to state
 <code>geom_bar(stat='identity')</code> to make sure ggpplot takes the
 correct input for x and y axes.</li>
+<li>You are encouraged to use pipes.</li>
 </ul>
 <div class="tutorial-exercise" data-label="barplot" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0">
@@ -272,7 +276,7 @@ data-lines="0">
   count() # of uniques
 
 ## make a barplot with ggplot
-ggplot(classcounts, aes(x = classtype, y = n)) +
+classcounts %&gt;% ggplot(aes(x = classtype, y = n)) +
   geom_bar(stat=&#39;identity&#39;) </code></pre>
 </div>
 </div>
@@ -290,6 +294,7 @@ for 1, <code>"Regular class"</code> for 2, and
 variable <code>classtype</code> in <code>aes()</code> with
 <code>factor()</code>, otherwise the x values will be defined as numeric
 rather than discrete.</li>
+<li>You are encouraged to use pipes.</li>
 </ul>
 <div class="tutorial-exercise" data-label="barplot-labels"
 data-completion="1" data-diagnostics="1" data-startover="1"
@@ -304,22 +309,19 @@ data-lines="0">
 <div class="tutorial-exercise-support"
 data-label="barplot-labels-solution" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>ggplot(classcounts, aes(x=factor(classtype), y = n)) +
+<pre class="text"><code>classcounts %&gt;% ggplot(aes(x=factor(classtype), y = n)) +
   geom_bar(stat=&#39;identity&#39;) + 
    scale_x_discrete(labels = c(
      &quot;1&quot; = &quot;Small class&quot;, 
      &quot;2&quot; = &quot;Regular class&quot;, 
-     &quot;3&quot; = &quot;Regular class with aid&quot;))
-
-
-labs( x = &quot;New x axis label&quot;, y = &quot;New y axis label&quot;,
-title =&quot;Add a title above the plot&quot;,</code></pre>
+     &quot;3&quot; = &quot;Regular class with aid&quot;))</code></pre>
 </div>
 <ul>
 <li>Use the function <code>labs</code> to add the lables and title to
 the plot. Lable the x axis <code>"Classnames"</code>, the y axis
 <code>"Number of students"</code>, and the title
 <code>"The Distribution of Students in Different Class Types"</code>.</li>
+<li>You are encouraged to use pipes.</li>
 </ul>
 <div class="tutorial-exercise" data-label="barplot-lab"
 data-completion="1" data-diagnostics="1" data-startover="1"
@@ -330,7 +332,7 @@ data-lines="0">
 <div class="tutorial-exercise-support" data-label="barplot-lab-solution"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0">
-<pre class="text"><code>ggplot(classcounts, aes(x=factor(classtype), y = n)) +
+<pre class="text"><code>classcounts %&gt;% ggplot(aes(x=factor(classtype), y = n)) +
   geom_bar(stat=&#39;identity&#39;) + 
    scale_x_discrete(labels = c(
      &quot;1&quot; = &quot;Small class&quot;, 
@@ -350,9 +352,10 @@ use a histogram to visualize the a numerical variable.</p>
 <div id="section-exercises-4" class="section level4">
 <h4>Exercises</h4>
 <ul>
-<li>With <code>ggplot()</code>, use the <code>geom_histogram()</code>
-argument to create a histogram for the <code>g4math</code> variable in
-the <code>star</code> data frame.</li>
+<li>With <code>ggplot()</code> function, use the
+<code>geom_histogram()</code> geom to create a histogram for the
+<code>g4math</code> variable in the <code>star</code> data frame.</li>
+<li>You are encouraged to use pipes.</li>
 </ul>
 <div class="tutorial-exercise" data-label="hist" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0">
@@ -370,15 +373,15 @@ star %&gt;% ggplot(aes(x = g4math)) +
 </div>
 <div id="section-sprucing-up-the-histogram" class="section level3">
 <h3>Sprucing up the histogram</h3>
-<p>Same as the barplot, there are several arguments you can pass to
-<code>ggplot()</code> that will improve its readability:</p>
+<p>Same as the barplot, there are several arguments you can pass to the
+<code>ggplot()</code> function that will improve its readability:</p>
 <ul>
-<li><code>aes(y = density)</code> argument in
+<li><code>aes(y = ..density..)</code> argument in
 <code>geom_histogram</code> allows you to make a density plot with
 <code>ggplot</code>.</li>
 <li><code>labs</code> allows you to add character strings that prints a
 main title for the plot, and set the labels for the x (horizontal) and y
-(vertical) axes</li>
+(vertical) axes.</li>
 <li><code>lims</code>: to specify the interval for the x and y
 axes.</li>
 </ul>
@@ -394,6 +397,7 @@ using the <code>labs</code> argument, and (d) include a title for the
 plot using the <code>labs</code> argument.</li>
 <li>Make sure to separate the arguments in function calls with
 commas.</li>
+<li>You are encouraged to use pipes.</li>
 </ul>
 <div class="tutorial-exercise" data-label="hist-nice"
 data-completion="1" data-diagnostics="1" data-startover="1"
@@ -418,12 +422,12 @@ class="section level3">
 <h3>Adding lines and text to a plot</h3>
 <p>We’ll often want to add more information to a plot to make it even
 more readable. You can do that with geoms that add to the current plot,
-such as <code>geom_abline</code> and <code>text</code>.</p>
+such as <code>geom_abline</code> and <code>annotate</code>.</p>
 <ul>
-<li><code>geom_vline</code>: adds a vertical line</li>
-<li><code>geom_hline</code>: adds a horizontal line</li>
 <li><code>geom_abline</code>: adds a line with specific slope and
 intercept</li>
+<li><code>geom_vline</code>: adds a vertical line</li>
+<li><code>geom_hline</code>: adds a horizontal line</li>
 </ul>
 <div id="section-exercises-6" class="section level4">
 <h4>Exercises</h4>
@@ -433,6 +437,7 @@ the mean of the <code>g4math</code> variable from the <code>star</code>
 data. By default, missing values are removed by ggplot with a warning
 and you can use the <code>na.rm = TRUE</code> argument to silently
 remove them.</li>
+<li>You are encouraged to use pipes.</li>
 </ul>
 <div class="tutorial-exercise" data-label="hist-line"
 data-completion="1" data-diagnostics="1" data-startover="1"
@@ -442,29 +447,20 @@ star %&gt;% ggplot(aes(x = g4math)) +
   geom_histogram(aes(y = ..density..)) +
   lims(y = c(0, 0.015)) +
   labs(x = &quot;Score&quot;,
-       title = &quot;Distribution of fourth-grade math scores&quot;)</code></pre>
+       title = &quot;Distribution of fourth-grade math scores&quot;) +
+  geom_vline(data = , aes(xintercept = mean()))</code></pre>
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
 </div>
 <div class="tutorial-exercise-support" data-label="hist-line-solution"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0">
-<pre class="text"><code>## compute the mean of g4math
-mean_g4math &lt;- star %&gt;%
-  select(g4math) %&gt;%
-  mean(na.rm = TRUE)
-
-## add a vertical line at the mean of the variable
-ggplot(star, aes(x = g4math)) +
+<pre class="text"><code>## add a vertical line at the mean of the variable with geom_vline
+star %&gt;% ggplot(aes(x = g4math)) +
   geom_histogram(aes(y = ..density..)) +
   lims(y = c(0, 0.015)) +
   labs(x = &quot;Score&quot;,
        title = &quot;Distribution of fourth-grade math scores&quot;) +
-  geom_vline(data = star, aes(xintercept = mean))
-
-
-
-## add a vertical line at the mean of the variable
-abline(v = mean(star$g4math, na.rm = TRUE))</code></pre>
+  geom_vline(data = star, aes(xintercept = mean(g4math, na.rm = TRUE)))</code></pre>
 </div>
 </div>
 </div>
@@ -483,6 +479,7 @@ labels to see where you might want to add these parts of the plot.</p>
 <code>Average Score</code> to the plot at the point (750, 0.014).</li>
 <li>Make sure to separate the arguments in function calls with
 commas.</li>
+<li>You are encouraged to use pipes.</li>
 </ul>
 <div class="tutorial-exercise" data-label="hist-text"
 data-completion="1" data-diagnostics="1" data-startover="1"
@@ -494,7 +491,7 @@ data-lines="0">
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0">
 <pre class="text"><code>## add the text &quot;Average Score&quot; at the specified location
-ggplot(star, aes(x = g4math)) +
+star %&gt;% ggplot(aes(x = g4math)) +
   geom_histogram(aes(y = ..density..)) +
   lims(y = c(0, 0.015)) +
   labs(x = &quot;Score&quot;,
@@ -837,7 +834,7 @@ learnr:::store_exercise_cache(structure(list(label = "barplot", global_setup = s
     check = structure("grade_code(\"Awesome. The graph is looking a little unhelpful, though. Let's spruce it up.\")", chunk_opts = list(
         label = "barplot-check")), solution = structure(c("classcounts <- star %>%", 
     "  group_by(classtype) %>%", "  count() # of uniques", "", 
-    "## make a barplot with ggplot", "ggplot(classcounts, aes(x = classtype, y = n)) +", 
+    "## make a barplot with ggplot", "classcounts %>% ggplot(aes(x = classtype, y = n)) +", 
     "  geom_bar(stat='identity') ", ""), chunk_opts = list(label = "barplot-solution")), 
     test_cases = NULL, options = list(eval = FALSE, echo = TRUE, 
         results = "markup", tidy = FALSE, tidy.opts = NULL, collapse = FALSE, 
@@ -882,11 +879,10 @@ learnr:::store_exercise_cache(structure(list(label = "barplot-labels", global_se
     list(label = "barplot-labels", code = "## Use the function scale_x_discrete(labels = c()) \n## i.e., scale_x_discrete(labels = c(\n##     \"1\" = \"Small class\", \n##     \"2\" = \"\" ,\n##     ...))\n\n\n", 
         opts = list(label = "\"barplot-labels\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
-    check = NULL, solution = structure(c("ggplot(classcounts, aes(x=factor(classtype), y = n)) +", 
+    check = NULL, solution = structure(c("classcounts %>% ggplot(aes(x=factor(classtype), y = n)) +", 
     "  geom_bar(stat='identity') + ", "   scale_x_discrete(labels = c(", 
     "     \"1\" = \"Small class\", ", "     \"2\" = \"Regular class\", ", 
-    "     \"3\" = \"Regular class with aid\"))", "", "", "labs( x = \"New x axis label\", y = \"New y axis label\",", 
-    "title =\"Add a title above the plot\","), chunk_opts = list(
+    "     \"3\" = \"Regular class with aid\"))", ""), chunk_opts = list(
         label = "barplot-labels-solution")), test_cases = NULL, 
     options = list(eval = FALSE, echo = TRUE, results = "markup", 
         tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
@@ -931,7 +927,7 @@ learnr:::store_exercise_cache(structure(list(label = "barplot-lab", global_setup
     list(label = "barplot-lab", code = "## Use the function `labs` and `title`\n\n\n", 
         opts = list(label = "\"barplot-lab\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
-    check = NULL, solution = structure(c("ggplot(classcounts, aes(x=factor(classtype), y = n)) +", 
+    check = NULL, solution = structure(c("classcounts %>% ggplot(aes(x=factor(classtype), y = n)) +", 
     "  geom_bar(stat='identity') + ", "   scale_x_discrete(labels = c(", 
     "     \"1\" = \"Small class\", ", "     \"2\" = \"Regular class\", ", 
     "     \"3\" = \"Regular class with aid\")) +", "  labs( x = \"Classnames\", ", 
@@ -1065,25 +1061,23 @@ learnr:::store_exercise_cache(structure(list(label = "hist-line", global_setup =
 "knitr::opts_chunk$set(echo = FALSE)", "tut_reptitle <- \"QSS Tutorial 3: Output Report\"", 
 "data(STAR, package = \"qss\")", "star <- STAR"), chunk_opts = list(
     label = "setup", include = FALSE)), setup = NULL, chunks = list(
-    list(label = "hist-line", code = "## add a vertical line at the mean of the variable\nstar %>% ggplot(aes(x = g4math)) +\n  geom_histogram(aes(y = ..density..)) +\n  lims(y = c(0, 0.015)) +\n  labs(x = \"Score\",\n       title = \"Distribution of fourth-grade math scores\")\n\n", 
+    list(label = "hist-line", code = "## add a vertical line at the mean of the variable\nstar %>% ggplot(aes(x = g4math)) +\n  geom_histogram(aes(y = ..density..)) +\n  lims(y = c(0, 0.015)) +\n  labs(x = \"Score\",\n       title = \"Distribution of fourth-grade math scores\") +\n  geom_vline(data = , aes(xintercept = mean()))", 
         opts = list(label = "\"hist-line\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code()", chunk_opts = list(label = "hist-line-check")), 
-    solution = structure(c("## compute the mean of g4math", "mean_g4math <- star %>%", 
-    "  select(g4math) %>%", "  mean(na.rm = TRUE)", "", "## add a vertical line at the mean of the variable", 
-    "ggplot(star, aes(x = g4math)) +", "  geom_histogram(aes(y = ..density..)) +", 
+    solution = structure(c("## add a vertical line at the mean of the variable with geom_vline", 
+    "star %>% ggplot(aes(x = g4math)) +", "  geom_histogram(aes(y = ..density..)) +", 
     "  lims(y = c(0, 0.015)) +", "  labs(x = \"Score\",", "       title = \"Distribution of fourth-grade math scores\") +", 
-    "  geom_vline(data = star, aes(xintercept = mean))", "", 
-    "", "", "## add a vertical line at the mean of the variable", 
-    "abline(v = mean(star$g4math, na.rm = TRUE))", "", ""), chunk_opts = list(
-        label = "hist-line-solution")), test_cases = NULL, options = list(
-        eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
-        tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
-        highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "03-measurement1_tidy_cache/html/", 
-        cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
-        autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "03-measurement1_tidy_files/figure-html/", 
+    "  geom_vline(data = star, aes(xintercept = mean(g4math, na.rm = TRUE)))", 
+    ""), chunk_opts = list(label = "hist-line-solution")), test_cases = NULL, 
+    options = list(eval = FALSE, echo = TRUE, results = "markup", 
+        tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
+        comment = NA, highlight = FALSE, size = "normalsize", 
+        background = "#F7F7F7", strip.white = TRUE, cache = 0, 
+        cache.path = "03-measurement1_tidy_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "03-measurement1_tidy_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -1097,8 +1091,9 @@ learnr:::store_exercise_cache(structure(list(label = "hist-line", global_setup =
         label = "hist-line", exercise = TRUE, code = c("## add a vertical line at the mean of the variable", 
         "star %>% ggplot(aes(x = g4math)) +", "  geom_histogram(aes(y = ..density..)) +", 
         "  lims(y = c(0, 0.015)) +", "  labs(x = \"Score\",", 
-        "       title = \"Distribution of fourth-grade math scores\")", 
-        "", ""), out.width.px = 624, out.height.px = 384, params.src = "hist-line, exercise = TRUE", 
+        "       title = \"Distribution of fourth-grade math scores\") +", 
+        "  geom_vline(data = , aes(xintercept = mean()))"), out.width.px = 624, 
+        out.height.px = 384, params.src = "hist-line, exercise = TRUE", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r"), class = "tutorial_exercise"))
 </script>
  
@@ -1122,7 +1117,7 @@ learnr:::store_exercise_cache(structure(list(label = "hist-text", global_setup =
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code()", chunk_opts = list(label = "hist-text-check")), 
     solution = structure(c("## add the text \"Average Score\" at the specified location", 
-    "ggplot(star, aes(x = g4math)) +", "  geom_histogram(aes(y = ..density..)) +", 
+    "star %>% ggplot(aes(x = g4math)) +", "  geom_histogram(aes(y = ..density..)) +", 
     "  lims(y = c(0, 0.015)) +", "  labs(x = \"Score\",", "       title = \"Distribution of fourth-grade math scores\") +", 
     "  annotate(geom = \"text\", x = 750, y = 0.014, label = \"Average Score\")", 
     "  ", ""), chunk_opts = list(label = "hist-text-solution")), 
@@ -1179,8 +1174,8 @@ submission_server()
 
 <!-- begin doc-metadata -->
 <div id="doc-metadata">
-<h2 class="title toc-ignore" style="display:none;">Tidyverse version of
-QSS Tutorial 3: Measurment I</h2>
+<h2 class="title toc-ignore" style="display:none;">Tidyverse QSS
+Tutorial 3: Measurment I</h2>
 </div>
 <!-- end doc-metadata -->
 
