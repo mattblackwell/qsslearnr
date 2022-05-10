@@ -1,5 +1,5 @@
 ---
-title: "QSS Review Tutorial for Tidyverse Users"
+title: "QSS Tutorial 1: Causality I"
 output:
   learnr::tutorial:
     progressive: true
@@ -7,8 +7,9 @@ output:
     theme: united
 runtime: shiny_prerendered
 description: >
-  This tutorial will cover some tidy ways to do things in
-  Chapter 2 of Quantitative Social Science.
+  This tutorial will cover logicals, subsetting, factors, and
+  calculating means in experiments. Companion to Chapter 2 of
+  "Quantitative Social Science: An Introduction".
 ---
 
 ```{r setup, include=FALSE}
@@ -17,12 +18,48 @@ library(learnr)
 library(qsslearnr)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
-library(tidyverse)
+tut_reptitle <- "QSS Tutorial 1: Output Report"
 data(resume, package = "qss")
-resume <- as_tibble(resume)
 ```
 
-## Exploring data
+
+
+## Conceptual Questions
+
+
+```{r concept-quiz, echo=FALSE}
+quiz(
+  caption = "",
+  question(
+    "Suppose a variable is binary, that is, it takes on values of either 0 or 1 (for example, female gender). Which of the following is the same as its sample mean?",
+    answer("the sample median"),
+    answer("the sample proportion of 1s", correct = TRUE),
+    answer("neither of these")
+  ),
+  question(
+    "What kind of value is `FALSE`?",
+    answer("character"),
+    answer("logical", correct = TRUE),
+    answer("binary"),
+    answer("numeric")
+  ),
+  question(
+    "In order to calculate the mean of a variable we have used the `length()` function in the denominator. The `length()` of a vector is equivalent to:",
+    answer("the number of elements", correct = TRUE),
+    answer("the height"),
+    answer("the maximum")
+  ),
+  question(
+    "How are factor variables different from categorical variables?",
+    answer("They are the same", correct = TRUE),
+    answer("Factor variables contain numeric values"),
+    answer("Categorical variables tend to have more levels or categories")
+  )
+)
+```
+
+
+## Working with Logicals in R
 
 ### Exploring the resume data
 
@@ -31,18 +68,25 @@ In this tutorial, we are going to be working with the resume data from Section 2
 
 Let's first explore the data a bit. It's stored as `resume`.
 
-- Use the `head` function to show a preview of the `resume` data.
+#### Exercise
+
+- Use the `glimpse` function to show a snippet of the `resume` data.
 
 
 ```{r head, exercise=TRUE}
+## print the first 6 lines of the data
 
 ```
 
 ```{r head-solution}
-head(resume)
+glimpse(resume)
 ```
 
-- Print out the dimension of the `resume` data using the `dim()` function
+```{r head-check}
+grade_code()
+```
+
+- Print out the dimension of the `resume` data.
 
 
 ```{r resume-dim, exercise=TRUE}
@@ -52,6 +96,11 @@ head(resume)
 ```{r resume-dim-solution}
 dim(resume)
 ```
+
+```{r resume-dim-check}
+grade_code()
+```
+
 
 - Use the `summary` function to show a summary of the data.
 
@@ -64,256 +113,266 @@ dim(resume)
 summary(resume)
 ```
 
-## Creating cross-tabs
-
-### Counting units with unique combinations of values
-
-
-To help you analyze this data, you can use a cross tabulation. Cross tabulation (or contingency table) is a table that quickly summarizes categorical data. For instance, in the resume data, we have a `sex` variable that tells us whether or not the fictitious resume had a male or a female name. 
-
-First, we want to see how many units are in each combination of different variables. To do this in tidy, leverage `group_by` and `summarize`:
-
-```{r, eval = FALSE, echo = TRUE}
-mydata %>%
-  group_by(var1, var2) %>%
-  summarize(n = n())
+```{r res-summary-check}
+grade_code()
 ```
 
 
-Use this approach to count the number of values for each combination of the `sex` and `call` variables in the resume data.
-
-```{r count, exercise = TRUE}
-
-```
-
-```{r count-hint}
-resume %>%
-  group_by(..., ...) %>%
-  summarize(n = n())
-```
-
-```{r count-solution}
-resume %>%
-  group_by(sex, call) %>%
-  summarize(n = n())
-```
-
-### Converting to cross-tab
-
-The above output from `count` gave us four rows, one for each combination of the values of the two variables. What we often want, however, is to convert that to a 2 by 2 table called a cross tab. Cross-tabs are usually presented as tables where the rows correspond to values of one variable, columns to the values of another variable and the each cell gives the number of units for that combination of values. 
-
-To do in a tidy way, we can reshape the output of the previous code using the `pivot_wider()` function:
-
-```{r eval = FALSE, echo = TRUE}
-mydata %>%
-  group_by(var1, var2) %>%
-  summarize(n = n()) %>%
-  pivot_wider(names_from = var2, values_from = n)
-```
-
-The easiest way to use this function is specify a `names_from` argument which names the variable you want to move to the columns and a `values_from` argument that takes the name of variable where we should get the values to move. In our case for the a cross-tab, we'll want to move the `call` variable to the columns and get the values from the `n` column. 
+### Creating a cross tab
 
 
-Use this approach to turn the single-column of counts in the previous exercise into a 2x2 table with `sex` on the rows and `call` on the columns. 
+To help you analyze this data, you can use a cross tabulation. Cross tabulation (or contingency table) is a table that quickly summarizes categorical data. For instance, in the resume data, we have a `sex` variable that tells us whether or not the fictitious resume had a male or a female name.
 
-```{r crosstab, exercise = TRUE}
-resume %>%
-  group_by(sex, call) %>%
-  summarize(n = n())
-```
+#### Exercise
 
-```{r crosstab-hint}
-resume %>%
-  group_by(sex, call) %>%
-  summarize(n = n()) %>%
-  pivot_wider(names_from = ..., values_from = ...)
-```
+- Using the `group_by` and `count` and `pivot_wider` functions, create a cross tab of the `sex` and `call` variables in the resume data.
+- Remember that a variable in the data frame can be accessed with `$`.
 
-```{r crosstab-solution}
-resume %>%
-  group_by(sex, call) %>%
-  summarize(n = n()) %>%
-  pivot_wider(names_from = call, values_from = n)
-```
-
-### Proportions in crosstabs
-
-Another task we often want to do is to convert the counts in a cross-tab into proportions of the overall data. To do that, all we have to do is modify the `summarize()` call using `nrow()`:
-
-
-```{r eval = FALSE, echo = TRUE}
-mydata %>%
-  group_by(var1, var2) %>%
-  summarize(n = n() / nrow(mydata)) %>%
-  pivot_wider(names_from = var2, values_from = n)
-```
-
-Take the code from the previous cross-tab and turn it into a table of proportions. 
-
-```{r crosstab_prop, exercise = TRUE}
-resume %>%
-  group_by(sex, call) %>%
-  summarize(n = n()) %>%
-  pivot_wider(names_from = call, values_from = n)
-```
-
-```{r crosstab_prop-hint}
-resume %>%
-  group_by(..., ...) %>%
-  summarize(n = n() / ...) %>%
-  pivot_wider(names_from = ..., values_from = ...)
-```
-
-```{r crosstab_prop-solution}
-resume %>%
-  group_by(sex, call) %>%
-  summarize(n = n() / nrow(resume)) %>%
-  pivot_wider(names_from = call, values_from = n)
-```
-
-
-## Means and Differences in Means by Groups
-
-### Calculating a mean by groups 
-
-We often need to calculate the means of a variable (usually the outcome) within levels of another variable. To do this, we can use the same `group_by()` and `summarize()` approach:
-
-```{r eval = FALSE, echo = TRUE}
-mydata %>%
-  group_by(group_var) %>%
-  summarize(across(outcome_var, mean))
-```
-
-Here, `group_var` is the grouping variable and `outcome_var` is the variable we want to take the average of. 
-
-Calculate the average of the `call` variable within levels of the `race` variable.
-
-```{r avg_by_group, exercise = TRUE}
+```{r table, exercise = TRUE}
 
 ```
 
-```{r avg_by_group-hint}
-resume %>%
-  group_by(...) %>%
-  summarize(across(..., mean))
+```{r table-check}
+grade_result(
+  pass_if(~ resume %>%
+              group_by(sex, call) %>%
+              count() %>%
+              pivot_wider(names_from = call, values_from = n)
+))
 ```
 
-```{r avg_by_group-solution}
-resume %>%
-  group_by(race) %>%
-  summarize(across(call, mean))
-```
+### Logical values
 
-### Pulling the means into a vector
 
-Now, once we have the means, we may want to take differences between them. To do this, it's often easiest to use the `pull()` function after `summarize()` to get a vector with just the means:
+Pretty soon, you'll be doing more complicated subsetting in R. To do this, it's helpful to understand a special type of object in R: the **logical**. There are two values associated with this type of object: `TRUE` and `FALSE` (where the uppercase is very important).
 
-```{r, eval = FALSE, echo = TRUE}
-mydata %>%
-  group_by(group_var) %>%
-  summarize(across(outcome_var, mean)) %>%
-  pull(outcome_var, name = group_var)
-```
+#### Exercises
 
-The first argument to `pull()` is the column name of the variable you want to pull out (the outcome variable in this case). The second argument, `names` is the name of the variable that should provide the names of the vector. 
+- Create a vector called `x` that contains two `TRUE` values and two `FALSE` values in that order.
+- Find the sum of that vector.
 
-Use this approach to create a vector (not a tibble) of the means of `call` within levels of `race`:
+```{r logical, exercise = TRUE}
+## creat a vector with two TRUE values and two FALSE values
+x <-
 
-```{r avgs_vec, exercise = TRUE}
-resume %>%
-  group_by(race) %>%
-  summarize(across(call, mean))
-```
-
-```{r avgs_vec-hint}
-resume %>%
-  group_by(race) %>%
-  summarize(across(call, mean)) %>%
-  pull(..., name = ...)
-```
-
-```{r avgs_vec-solution}
-resume %>%
-  group_by(race) %>%
-  summarize(across(call, mean)) %>%
-  pull(call, name = race)
-```
-
-### Calculating the difference in means/average treatment effect
-
-A common task in experiments or any data analysis is to compute the difference in means between two or more groups. We can do this with the output of the last step, where we have a vector of group means that are named with the values of the groups. From there, we can take differences between elements in the vector. For instance, let's say `group_var` has levels `a` and `b` and we want to know the difference in means between levels `a` and `b`. 
-
-```{r, eval = FALSE, echo = TRUE}
-avgs <- mydata %>%
-  group_by(group_var) %>%
-  summarize(across(outcome_var, mean)) %>%
-  pull(outcome_var, name = group_var)
-
-avgs["b"] - avgs["a"]
-```
-
-Now, use this approach to calculate the difference in mean callbacks (`call`) by race (`race`). Remember that the values of `race` is `"black"` and `"white"`.
-
-```{r diff_in_mean, exercise = TRUE}
+## take the sum of this vector
 
 ```
 
-```{r diff_in_mean-hint}
-avgs <- resume %>%
-  group_by(race) %>%
-  summarize(across(call, mean)) %>%
-  pull(call, name = race)
 
-avgs[...] - avgs[...]
-```
+```{r logical-hint}
+x <- c()
 
-```{r diff_in_mean-solution}
-avgs <- resume %>%
-  group_by(race) %>%
-  summarize(across(call, mean)) %>%
-  pull(call, name = race)
-
-avgs["black"] - avgs["white"]
-```
-
-### Calculating difference in means within groups
-
-Another common task is to calculate the difference in means between groups *within levels of another group*. For instance, we might want to know the effect of treatment within levels of gender or ideology. This is slightly more tricky than the last approach since we can't just use `pull()`. Instead, we'll need to use `pivot_wider` after we summarize and then create a new variable that calculates the differences. 
-
-```{r, eval = FALSE, echo = TRUE}
-mydata %>%
-  group_by(var1, var2) %>%
-  summarize(across(outcome_var, mean)) %>%
-  pivot_wider(names_from = var1, values_from = outcome_var) %>%
-  mutate(diff_in_means = b - a)
-```
-
-Again, here we have assumed that the levels of `var1` are `a` and `b`.
-
-Now, let's apply this to the resume data and find the difference in callback means between Black and White resumes within levels of the gender of the resume. Remember that the values of `race` is `"black"` and `"white"`.
-
-```{r diff_by_gender, exercise = TRUE}
-
-```
-
-```{r diff_by_gender-hint}
-resume %>%
-  group_by(race, ...) %>%
-  summarize(across(call, mean)) %>%
-  pivot_wider(names_from = ..., values_from = ...) %>%
-  mutate(diff_in_means = ... - ...)
+sum(x)
 ```
 
 
-```{r diff_by_gender-solution}
-resume %>%
-  group_by(race, sex) %>%
-  summarize(across(call, mean)) %>%
-  pivot_wider(names_from = race, values_from = call) %>%
-  mutate(diff_in_means = black - white)
+```{r logical-check}
+grade_result_strict(
+  pass_if(~ identical(x, c(TRUE, TRUE, FALSE, FALSE))),
+  pass_if(~ identical(.result, 2L))
+)
 ```
 
 
-## Conclusion
+- Create a vector called `z` that contains one `TRUE` values and three `FALSE` values in that order.
+- Find the mean of that vector.
 
-Those are the main skills in QSS Chapter 2 that differ between the book's treatment and the tidy way of doing things. 
+```{r logical2, exercise = TRUE}
+## creat a vector with one TRUE values and three FALSE values
+z <-
+
+## take the mean of this vector
+
+```
+
+```{r logical2-hint}
+z <- c()
+
+mean(z)
+```
+
+
+```{r logical2-check}
+grade_result_strict(
+  pass_if(~ identical(z, c(TRUE, FALSE, FALSE, FALSE))),
+  pass_if(~ identical(.result, 0.25))
+)
+```
+
+
+### Comparing logicals
+
+
+We often combine logical statements using AND (`&`) and OR (`|`) in R. For AND statements, both expressions have to be true for the whole expression to be true:
+
+- `TRUE & FALSE`, `FALSE & TRUE`, and `FALSE & FALSE` are `FALSE`
+- `TRUE & TRUE` is `TRUE`
+
+For OR statements, either statement being true makes the whole expression true:
+
+- `TRUE | FALSE`, `FALSE | TRUE`, and `TRUE | TRUE` are `TRUE`
+- `FALSE | FALSE` is `FALSE`
+
+
+```{r comparing-logicals, echo=FALSE}
+question("What does expression `(TRUE | FALSE) & TRUE` evaluate to?",
+  answer("`TRUE`", correct = TRUE),
+  answer("`FALSE`"),
+  answer("`NA`")
+)
+```
+
+
+### Comparing objects
+
+
+There are several *relational operators* that allow us to compare objects in R. The most useful of these are the following:
+
+- `>` greater than, `>=` greater than or equal to
+- `<` less than, `<=` less than or equal to
+- `==` equal to
+- `!=` not equal to
+
+When we use these to compare two objects in R, we end us with a logical object. You can also compare a vector to a particular number.
+
+
+#### Exercises
+
+- Test if 10 is greater than 5.
+
+```{r gt-test, exercise=TRUE}
+
+```
+
+```{r gt-test-solution}
+10 > 5
+```
+
+```{r gt-test-check}
+grade_code()
+```
+
+- Test which values in the vector `x` is greater than or equal to 0.
+
+```{r compare, exercise = TRUE}
+## x vector
+x <- c(-2, -1, 0, 1, 2)
+
+## test which values of x are greater than or equal to 0
+
+```
+
+```{r compare-check}
+grade_result(
+  fail_if(~ identical(.result, x > 0),
+          "Did you forget the 'or equal to' part of the comparison?"),
+  pass_if(~ identical(.result, x >= 0))
+)
+```
+
+## Subsets in R
+
+### Subsetting a data frame
+
+
+You can use the same logical statements you have been using to create subsets of a data frame. These can often be helpful because we'll want to calculate various quantities of interest for different subsets of the data. For this exercise, we will use the `resume` data frame made up of the variables `firstname`, `sex`, `race`, and `call`. As a reminder, here is what the data look like:
+
+```{r}
+resume
+```
+
+#### Exercise
+
+- Use the `filter` function to create a subset of the `resume` data frame that is only female names that sound white. Save this subset as `resume.wf`
+- Use the `glimpse` function to see a snippet of this subset.
+- Use the `summarize` function to calculate the mean of the `call` variable in this subset. Save this output as `resume.wf.callback`.
+
+
+```{r subset, exercise = TRUE}
+## create the subset for white female names and
+## assign it to resume.wf
+resume.wf <- ...
+
+## print the first 6 lines of the subset
+
+
+## calculate the mean of the callback variable (call)
+
+```
+
+```{r subset-solution}
+resume.wf <- resume %>%
+  filter(race == "white" & sex == "female")
+
+glimpse(resume.wf)
+
+resume.wf.callback <- resume.wf %>%
+  summarize(mean(call))
+```
+
+```{r subset-check}
+grade_result(
+  pass_if(~ identical(.result, resume.wf <- resume %>%
+                                              filter(race == "white" & sex == "female")
+
+                                            head(resume.wf)
+
+                                            resume.wf %>% 
+                                              summarize(mean(call))))
+)
+```
+
+
+### Comparing means across treatment conditions
+
+
+You can use the same ideas as in the last step to create a different subset of the data corresponding to white-sounding female names. Then, you can compare the average callback for the white-female names to the average callback for the black-female names. This will give you a sense of how the employer callback rate varies by racial group of the applicant for females.
+
+#### Exercise
+
+- Create a subset of the `resume` data for black-sounding female names.
+- Calculate the mean of the `call` variable in this subset. Save this output as `resume.bf.callback`.
+- Print the difference in means between the `call` variable in the white-sounding name subset and the black-sounding name subset.
+
+```{r effect, exercise = TRUE}
+## create the subset for white female names
+resume.wf <- resume %>%
+  filter(race == "white" & sex == "female")
+## create the subset for black female names
+resume.bf <-
+
+## calculate the difference in callback means
+
+```
+
+```{r effect-solution}
+## create the subset for white female names
+resume.wf <- resume %>%
+  filter(race == "white" & sex == "female")
+
+## create the subset for black female names
+resume.bf <- resume %>%
+  filter(race == "black" & sex == "female")
+
+resume.bf.callback <- resume.bf %>%
+  summarize(mean(call))
+
+## compare the difference in means
+resume.wf.callback - resume.bf.callback
+```
+
+```{r effect-check}
+grade_code("You just analyzed an experiment! Way to go!")
+```
+
+
+## Submit
+
+```{r context="setup"}
+submission_ui
+```
+
+```{r context="server"}
+submission_server()
+```
