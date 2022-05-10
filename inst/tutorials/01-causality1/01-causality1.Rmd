@@ -70,7 +70,7 @@ Let's first explore the data a bit. It's stored as `resume`.
 
 #### Exercise
 
-- Use the `head` function to show the first six lines of the `resume` data.
+- Use the `glimpse` function to show a snippet of the `resume` data.
 
 
 ```{r head, exercise=TRUE}
@@ -79,7 +79,7 @@ Let's first explore the data a bit. It's stored as `resume`.
 ```
 
 ```{r head-solution}
-head(resume)
+glimpse(resume)
 ```
 
 ```{r head-check}
@@ -125,7 +125,7 @@ To help you analyze this data, you can use a cross tabulation. Cross tabulation 
 
 #### Exercise
 
-- Using the `table` function, create a cross tab of the `sex` and `call` variables in the resume data.
+- Using the `group_by` and `count` and `pivot_wider` functions, create a cross tab of the `sex` and `call` variables in the resume data.
 - Remember that a variable in the data frame can be accessed with `$`.
 
 ```{r table, exercise = TRUE}
@@ -134,9 +134,11 @@ To help you analyze this data, you can use a cross tabulation. Cross tabulation 
 
 ```{r table-check}
 grade_result(
-  pass_if(~ identical(.result, table(resume$sex, resume$call))),
-  pass_if(~ identical(.result, table(resume$call, resume$sex)))
-)
+  pass_if(~ resume %>%
+              group_by(sex, call) %>%
+              count() %>%
+              pivot_wider(names_from = call, values_from = n)
+))
 ```
 
 ### Logical values
@@ -282,9 +284,9 @@ resume
 
 #### Exercise
 
-- Use the `subset` function to create a subset of the `resume` data frame that is only female names that sound white. Save this subset as `resume.wf`
-- Use the `head` function to print out the first 6 lines of this subset.
-- Calculate the mean of the `call` variable in this subset.
+- Use the `filter` function to create a subset of the `resume` data frame that is only female names that sound white. Save this subset as `resume.wf`
+- Use the `glimpse` function to see a snippet of this subset.
+- Use the `summarize` function to calculate the mean of the `call` variable in this subset. Save this output as `resume.wf.callback`.
 
 
 ```{r subset, exercise = TRUE}
@@ -300,14 +302,24 @@ resume.wf <- ...
 ```
 
 ```{r subset-solution}
-resume.wf <- subset(resume, subset = (race == "white" & sex == "female"))
-head(resume.wf)
-mean(resume.wf$call)
+resume.wf <- resume %>%
+  filter(race == "white" & sex == "female")
+
+glimpse(resume.wf)
+
+resume.wf.callback <- resume.wf %>%
+  summarize(mean(call))
 ```
 
 ```{r subset-check}
 grade_result(
-  pass_if(~ identical(.result, mean(subset(resume, subset = (race == "white" & sex == "female"))$call)))
+  pass_if(~ identical(.result, resume.wf <- resume %>%
+                                              filter(race == "white" & sex == "female")
+
+                                            head(resume.wf)
+
+                                            resume.wf %>% 
+                                              summarize(mean(call))))
 )
 ```
 
@@ -320,12 +332,13 @@ You can use the same ideas as in the last step to create a different subset of t
 #### Exercise
 
 - Create a subset of the `resume` data for black-sounding female names.
+- Calculate the mean of the `call` variable in this subset. Save this output as `resume.bf.callback`.
 - Print the difference in means between the `call` variable in the white-sounding name subset and the black-sounding name subset.
 
 ```{r effect, exercise = TRUE}
 ## create the subset for white female names
-resume.wf <- subset(resume, subset = (race == "white" & sex == "female"))
-
+resume.wf <- resume %>%
+  filter(race == "white" & sex == "female")
 ## create the subset for black female names
 resume.bf <-
 
@@ -335,13 +348,18 @@ resume.bf <-
 
 ```{r effect-solution}
 ## create the subset for white female names
-resume.wf <- subset(resume, subset = (race == "white" & sex == "female"))
+resume.wf <- resume %>%
+  filter(race == "white" & sex == "female")
 
 ## create the subset for black female names
-resume.bf <- subset(resume, subset = (race == "black" & sex == "female"))
+resume.bf <- resume %>%
+  filter(race == "black" & sex == "female")
+
+resume.bf.callback <- resume.bf %>%
+  summarize(mean(call))
 
 ## compare the difference in means
-mean(resume.wf$call) - mean(resume.bf$call)
+resume.wf.callback - resume.bf.callback
 ```
 
 ```{r effect-check}
