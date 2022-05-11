@@ -73,6 +73,9 @@ classnames <- c("Small class", "Regular class", "Regular class with aid")
 ```{r boxplot-solution}
 classnames <- c("Small class", "Regular class", "Regular class with aid")
 boxplot(g4math ~ classtype, data = star, ylab = "Math scores", names = classnames)
+
+x <- star %>%
+  ggplot
 ```
 
 
