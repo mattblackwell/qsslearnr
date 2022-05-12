@@ -8,13 +8,14 @@ output:
 runtime: shiny_prerendered
 description: >
   This tutorial will cover basic descriptive statistics and
-  data visualization.
+  data visualization in tidyverse.
 ---
 
 ```{r setup, include=FALSE}
 library(gradethis)
 library(learnr)
 library(qsslearnr)
+library(tidyverse)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 4: Output Report"
@@ -51,15 +52,18 @@ We'll continue to analyze data from the STAR project, which is a four-year rando
 
 ### Boxplots
 
-Boxplots are useful tools to visualize how the distribution of a continuous variable changes across levels of a categorical variable. There are several ways to specify a boxplot, but one of the most useful is with what R calls a formula:
+Boxplots are useful tools to visualize how the distribution of a continuous variable changes across levels of a categorical variable. There are several ways to specify a boxplot, but the most basic way to construct with tidyverse is as follow:
 
-    boxplot(numvar ~ catvar, data = mydata)
+    ggplot(star, aes(y = cont.var, x = cat.var)) +
+      geom_boxplot()
 
-Here, the first argument are the two variables of interest separated by the tilde character `~`. On the left hand side is the numerical variable that you are investigating and on the right hand side is the categorical variable we want to subset by. The `data` argument tells the function where the function can find these variables (that is, in what data frame are these variables).
+Here in the `ggplot` function, the first argument is name of the data frame that contains the two variables of interest, followed by `aes` to specify them on the boxplot. Most importantly, we want to specify the function `geom_boxplot` to produce a boxplot.
 
 #### Exercises
 
-- Call the `boxplot` function using the `g4math` is the numerical variable and `classtype` is the categorical variable. Pass the `star` data frame to the `data` argument. Include an informative y-axis label with `ylab` argument. Finally, pass the `classnames` vector to the `names` argument to place labels on the boxplots.
+- Call the `ggplot` function using the `g4math` is the numerical variable and `classtype` is the categorical variable. Pass the `star` data frame to the `data` argument. Include informative x-axis and y-axis labels with `labs` function. Finally, use the `rename` function to give the class types more intuitive names. 
+
+pass the `classnames` vector to the `names` argument to place labels on the boxplots.
 
 ```{r boxplot, exercise = TRUE}
 ## labels for the class type
@@ -74,8 +78,9 @@ classnames <- c("Small class", "Regular class", "Regular class with aid")
 classnames <- c("Small class", "Regular class", "Regular class with aid")
 boxplot(g4math ~ classtype, data = star, ylab = "Math scores", names = classnames)
 
-x <- star %>%
-  ggplot
+ggplot(star, aes(x = classtype, y = g4math)) + 
+              geom_boxplot() +
+              labs(y = "Math Scores", x = "Classtype")
 ```
 
 

@@ -16,6 +16,7 @@ description: >
 library(gradethis)
 library(learnr)
 library(qsslearnr)
+library(tidyverse)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 1: Output Report"
@@ -309,18 +310,24 @@ glimpse(resume.wf)
 
 resume.wf.callback <- resume.wf %>%
   summarize(mean(call))
+
+resume.wf.callback
 ```
 
 ```{r subset-check}
-grade_result(
-  pass_if(~ identical(.result, resume.wf <- resume %>%
-                                              filter(race == "white" & sex == "female")
+grade_this({
+  resume.wf <- resume %>%
+                filter(race == "white" & sex == "female")
+  head(resume.wf)
+  resume.wf %>%
+   summarize(mean(call)) -> resume.wf.summarized
 
-                                            head(resume.wf)
-
-                                            resume.wf %>% 
-                                              summarize(mean(call))))
-)
+  if (identical(.result, resume.wf.summarized)) {
+	pass("OK")
+  } else {
+		fail("Try again")
+	}
+})
 ```
 
 
