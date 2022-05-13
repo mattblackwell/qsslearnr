@@ -156,8 +156,8 @@ star %>%
   filter(classtype == c("1", "2")) %>%
   ggplot(aes(x = g4math, y = g4reading)) +
     geom_point(aes(color = classtype)) +
-    xlab("Fourth Grade Math Scores") + ylab("Fourth Grade Reading Score") +
-    ggtitle("Math vs Reading")
+    labs(x = "Fourth Grade Math Scores", y = "Fourth Grade Reading Score", 
+         title = "Math vs Reading")
 ```
 
 ## Submit
