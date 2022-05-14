@@ -1,5 +1,5 @@
 ---
-title: "Tidyverse QSS Tutorial 3: Measurment I"
+title: "QSS Tidyverse Tutorial 3: Measurment I"
 output:
   learnr::tutorial:
     progressive: true
