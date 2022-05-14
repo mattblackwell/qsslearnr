@@ -71,7 +71,7 @@ Let's first explore the data a bit. It's stored as `resume`.
 
 #### Exercise
 
-- Use the `glimpse` function to show a snippet of the `resume` data.
+- Use the `head` function to show the first six lines of the `resume` data.
 
 
 ```{r head, exercise=TRUE}
@@ -80,7 +80,7 @@ Let's first explore the data a bit. It's stored as `resume`.
 ```
 
 ```{r head-solution}
-glimpse(resume)
+head(resume)
 ```
 
 ```{r head-check}
@@ -286,7 +286,7 @@ resume
 #### Exercise
 
 - Use the `filter` function to create a subset of the `resume` data frame that is only female names that sound white. Save this subset as `resume.wf`
-- Use the `glimpse` function to see a snippet of this subset.
+- Use the `head` function to see the first six lines of this subset.
 - Use the `summarize` function to calculate the mean of the `call` variable in this subset. Save this output as `resume.wf.callback`.
 
 
@@ -306,7 +306,7 @@ resume.wf <- ...
 resume.wf <- resume %>%
   filter(race == "white" & sex == "female")
 
-glimpse(resume.wf)
+head(resume.wf)
 
 resume.wf.callback <- resume.wf %>%
   summarize(mean(call))
