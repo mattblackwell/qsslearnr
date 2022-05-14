@@ -1,0 +1,293 @@
+---
+title: "QSS Tidyverse Tutorial 2: Causality II"
+output:
+  learnr::tutorial:
+    progressive: true
+    ace_theme: github
+    theme: united
+runtime: shiny_prerendered
+description: >
+  This tutorial will cover logicals, subsetting, factors, and
+  calculating means in experiments. Follows along to
+  Chapter 2 of "Quantitative Social Science: An Introduction 
+  in the Tidyverse".
+---
+
+```{r setup, include=FALSE}
+library(gradethis)
+library(learnr)
+library(qsslearnr)
+library(tidyverse)
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = FALSE)
+tut_reptitle <- "QSS Tidyverse Tutorial 2: Output Report"
+data(resume, package = "qss")
+```
+
+
+## Conceptual Questions
+
+
+```{r rct, echo=FALSE}
+question('Which of the following approaches to identifying causal relationships is considered the "gold standard" in many scientific disciplines?',
+              answer("Randomized controlled trials"),
+              answer("Randomized experiments"),
+              answer("Either of these", correct = TRUE)
+         )
+```
+
+For ethical and logistical reasons, social scientists are often unable to conduct randomized controlled trials (RCTs). Therefore, they must conduct observational studies in which data on naturally occurring events are collected and analyzed.
+
+```{r validity, echo = FALSE}
+question("With observational studies, it is often hard to establish that changes in one variable caused changes in another variable. In other words, observational studies have less __________ compared to RCTS.",
+         answer("Internal validity", correct = TRUE),
+         answer("External validity"),
+         answer("Generalizability"),
+         answer("All of these"))
+```
+
+## More Logicals in R
+
+### Complex relationals
+
+
+In this exercise, you have the ages of a sample of 15 people, stored in the `ages` vector. We can use these relational operators to create a logical vector which indicates which ages fall within a specific range. In particular, we can find out which respondents are college-aged (18-22).
+
+#### Exercise
+
+- Create a logical vector, called `college.aged`, which indicates which observations in `ages` are greater than or equal to 18 and less than or equal to 22. Be sure to use parentheses to separate out the two logical statements.
+- Take the sum of the `college.aged` vector to determine how many 18-22 year olds there are in the sample.
+
+
+```{r ages, exercise = TRUE, exercise.setup = "generate-ages"}
+## check the value of the ages vector
+ages <- c(31, 20, 43, 45, 41, 46, 28, 49, 61, 19, 39)
+
+## create a logical vector called college.aged
+## that is TRUE for someone between 18-22, inclusive
+
+
+## find the number of college.aged respondents
+
+```
+
+```{r ages-solution}
+college.aged <- (ages >= 18) & (ages <= 22)
+sum(college.aged)
+```
+
+```{r ages-check}
+grade_result_strict(
+  pass_if(~ identical(college.aged, (ages >= 18) & (ages <= 22))),
+  pass_if(~ identical(.result, sum((ages >= 18) & (ages <= 22))))
+)
+```
+
+
+### Subsetting based on logicals
+
+
+
+In the last exercise, you used logical statements to create a vector that told us whether each entry in the `ages` vector is in the 18-22 year-old range. We can now use that information to figure out what the actual ages of the respondents in that range are. 
+
+In base R, you can use the brackets for subsetting the data, and apply functions (such as `mean` to calculate the average) to this subset. For more details, please refer to the base R version of this tutorial.
+
+However, tidyverse functions for subsetting the data, such as `filter()` or `select()` cannot be applied to vectors. In this sense, if you would like to subset vectors, base R works better than tidyverse.
+
+
+### Using simple conditional statements
+
+For this exercise, we'll use the resume data once again.
+
+What if we wanted to create a new vector that depends on whether a statement is true or false? For example, suppose you wanted to create an indicator variable for whether or not a specific resume had the name "Carrie." From, the last few examples, you know that `resume$firstname == "Carrie"` will give you a vector of `TRUE` and `FALSE` values based on whether or not the name for that unit is "Carrie." We can then use this to get create a new variable using the `if_else(X, Y, Z)` command. This command takes a logical vector as `X` and returns a new vector of the same length as `X` that has the value `Y` if that value in `X` is TRUE and `Z` if that value in `X` is FALSE.
+
+
+#### Exercise
+
+- Use the `if_else` function to create a new variable called `carrie` that is 1 if the resume name (`firstname`) is `"Carrie"` and 0 otherwise.
+- Print the first six lines of `resume` using the `head` function to see the new variable.
+
+```{r ifelse, exercise = TRUE}
+## create a new variable called carrie
+resume %>%
+  mutate(carrie = )
+
+## print the first 6 lines of the updated resume
+
+```
+
+```{r ifelse-hint}
+## create a new variable called carrie
+resume %>%
+  mutate(carrie = if_else(???, ???, ???))
+
+## print the first 6 lines of the updated resume
+head(resume)
+```
+
+
+
+```{r ifelse-solution}
+## create a new variable called carrie
+resume %>%
+  mutate(carrie = if_else(firstname == "Carrie", 1, 0))
+
+## print the first 6 lines of the updated resume
+head(resume)
+```
+
+```{r ifelse-check}
+grade_result_strict(
+  pass_if(~ identical(resume$carrie, if_else(resume$firstname == "Carrie", 1, 0)))
+)
+```
+
+## Factors variables in R
+
+### Factor variables
+
+
+You have seen that creating subsets can be helpful for calculating different quantities or statistics for specific subgroups in the data. When there is more than 1 or 2 subgroups of interest, however, this can be a cumbersome process. For that reason, it's helpful to know about factor variables. Basically, a factor variable is a categorical variable that takes a finite number of distinct values.
+
+Any variable can be turned into a factor by calling the `as.factor()` function like so:
+
+    mydata$myvar <- as.factor(mydata$myvar)
+
+This will take the variable `myvar` and create a factor variable with levels that are observed in that variable. Most often, you will convert a character variable to a factor.
+
+#### Exercise
+
+- Finish the code below that creates the `type` character variable. Fill in the last values of `race` and `sex` and add the label `WhiteMale` to this last type.
+- Convert the `resume$type` variable to a factor variable using `as.factor()`.
+
+```{r factor-setup}
+resume$carrie <- if_else(resume$firstname == "Carrie", 1, 0)
+```
+
+```{r factor, exercise = TRUE}
+## fill in the last line of code to create a character vector for the type of
+## application that was sent
+resume <- resume %>%
+  mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
+         type = if_else(race == "black" & sex == "male", "BlackMale", type),
+         type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
+         type = if_else(race == ??? & sex == ???, ???, ???))
+
+## turn the character vector into a factor
+resume$type <-
+```
+
+```{r factor-hint}
+## fill in the last line of code to create a character vector for the type of
+## application that was sent
+resume <- resume %>%
+  mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
+         type = if_else(race == "black" & sex == "male", "BlackMale", type),
+         type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
+         type = if_else(race == ??? & sex == ???, "WhiteMale", type))
+
+## turn the character vector into a factor
+resume$type <- as.factor(...)
+```
+
+```{r factor-solution}
+## fill in the last line of code to create a character vector for the type of
+## application that was sent
+resume <- resume %>%
+  mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
+         type = if_else(race == "black" & sex == "male", "BlackMale", type),
+         type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
+         type = if_else(race == "white" & sex == "male", "WhiteMale", type))
+
+## turn the character vector into a factor
+resume$type <- as.factor(resume$type)
+```
+
+```{r factor-check}
+grade_code("Fantastic, you got that factor loaded up and ready to go. Now, let's see what you can do with it.")
+```
+
+
+### Using factors
+
+
+Imagine that you wanted to calculate the average callback for each level of `type`. You could create a subset for each level of `type` and then use `mean` on each one of those subsets. But that would take 8 lines of code!
+
+A more efficient way to do this task in base R would be to use the `tapply(X, INDEX, FUN)` function, which allows you to compute a function (`FUN`) on subsets of the data (`X`) defined by a factor variable (`INDEX`). For instance, suppose we had a `grades` data frame that had student exam grades out of 100 in the `exam` variable and a factor variable called `section` that reported which section they were enrolled in. Then we could calculate the average exam score within sections as:
+
+    tapply(grades$exam, grades$section, mean)
+    
+However, with the tidyverse, we do not often need to use factor variables. Instead, we can use `group_by()` and other tidyverse functions that we mentioned before, to compute a function on subsets of the data.
+
+
+#### Exercise
+
+- Use the `group_by()` and `count()` functions on the `type` variable to see how many fictitious applications were sent out with each type of name.
+
+```{r get-tapply}
+resume$carrie <- if_else(resume$firstname == "Carrie", 1, 0)
+resume <- resume %>%
+  mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
+         type = if_else(race == "black" & sex == "male", "BlackMale", type),
+         type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
+         type = if_else(race == "white" & sex == "male", "WhiteMale", type))
+
+## turn the character vector into a factor
+resume$type <- as.factor(resume$type)
+```
+
+```{r table-type, exercise = TRUE, exercise.setup = "get-tapply"}
+## get the number of observations for each level of the type variable
+
+```
+
+```{r table-type-solution}
+resume %>%
+  group_by(type) %>%
+  count()
+```
+
+```{r table-type-check}
+grade_code()
+```
+
+- Use the `group_by()`, `select()`, and `summarize()` functions to calculate the `mean` of the `call` variable in each level of `race` and `sex`.
+
+
+```{r tapply, exercise = TRUE, exercise.setup = "get-tapply"}
+## use the `group_by()`, `select()`, and `summarize()` functions to calculate the mean in each level of race and sex
+firstname_callback <-
+  
+```
+
+```{r tapply-hint}
+## use the `group_by()`, `select()`, and `summarize()` functions to calculate the mean in each level of race and sex
+firstname_callback <- resume %>%
+  group_by(sex, race) %>%
+  select(???) %>%
+  summarize(callback = ???)
+firstname_callback
+```
+
+```{r tapply-solution}
+## use the `group_by()`, `select()`, and `summarize()` functions to calculate the mean in each level of race and sex
+firstname_callback <- resume %>%
+  group_by(sex, race) %>%
+  select(sex, race, call) %>%
+  summarize(callback = mean(call))
+firstname_callback
+```
+
+```{r tapply-check}
+grade_code("Great work, you have the skills you need to analyze experiments and observational data!")
+```
+
+## Submit
+
+```{r context="setup"}
+submission_ui
+```
+
+```{r context="server"}
+submission_server()
+```

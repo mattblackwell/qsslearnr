@@ -1,0 +1,8 @@
+.DS_Store
+.pdf
+*.zip
+
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
