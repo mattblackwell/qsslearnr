@@ -9,7 +9,7 @@ runtime: shiny_prerendered
 description: >
   This tutorial will cover basic descriptive statistics and
   data visualization. Companion to Chapter 3 of "Quantitative Social
-  Science: An Introduction."
+  Science: An Introduction in the Tidyverse."
 ---
 
 ```{r setup, include=FALSE}
@@ -19,7 +19,7 @@ library(qsslearnr)
 library(tidyverse)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
-tut_reptitle <- "QSS Tutorial 3: Output Report"
+tut_reptitle <- "QSS Tidyverse Tutorial 3: Output Report"
 data(STAR, package = "qss")
 star <- STAR
 ```
