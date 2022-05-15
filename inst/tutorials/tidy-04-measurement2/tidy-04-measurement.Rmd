@@ -88,7 +88,6 @@ Now you'll think more about to measure bivariate relationships---that is, the re
 
 #### Exercises
 - Create a scatter plot using the `ggplot` and `geom_point` function with `g4math` on the x-axis and `g4reading` on the y-axis, both from the `star` data.
-- Remember you can access a particular variable in a data frame using the `$` symbol.
 
 ```{r scatter, exercise = TRUE}
 ## produce a scatterplot of g4math on the x-axis and g4reading on the y-axis
@@ -140,7 +139,7 @@ grade_this_code()
 
 ### Finalizing your scatter plot
 
-The scatter plot is looking very good, but it could use a little bit of polish. Let's add axis labels and a title. Remember that you can add these to the plot via the `xlab`, `ylab`, and `ggtitle`. Also, it's important to note that you can only add these to the initial `ggplot` function; adding them to the `points` or `text` or `abline` functions won't have any effect.
+The scatter plot is looking very good, but it could use a little bit of polish. Let's add axis labels and a title. Remember that you can add these to the plot via the `xlab`, `ylab`, and `ggtitle`. 
 
 #### Exercises
 - Take the current plot and add the following arguments: `xlab`, `ylab`, and `ggtitle`. Make them informative.

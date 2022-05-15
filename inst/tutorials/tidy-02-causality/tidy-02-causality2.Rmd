@@ -88,34 +88,12 @@ grade_result_strict(
 
 
 
-In the last exercise, you used logical statements to create a vector that told us whether each entry in the `ages` vector is in the 18-22 year-old range. We can now use that information to figure out what the actual ages of the respondents in that range are.
+In the last exercise, you used logical statements to create a vector that told us whether each entry in the `ages` vector is in the 18-22 year-old range. We can now use that information to figure out what the actual ages of the respondents in that range are. 
 
-#### Exercise
+In base R, you can use the brackets for subsetting the data, and apply functions (such as `mean` to calculate the average) to this subset. For more details, please refer to the base R version of this tutorial.
 
-- Use the brackets and the `college.aged` logical vector that has already been created to subset `ages` to the value only between 18 and 22, inclusive.
-- Use the `mean` function to calculate the average age of the respondents in this subset. To do this, use the bracket subsetting and the `college.aged` logical vector that has already been created.
+However, tidyverse functions for subsetting the data, such as `filter()` or `select()` cannot be applied to vectors. In this sense, if you would like to subset vectors, base R works better than tidyverse.
 
-```{r generate-ages}
-ages <- c(31, 20, 43, 45, 41, 46, 28, 49, 61, 19, 39)
-```
-
-```{r logsubset, exercise = TRUE, exercise.setup = "generate-ages"}
-## here's the college.aged logical vector
-college.aged <- (ages >= 18) & (ages <= 22)
-
-## calculate the average age among the college-aged in the sample
-
-```
-
-```{r logsubset-solution}
-mean(ages[college.aged])
-```
-
-```{r logsubset-check}
-grade_result(
-  pass_if(~ identical(.result, mean(ages[college.aged])))
-)
-```
 
 ### Using simple conditional statements
 
