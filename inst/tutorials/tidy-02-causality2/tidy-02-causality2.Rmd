@@ -100,7 +100,7 @@ However, tidyverse functions for subsetting the data, such as `filter()` or `sel
 
 For this exercise, we'll use the resume data once again.
 
-What if we wanted to create a new vector that depends on whether a statement is true or false? For example, suppose you wanted to create an indicator variable for whether or not a specific resume had the name "Carrie." From, the last few examples, you know that `resume$firstname == "Carrie"` will give you a vector of `TRUE` and `FALSE` values based on whether or not the name for that unit is "Carrie." We can then use this to get create a new variable using the `if_else(X, Y, Z)` command. This command takes a logical vector as `X` and returns a new vector of the same length as `X` that has the value `Y` if that value in `X` is TRUE and `Z` if that value in `X` is FALSE.
+What if we wanted to create a new vector that depends on whether a statement is true or false? For example, suppose you wanted to create an indicator variable for whether or not a specific resume had the name "Carrie." We can  create a new variable using the `if_else(X, Y, Z)` command. This command takes a logical vector as `X` and returns a new vector of the same length as `X` that has the value `Y` if that value in `X` is TRUE and `Z` if that value in `X` is FALSE.
 
 
 #### Exercise
@@ -110,31 +110,27 @@ What if we wanted to create a new vector that depends on whether a statement is 
 
 ```{r ifelse, exercise = TRUE}
 ## create a new variable called carrie
+## print the first 6 lines of the updated resume
 resume %>%
   mutate(carrie = )
-
-## print the first 6 lines of the updated resume
 
 ```
 
 ```{r ifelse-hint}
 ## create a new variable called carrie
-resume %>%
-  mutate(carrie = if_else(???, ???, ???))
-
 ## print the first 6 lines of the updated resume
-head(resume)
+resume %>%
+  mutate(carrie = if_else(???, ???, ???)) %>%
+  ???()
 ```
-
 
 
 ```{r ifelse-solution}
 ## create a new variable called carrie
-resume %>%
-  mutate(carrie = if_else(firstname == "Carrie", 1, 0))
-
 ## print the first 6 lines of the updated resume
-head(resume)
+resume %>%
+  mutate(carrie = if_else(firstname == "Carrie", 1, 0)) %>%
+  head()
 ```
 
 ```{r ifelse-check}
