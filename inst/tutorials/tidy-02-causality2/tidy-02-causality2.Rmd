@@ -155,49 +155,48 @@ This will take the variable `myvar` and create a factor variable with levels tha
 #### Exercise
 
 - Finish the code below that creates the `type` character variable. Fill in the last values of `race` and `sex` and add the label `WhiteMale` to this last type.
-- Convert the `resume$type` variable to a factor variable using `as.factor()`.
+- Convert the `type` variable to a factor variable using `mutate()` and `as.factor()`.
 
 ```{r factor-setup}
-resume$carrie <- if_else(resume$firstname == "Carrie", 1, 0)
+resume <-
+  resume %>%
+  mutate(carrie = if_else(firstname == "Carrie", 1, 0))
 ```
 
 ```{r factor, exercise = TRUE}
 ## fill in the last line of code to create a character vector for the type of
 ## application that was sent
+## turn the character vector into a factor
 resume <- resume %>%
   mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
          type = if_else(race == "black" & sex == "male", "BlackMale", type),
          type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
-         type = if_else(race == ??? & sex == ???, ???, ???))
-
-## turn the character vector into a factor
-resume$type <-
+         type = if_else(race == ??? & sex == ???, ???, ???)) %>%
+  mutate()
 ```
 
 ```{r factor-hint}
 ## fill in the last line of code to create a character vector for the type of
 ## application that was sent
+## turn the character vector into a factor
 resume <- resume %>%
   mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
          type = if_else(race == "black" & sex == "male", "BlackMale", type),
          type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
-         type = if_else(race == ??? & sex == ???, "WhiteMale", type))
-
-## turn the character vector into a factor
-resume$type <- as.factor(...)
+         type = if_else(race == ??? & sex == ???, "WhiteMale", type)) %>%
+  mutate(type = ???(type))
 ```
 
 ```{r factor-solution}
 ## fill in the last line of code to create a character vector for the type of
 ## application that was sent
+## turn the character vector into a factor
 resume <- resume %>%
   mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
          type = if_else(race == "black" & sex == "male", "BlackMale", type),
          type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
-         type = if_else(race == "white" & sex == "male", "WhiteMale", type))
-
-## turn the character vector into a factor
-resume$type <- as.factor(resume$type)
+         type = if_else(race == "white" & sex == "male", "WhiteMale", type)) %>%
+  mutate(type = as.factor(type))
 ```
 
 ```{r factor-check}
@@ -228,9 +227,7 @@ resume <- resume %>%
          type = if_else(race == "black" & sex == "male", "BlackMale", type),
          type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
          type = if_else(race == "white" & sex == "male", "WhiteMale", type))
-
-## turn the character vector into a factor
-resume$type <- as.factor(resume$type)
+  mutate(type = as.factor(type))
 ```
 
 ```{r table-type, exercise = TRUE, exercise.setup = "get-tapply"}
