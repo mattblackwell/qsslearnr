@@ -226,8 +226,7 @@ resume <- resume %>%
   mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
          type = if_else(race == "black" & sex == "male", "BlackMale", type),
          type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
-         type = if_else(race == "white" & sex == "male", "WhiteMale", type)) %>%
-  mutate(type = as.factor(type))
+         type = if_else(race == "white" & sex == "male", "WhiteMale", type)) 
 ```
 
 ```{r table-type, exercise = TRUE, exercise.setup = "get-tapply"}
