@@ -218,10 +218,10 @@ However, with the tidyverse, we do not often need to use factor variables. Inste
 
 #### Exercise
 
-- Use the `group_by()` and `count()` functions on the `type` variable to see how many fictitious applications were sent out with each type of name.
+- Use the `group_by()` and `count()` functions on the `type` variable  in `resume_type` data frame to see how many fictitious applications were sent out with each type of name.
 
 ```{r get-tapply}
-resume <- resume %>%
+resume_type <- resume %>%
   mutate(carrie = if_else(firstname == "Carrie", 1, 0)) %>%
   mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
          type = if_else(race == "black" & sex == "male", "BlackMale", type),
@@ -235,7 +235,7 @@ resume <- resume %>%
 ```
 
 ```{r table-type-solution}
-resume %>%
+resume_type %>%
   group_by(type) %>%
   count()
 ```
@@ -244,7 +244,7 @@ resume %>%
 grade_code()
 ```
 
-- Use the `group_by()`, `select()`, and `summarize()` functions to calculate the `mean` of the `call` variable in each level of `race` and `sex`.
+- Use the `group_by()`, `select()`, and `summarize()` functions to calculate the `mean` of the `call` variable in each level of `race` and `sex` in the `resume_type` data frame.
 
 
 ```{r tapply, exercise = TRUE, exercise.setup = "get-tapply"}
@@ -255,7 +255,7 @@ firstname_callback <-
 
 ```{r tapply-hint}
 ## use the `group_by()`, `select()`, and `summarize()` functions to calculate the mean in each level of race and sex
-firstname_callback <- resume %>%
+firstname_callback <- resume_type %>%
   group_by(sex, race) %>%
   select(???) %>%
   summarize(callback = ???)
@@ -264,7 +264,7 @@ firstname_callback
 
 ```{r tapply-solution}
 ## use the `group_by()`, `select()`, and `summarize()` functions to calculate the mean in each level of race and sex
-firstname_callback <- resume %>%
+firstname_callback <- resume_type %>%
   group_by(sex, race) %>%
   select(sex, race, call) %>%
   summarize(callback = mean(call))
