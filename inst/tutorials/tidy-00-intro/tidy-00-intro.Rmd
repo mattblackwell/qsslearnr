@@ -24,75 +24,69 @@ tut_reptitle <- "QSS Tidyverse Tutorial 0: Output Report"
 
 ## Working with Data in tidyverse
 
+You'll often need to access different parts of a data frame to use in other commands. For instance, maybe you want to take the mean of a column of the data frame or maybe you want to see all of the data for the 4th unit. Either way, we'll need to know how to subset the data frame. 
+
+
+### Before subsetting...
+
+Before introducing functions for subsetting, we will introduce the pipe operator to you. The pipe, `%>%` , is able to help you code in a much more interpretable way.  It is able to pass the data set to the function that you are interested in using.
+
+```{r unpop}
+UNpop <- data.frame(
+  year = seq(1950, 2010, by = 10),
+  world.pop = c(2525779, 3026003, 3691173, 4449049, 5320817, 6127700, 6916183)
+)
+```
+
+- Use the pipe to pass `UNpop` data set to the `summary` function.
+
+```{r pipe, exercise = TRUE, exercise.setup = "unpop"}
+# use the pipe to pass UNpop to the summary function
+```
+
+```{r pipe-solution}
+UNpop %>%
+  summary()
+```
+
+```{r pipe-check}
+grade_this_code()
+```
+
+
 ### Subsetting a data frame (I)
 
 
-You'll often need to access different parts of a data frame to use in other commands. For instance, maybe you want to take the mean of a column of the data frame or maybe you want to see all of the data for the 4th unit. Either way, we'll need to know how to subset the data frame. To select a particular variable from the data frame, you can use the `$` operator. So `mydata$myvar` will be a vector of just the `myvar` column of the `mydata` data frame.
+To select a particular variable from the data frame, you can use the `select()` function. So `select(mydata, myvar)` will be a vector of just the `myvar` column of the `mydata` data frame.
 
 
 #### Exercise
 
-- Use the `$` to print out the `world.pop` variable from the `UNpop` data frame.
+- Use the `select()` function to print out the `world.pop` variable from the `UNpop` data frame.
 
-```{r dollar, exercise = TRUE, exercise.setup = "unpop"}
+```{r select, exercise = TRUE, exercise.setup = "unpop"}
 ## print out the world.pop variable using $
 
 ```
 
-```{r dollar-solution}
-UNpop$world.pop
+```{r select-solution}
+UNpop %>%
+  select(world.pop) 
 ```
 
-```{r dollar-check}
-grade_code()
+```{r select-check}
+grade_this_code()
 ```
 
 
-- Using the `$` operator, calculate the mean of the `world.pop` variable.
-
-```{r meandollar, exercise = TRUE, exercise.setup = "unpop"}
-## calculate the mean world population over this time period
-
-```
-
-```{r meandollar-solution}
-mean(UNpop$world.pop)
-```
-
-```{r meandollar-check}
-grade_code()
-```
 
 ### Subsetting a data frame (II)
 
-You can also use the brackets `[ ]` to subset from the data frame. But how will R know if you want to subset the rows or the columns? With a data frame as opposed to a vector, you will use a comma and the bracket will have the following form: `[rows, columns]` where the expression before the comma will select the rows and the expression after the comma will select the columns.
-
-- `mydata[,"myvar"]` will select the `myvar` column from `mydata`
-- `mydata[1,]` will select the first row of `mydata`
-- `mydata[c(1,2,3),]` will select the first three rows of `mydata`
-- `mydata[1:3, "myvar"]` will select the first three values of the `myvar` variable of `mydata`
+The `slice()` function is an intuitive way to index rows by their locations in a data set. It allows you to work with rows with multiple useful arguments.
 
 #### Exercise
 
-
-- Use the bracket commands to extract and print the `world.pop` variable from the `UNpop` data frame.
-
-```{r brackets, exercise = TRUE, exercise.setup = "unpop"}
-## use brackets to print out the world.pop variable
-
-```
-
-```{r brackets-solution}
-UNpop[, "world.pop"]
-```
-
-```{r brackets-check}
-grade_code()
-```
-
-
-
-- Use the bracket commands to extract and print rows 5 through 7 of the `UNpop` data frame.
+- Use the `slice()` function to extract and print rows 5 through 7 of the `UNpop` data frame.
 
 
 ```{r rows, exercise = TRUE, exercise.setup = "unpop"}
@@ -101,15 +95,16 @@ grade_code()
 ```
 
 ```{r rows-solution}
-UNpop[5:7, ]
+UNpop %>%
+  slice(n = 5:7)
 ```
 
 ```{r rows-check}
-grade_code()
+grade_this_code()
 ```
 
 
-- Use the bracket commands to extract and print rows 5 through 7 of the `world.pop` variable of the `UNpop` data frame.
+- Use the `slice()` and `select()` functions to extract and print rows 5 through 7 of the `world.pop` variable of the `UNpop` data frame.
 
 
 ```{r rowcols, exercise = TRUE, exercise.setup = "unpop"}
@@ -118,13 +113,36 @@ grade_code()
 ```
 
 ```{r rowcols-solution}
-UNpop[5:7, "world.pop"]
+UNpop %>%
+  slice(n = 5:7) %>%
+  select(world.pop)
 ```
 
 ```{r rowcols-check}
-grade_code()
+grade_this_code()
 ```
 
+
+### Subsetting a data frame (III)
+
+To select a particular variable that meets specific conditions, you can use the `filter()` function. 
+
+#### Exercise
+
+- Use the `filter()` function to extract the observations by 1990.
+
+```{r filter, exercise = TRUE, exercise.setup = "unpop"}
+# use the filter() function to extract the observations 
+```
+
+```{r filter-solution}
+UNpop %>%
+  filter(year <= 1990)
+```
+
+```{r filter-check}
+grade_this_code()
+```
 
 ## Submit
 
