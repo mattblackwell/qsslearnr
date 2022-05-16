@@ -92,8 +92,10 @@ grade_code()
 ```{r addpred, exercise = TRUE}
 fit <- lm(t2000 ~ treatment, data = progresa)
 
+# Pass your fitted model to the add_predictions function
 progresa <- progresa %>%
-  add_predictions(_model_) #Hint: pass your fitted model to the add_predictions function
+  add_predictions(_model_) 
+
 # View the variables in progresa 
 
 ```
