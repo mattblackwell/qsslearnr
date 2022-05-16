@@ -38,6 +38,9 @@ UNpop <- data.frame(
 )
 ```
 
+
+#### Exercise
+
 - Use the pipe to pass `UNpop` data set to the `summary` function.
 
 ```{r pipe, exercise = TRUE, exercise.setup = "unpop"}
