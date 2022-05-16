@@ -221,8 +221,8 @@ However, with the tidyverse, we do not often need to use factor variables. Inste
 - Use the `group_by()` and `count()` functions on the `type` variable to see how many fictitious applications were sent out with each type of name.
 
 ```{r get-tapply}
-resume$carrie <- if_else(resume$firstname == "Carrie", 1, 0)
 resume <- resume %>%
+  mutate(carrie = if_else(firstname == "Carrie", 1, 0))
   mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
          type = if_else(race == "black" & sex == "male", "BlackMale", type),
          type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
