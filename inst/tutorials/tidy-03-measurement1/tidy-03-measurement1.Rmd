@@ -129,9 +129,6 @@ star %>% drop_na(g4math)
 grade_code()
 ```
 
-- fill()
-- replace_na()
-
 ## Visualizing Data
 
 ### Barplots
