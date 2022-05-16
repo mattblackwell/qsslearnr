@@ -6,7 +6,7 @@ This package contains [`learnr`](https://rstudio.github.io/learnr/index.html) tu
 remotes::install_github("kosukeimai/qss-package", build_vignettes = TRUE)
 remotes::install_github("rstudio/learnr")
 remotes::install_github("rstudio-education/gradethis")
-remotes::install_github("mattblackwell/qsslearnr")
+remotes::install_github("annayrzy/qsslearnr-tidy")
 ```
 
 Then you can start the tutorials in one of two ways. First, in RStudio 1.3 or later, you will find the QSS tutorials listed in the "Tutorial" tab in the top-right pane (by default). Find a tutorial and click "Run Tutorial" to get started. Second, you can run any tutorial from the R console by typing the following line: 
@@ -25,10 +25,13 @@ The interface to the tutorials will look like this:
 
 ![Screenshot of qsslearnr](man/figures/qsslearnr-screenshot.png)
 
+## Note on the Tidyverse version of the tutorials
+
+Althought there are 11 baseR tutorials, there are only 7 (00 - 06) of such tutorials in tidyverse since all of the rest tutorials (07 - 10) are heavily conceptual. 
 
 ## Submission Reports
 
-At the end of each tutorial, students can download submission reports that describe what questions and exercises they attempted. Students can then upload these PDFs to a learning management system like Canvas or Gradescope. 
+At the end of each tutorial, students can download submission reports that describe what questions and exercises they attempted. Students can then upload these PDFs with their names to a learning management system like Gradescope or Canvas. 
 
 ## Other QSS tutorials
 
