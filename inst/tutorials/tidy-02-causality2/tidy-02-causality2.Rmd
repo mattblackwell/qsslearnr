@@ -222,7 +222,7 @@ However, with the tidyverse, we do not often need to use factor variables. Inste
 
 ```{r get-tapply}
 resume <- resume %>%
-  mutate(carrie = if_else(firstname == "Carrie", 1, 0))
+  mutate(carrie = if_else(firstname == "Carrie", 1, 0)) %>%
   mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
          type = if_else(race == "black" & sex == "male", "BlackMale", type),
          type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
