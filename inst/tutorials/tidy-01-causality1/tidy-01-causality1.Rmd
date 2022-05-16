@@ -19,7 +19,7 @@ library(qsslearnr)
 library(tidyverse)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
-tut_reptitle <- "QSS Tidyverse Tutorial 1: Output Report"
+tut_reptitle <- "QSS Tutorial 1: Output Report"
 data(resume, package = "qss")
 ```
 
@@ -127,20 +127,22 @@ To help you analyze this data, you can use a cross tabulation. Cross tabulation 
 #### Exercise
 
 - Using the `group_by` and `count` and `pivot_wider` functions, create a cross tab of the `sex` and `call` variables in the resume data.
-- Remember that a variable in the data frame can be accessed with `$`.
 
 ```{r table, exercise = TRUE}
 
 ```
 
-```{r table-check}
-grade_result(
-  pass_if(~ resume %>%
-              group_by(sex, call) %>%
-              count() %>%
-              pivot_wider(names_from = call, values_from = n)
-))
+```{r table-solution}
+resume %>%
+  group_by(sex, call) %>%
+  count() %>%
+  pivot_wider(names_from = call, values_from = n)
 ```
+
+```{r table-check}
+grade_code()
+```
+
 
 ### Logical values
 
@@ -315,19 +317,7 @@ resume.wf.callback
 ```
 
 ```{r subset-check}
-grade_this({
-  resume.wf <- resume %>%
-                filter(race == "white" & sex == "female")
-  head(resume.wf)
-  resume.wf %>%
-   summarize(mean(call)) -> resume.wf.summarized
-
-  if (identical(.result, resume.wf.summarized)) {
-	pass("OK")
-  } else {
-		fail("Try again")
-	}
-})
+grade_code()
 ```
 
 
@@ -363,6 +353,9 @@ resume.bf <- resume %>%
   filter(race == "black" & sex == "female")
 
 resume.bf.callback <- resume.bf %>%
+  summarize(mean(call))
+
+resume.wf.callback <- resume.wf %>%
   summarize(mean(call))
 
 ## compare the difference in means
