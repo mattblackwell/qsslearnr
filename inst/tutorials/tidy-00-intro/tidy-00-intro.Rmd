@@ -65,7 +65,7 @@ To select a particular variable from the data frame, you can use the `select()` 
 - Use the `select()` function to print out the `world.pop` variable from the `UNpop` data frame.
 
 ```{r select, exercise = TRUE, exercise.setup = "unpop"}
-## print out the world.pop variable using $
+## print out the world.pop variable using select()
 
 ```
 
