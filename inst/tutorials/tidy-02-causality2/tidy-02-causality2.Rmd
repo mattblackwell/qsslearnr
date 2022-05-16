@@ -20,7 +20,7 @@ library(qsslearnr)
 library(tidyverse)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
-tut_reptitle <- "QSS Tutorial 2: Output Report"
+tut_reptitle <- "QSS Tidyverse Tutorial 2: Output Report"
 data(resume, package = "qss")
 ```
 
