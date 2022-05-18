@@ -27,7 +27,7 @@ The interface to the tutorials will look like this:
 
 ## Note on the Tidyverse version of the tutorials
 
-Althought there are 11 baseR tutorials, there are only 7 (00 - 06) of such tutorials in tidyverse since all of the rest tutorials (07 - 10) are heavily conceptual. 
+Althought there are 11 baseR tutorials in total, only 7 (00 - 06) of such tutorials are in tidyverse since all of the rest (07 - 10) contain mostly conceptual questions. 
 
 ## Submission Reports
 
