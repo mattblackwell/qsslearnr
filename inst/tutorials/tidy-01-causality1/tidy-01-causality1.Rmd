@@ -134,8 +134,7 @@ To help you analyze this data, you can use a cross tabulation. Cross tabulation 
 
 ```{r table-solution}
 resume %>%
-  group_by(sex, call) %>%
-  count() %>%
+  count(sex, call) %>%
   pivot_wider(names_from = call, values_from = n)
 ```
 

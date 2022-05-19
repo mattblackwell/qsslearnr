@@ -61,7 +61,7 @@ Here in the `ggplot` function, the first argument is name of the data frame that
 
 #### Exercises
 
-- First, let's factorize the `classtype` variable by using `mutate` and `as.factor` functions. Then, pass the expression to the `ggplot` function using the `%>%` operator. Include informative x-axis and y-axis labels with `labs` function. Finally, use the `scale_x-discrete` function to give the class types more intuitive names. 
+- First, let's factorize the `classtype` variable by using `mutate` and `as.factor` functions. Then, pass the expression to the `ggplot` function using the `%>%` operator. Include informative x-axis and y-axis labels with `labs` function. Finally, use the `scale_x_discrete` function to give the class types more intuitive names. 
 
 ```{r boxplot, exercise = TRUE}
 ## factorize the variable `classtype`
@@ -128,7 +128,7 @@ Before we do so, make sure to factorize the `classtype` variable for `ggplot` to
 ## tidyverse
 star %>% 
   mutate(classtype = as.factor(classtype)) %>%
-  filter(classtype == c("1", "2")) %>%
+  filter(classtype %in% c("1", "2")) %>%
   ggplot(aes(x = g4math, y = g4reading)) + geom_point(aes(color = classtype)) 
   
 ```
@@ -152,7 +152,7 @@ The scatter plot is looking very good, but it could use a little bit of polish. 
 ```{r niceplot-solution}
 star %>% 
   mutate(classtype = as.factor(classtype)) %>%
-  filter(classtype == c("1", "2")) %>%
+  filter(classtype %in% c("1", "2")) %>%
   ggplot(aes(x = g4math, y = g4reading)) +
     geom_point(aes(color = classtype)) +
     labs(x = "Fourth Grade Math Scores", y = "Fourth Grade Reading Score", 
