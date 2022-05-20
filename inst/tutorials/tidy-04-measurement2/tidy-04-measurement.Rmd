@@ -1,5 +1,5 @@
 ---
-title: "QSS Tidyverse Tutorial 4: Measurement II"
+title: "QSS Tidyverse Tutorial 4: Measurment II"
 output:
   learnr::tutorial:
     progressive: true
@@ -18,7 +18,7 @@ library(qsslearnr)
 library(tidyverse)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
-tut_reptitle <- "QSS Tidyverse Tutorial 4: Output Report"
+tut_reptitle <- "QSS Tutorial 4: Output Report"
 data(STAR, package = "qss")
 star <- STAR
 ```
@@ -57,11 +57,11 @@ Boxplots are useful tools to visualize how the distribution of a continuous vari
     ggplot(star, aes(y = cont.var, x = cat.var)) +
       geom_boxplot()
 
-Here in the `ggplot` function, the first argument is name of the data frame that contains the two variables of interest, followed by `aes` to specify them on the boxplot. Most importantly, we want to specify the function `geom_boxplot` to produce a boxplot.
+Here in the `ggplot` function, the first argument is name of the data frame that contains the two variables of interest, followed by `aes` to specify them on the boxplot. Most importantly, we want to specify the function `geom_boxplot` to produce a boxplot. Note that you can omit the `star` argument in the `ggplot` if you pass the data frame using the `%>%` operator.
 
 #### Exercises
 
-- First, let's factorize the `classtype` variable by using `mutate` and `as.factor` functions. Then, pass the expression to the `ggplot` function using the `%>%` operator. Include informative x-axis and y-axis labels with `labs` function. Finally, use the `scale_x_discrete` function to give the class types more intuitive names. 
+We can start by factorizing the `classtype` variable by using the `mutate` and the `as.factor` functions. Next, pass the expression to the `ggplot` function using the `%>%` operator. Include informative x-axis and y-axis labels with the  `labs` function. To fine tune the graph, we can use the `scale_x_discrete` function to give the class types more intuitive names. 
 
 ```{r boxplot, exercise = TRUE}
 ## factorize the variable `classtype`
@@ -72,13 +72,12 @@ Here in the `ggplot` function, the first argument is name of the data frame that
 
 ```
 
-
 ```{r boxplot-solution}
 star %>% 
   mutate(classtype = as.factor(classtype)) %>%
   ggplot(aes(x = classtype, y = g4math)) + 
-              geom_boxplot() +
-              labs(y = "Math Scores", x = "Class Type") +
+  geom_boxplot() +
+  labs(y = "Math Scores", x = "Class Type") +
   scale_x_discrete(labels = c("Small class", "Regular class", "Regular class with aid"))
 ```
 
@@ -129,7 +128,8 @@ Before we do so, make sure to factorize the `classtype` variable for `ggplot` to
 star %>% 
   mutate(classtype = as.factor(classtype)) %>%
   filter(classtype %in% c("1", "2")) %>%
-  ggplot(aes(x = g4math, y = g4reading)) + geom_point(aes(color = classtype)) 
+  ggplot(aes(x = g4math, y = g4reading)) + 
+  geom_point(aes(color = classtype)) 
   
 ```
 
@@ -139,24 +139,24 @@ grade_this_code()
 
 ### Finalizing your scatter plot
 
-The scatter plot is looking very good, but it could use a little bit of polish. Let's add axis labels and a title. Remember that you can add these to the plot via the `xlab`, `ylab`, and `ggtitle`. 
+The scatter plot is looking very good, but it could use a little bit of polish. Let's add axis labels and a title. 
 
 #### Exercises
-- Take the current plot and add the following arguments: `xlab`, `ylab`, and `ggtitle`. Make them informative.
+- To do so, take the current plot and pass it to the `labs` function to make the graph more informative.
 
 ```{r niceplot, exercise = TRUE}
 
 ```
-
 
 ```{r niceplot-solution}
 star %>% 
   mutate(classtype = as.factor(classtype)) %>%
   filter(classtype %in% c("1", "2")) %>%
   ggplot(aes(x = g4math, y = g4reading)) +
-    geom_point(aes(color = classtype)) +
-    labs(x = "Fourth Grade Math Scores", y = "Fourth Grade Reading Score", 
-         title = "Math vs Reading")
+  geom_point(aes(color = classtype)) +
+  labs(x = "Fourth Grade Math Scores", 
+       y = "Fourth Grade Reading Score", 
+       title = "Math vs Reading")
 ```
 
 ## Submit
