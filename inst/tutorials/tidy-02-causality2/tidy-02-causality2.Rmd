@@ -56,7 +56,7 @@ In this exercise, you have the ages of a sample of 15 people, stored in the `age
 #### Exercise
 
 - Create a logical vector, called `college.aged`, which indicates which observations in `ages` are greater than or equal to 18 and less than or equal to 22. Be sure to use parentheses to separate out the two logical statements.
-- Take the sum of the `college.aged` vector to determine how many 18-22 year olds there are in the sample.
+- Take the sum of the `college.aged` vector to determine how many people around 18-22 year old there are in the sample.
 
 ```{r generate-ages}
 ## check the value of the ages vector
@@ -64,7 +64,7 @@ ages <- c(31, 20, 43, 45, 41, 46, 28, 49, 61, 19, 39)
 ```
 
 
-```{r ages, exercise = TRUE, exercise.setup = "generate-ages"}
+```{r ages, exercise = TRUE}
 ## check the value of the ages vector
 ages <- c(31, 20, 43, 45, 41, 46, 28, 49, 61, 19, 39)
 ## create a logical vector called college.aged
@@ -160,9 +160,7 @@ head()
 ```
 
 ```{r ifelse-check}
-grade_result_strict(
-  pass_if(~ identical(resume$carrie, if_else(resume$firstname == "Carrie", 1, 0)))
-)
+grade_this_code()
 ```
 
 ## Factors variables in R
