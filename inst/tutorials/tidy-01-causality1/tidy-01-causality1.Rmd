@@ -21,6 +21,10 @@ tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 1: Output Report"
 data(resume, package = "qss")
+
+## Used in subsetting
+resume.wf <- resume %>%
+  filter(race == "white" & sex == "female")
 ```
 
 
@@ -317,6 +321,26 @@ resume.wf.callback
 ```
 
 ```{r subset-check}
+grade_code()
+```
+
+
+- You can also give the mean a name directly in the summarize function by assigning a name to the `mean(call)` argument with `=`. Name the mean of the `call` variable as `callmean` and save this output as `resume.wf.callback`.
+
+
+```{r name, exercise = TRUE}
+## Name mean(call) directly in the summarize() function
+
+```
+
+```{r name-solution}
+resume.wf.callback <- resume.wf %>%
+  summarize(mean(call))
+
+resume.wf.callback
+```
+
+```{r name-check}
 grade_code()
 ```
 
