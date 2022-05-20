@@ -58,17 +58,18 @@ In this exercise, you have the ages of a sample of 15 people, stored in the `age
 - Create a logical vector, called `college.aged`, which indicates which observations in `ages` are greater than or equal to 18 and less than or equal to 22. Be sure to use parentheses to separate out the two logical statements.
 - Take the sum of the `college.aged` vector to determine how many people around 18-22 year old there are in the sample.
 
+```{r generate-ages}
+## check the value of the ages vector
+ages <- c(31, 20, 43, 45, 41, 46, 28, 49, 61, 19, 39)
+```
+
 
 ```{r ages, exercise = TRUE}
 ## check the value of the ages vector
 ages <- c(31, 20, 43, 45, 41, 46, 28, 49, 61, 19, 39)
-
 ## create a logical vector called college.aged
 ## that is TRUE for someone between 18-22, inclusive
-
-
 ## find the number of college.aged respondents
-
 ```
 
 ```{r ages-solution}
@@ -94,45 +95,68 @@ In base R, you can use the brackets for subsetting the data, and apply functions
 
 However, tidyverse functions for subsetting the data, such as `filter()` or `select()` cannot be applied to vectors. In this sense, if you would like to subset vectors, base R works better than tidyverse.
 
+Another useful tool for subsetting is the `mutate` function. `mutate` function allows you to create a new column in the original data frame. For example, if you want to add to a column to `mydata`, you should put the original data frame as the first argument, and the second argument would be the formula for creating a new variable.
+
+#### Exercise
+
+- Using the `UNpop` data set from the first tutorial, let's create a new data frame withe a new column `world.pop.mill` by dividing the `world.pop` by 1000.
+
+```{r unpop}
+UNpop <- data.frame(
+  year = seq(1950, 2010, by = 10),
+  world.pop = c(2525779, 3026003, 3691173, 4449049, 5320817, 6127700, 6916183)
+)
+```
+
+```{r mutate, exercise = TRUE, exercise.setup = "unpop"}
+UNpop.mill <- UNpop %>%
+  
+```
+
+```{r mutate-solution}
+UNpop.mill <- UNpop %>%
+  mutate(world.pop.mill = world.pop / 1000)
+```
+
+```{r mutate-check}
+grade_code()
+```
 
 ### Using simple conditional statements
 
 For this exercise, we'll use the resume data once again.
 
-What if we wanted to create a new vector that depends on whether a statement is true or false? For example, suppose you wanted to create an indicator variable for whether or not a specific resume had the name "Carrie." From, the last few examples, you know that `resume$firstname == "Carrie"` will give you a vector of `TRUE` and `FALSE` values based on whether or not the name for that unit is "Carrie." We can then use this to get create a new variable using the `if_else(X, Y, Z)` command. This command takes a logical vector as `X` and returns a new vector of the same length as `X` that has the value `Y` if that value in `X` is TRUE and `Z` if that value in `X` is FALSE.
+What if we wanted to create a new vector that depends on whether a statement is true or false? For example, suppose you wanted to create an indicator variable for whether or not a specific resume had the name "Carrie." We can  create a new variable using the `if_else(X, Y, Z)` command. This command takes a logical vector as `X` and returns a new vector of the same length as `X` that has the value `Y` if that value in `X` is TRUE and `Z` if that value in `X` is FALSE.
 
 
 #### Exercise
 
-- Use the `if_else` function to create a new variable called `carrie` that is 1 if the resume name (`firstname`) is `"Carrie"` and 0 otherwise.
+- Use the `if_else` and `mutate` functions to create a new variable called `carrie` that is 1 if the resume name (`firstname`) is `"Carrie"` and 0 otherwise.
 - Print the first six lines of `resume` using the `head` function to see the new variable.
 
 ```{r ifelse, exercise = TRUE}
 ## create a new variable called carrie
-resume %>%
-  mutate(carrie = )
-
 ## print the first 6 lines of the updated resume
+resume <- resume %>%
+  mutate(carrie = )
 
 ```
 
 ```{r ifelse-hint}
 ## create a new variable called carrie
-resume %>%
-  mutate(carrie = if_else(???, ???, ???))
-
 ## print the first 6 lines of the updated resume
-head(resume)
+resume <- resume %>%
+  mutate(carrie = if_else(???, ???, ???))
+???()
 ```
 
 
 ```{r ifelse-solution}
 ## create a new variable called carrie
-resume %>%
-  mutate(carrie = if_else(firstname == "Carrie", 1, 0))
-
 ## print the first 6 lines of the updated resume
-head(resume)
+resume <- resume %>%
+  mutate(carrie = if_else(firstname == "Carrie", 1, 0))
+head()
 ```
 
 ```{r ifelse-check}
@@ -155,49 +179,48 @@ This will take the variable `myvar` and create a factor variable with levels tha
 #### Exercise
 
 - Finish the code below that creates the `type` character variable. Fill in the last values of `race` and `sex` and add the label `WhiteMale` to this last type.
-- Convert the `resume$type` variable to a factor variable using `as.factor()`.
+- Convert the `type` variable to a factor variable using `mutate()` and `as.factor()`.
 
 ```{r factor-setup}
-resume$carrie <- if_else(resume$firstname == "Carrie", 1, 0)
+resume <-
+  resume %>%
+  mutate(carrie = if_else(firstname == "Carrie", 1, 0))
 ```
 
 ```{r factor, exercise = TRUE}
 ## fill in the last line of code to create a character vector for the type of
 ## application that was sent
+## turn the character vector into a factor
 resume <- resume %>%
   mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
          type = if_else(race == "black" & sex == "male", "BlackMale", type),
          type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
-         type = if_else(race == ??? & sex == ???, ???, ???))
-
-## turn the character vector into a factor
-resume$type <-
+         type = if_else(race == ??? & sex == ???, ???, ???)) %>%
+  mutate()
 ```
 
 ```{r factor-hint}
 ## fill in the last line of code to create a character vector for the type of
 ## application that was sent
+## turn the character vector into a factor
 resume <- resume %>%
   mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
          type = if_else(race == "black" & sex == "male", "BlackMale", type),
          type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
-         type = if_else(race == ??? & sex == ???, "WhiteMale", type))
-
-## turn the character vector into a factor
-resume$type <- as.factor(...)
+         type = if_else(race == ??? & sex == ???, "WhiteMale", type)) %>%
+  mutate(type = ???(type))
 ```
 
 ```{r factor-solution}
 ## fill in the last line of code to create a character vector for the type of
 ## application that was sent
+## turn the character vector into a factor
 resume <- resume %>%
   mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
          type = if_else(race == "black" & sex == "male", "BlackMale", type),
          type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
-         type = if_else(race == "white" & sex == "male", "WhiteMale", type))
-
-## turn the character vector into a factor
-resume$type <- as.factor(resume$type)
+         type = if_else(race == "white" & sex == "male", "WhiteMale", type)) %>%
+  mutate(type = as.factor(type))
 ```
 
 ```{r factor-check}
@@ -205,74 +228,87 @@ grade_code("Fantastic, you got that factor loaded up and ready to go. Now, let's
 ```
 
 
+For creating factor variables, it is sometimes easier to use another useful command, `case_when()`. This function uses the tilde `~` operator, which assigns the value after the tilde to the new variable type. This is especially useful, when the conditions cannot cover every observation: in that case, you can add `TRUE ~ "other"` at the end so that the remaining observations will be assigned to the `other` value.
+
+```{r casewhen, exercise = TRUE}
+resume <- resume %>%
+  mutate(
+    
+  )
+```
+
+```{r casewhen-solution}
+resume <- resume %>%
+  mutate(type = case_when(race == "black" & sex == "female" ~ "BlackFemale",
+                          race == "white" & sex == "female" ~ "WhiteFemale",
+                          race == "black" & sex == "male" ~ "BlackMale",
+                          race == "white" & sex == "male" ~ "WhiteMale",
+                          TRUE ~ "other"
+  ))
+```
+
+```{r casewhen-check}
+grade_code()
+```
+
 ### Using factors
 
 
-Imagine that you wanted to calculate the average callback for each level of `type`. You could create a subset for each level of `type` and then use `mean` on each one of those subsets. But that would take 8 lines of code!
-
-A more efficient way to do this task in base R would be to use the `tapply(X, INDEX, FUN)` function, which allows you to compute a function (`FUN`) on subsets of the data (`X`) defined by a factor variable (`INDEX`). For instance, suppose we had a `grades` data frame that had student exam grades out of 100 in the `exam` variable and a factor variable called `section` that reported which section they were enrolled in. Then we could calculate the average exam score within sections as:
-
-    tapply(grades$exam, grades$section, mean)
-    
-However, with the tidyverse, we do not often need to use factor variables. Instead, we can use `group_by()` and other tidyverse functions that we mentioned before, to compute a function on subsets of the data.
+With the tidyverse, we do not often need to use factor variables. Instead, we can use `group_by()` and other tidyverse functions that we mentioned before, to compute a function on subsets of the data.
 
 
 #### Exercise
 
-- Use the `group_by()` and `count()` functions on the `type` variable to see how many fictitious applications were sent out with each type of name.
+- Use the `count()` function on the `type` variable  in `resume` data frame to see how many fictitious applications were sent out with each type of name.
 
 ```{r get-tapply}
-resume$carrie <- if_else(resume$firstname == "Carrie", 1, 0)
 resume <- resume %>%
+  mutate(carrie = if_else(firstname == "Carrie", 1, 0)) %>%
   mutate(type = if_else(race == "black" & sex == "female", "BlackFemale", ""),
          type = if_else(race == "black" & sex == "male", "BlackMale", type),
          type = if_else(race == "white" & sex == "female", "WhiteFemale", type),
-         type = if_else(race == "white" & sex == "male", "WhiteMale", type))
-
-## turn the character vector into a factor
-resume$type <- as.factor(resume$type)
+         type = if_else(race == "white" & sex == "male", "WhiteMale", type)) %>%
+  mutate(type = as.factor(type))
 ```
 
 ```{r table-type, exercise = TRUE, exercise.setup = "get-tapply"}
 ## get the number of observations for each level of the type variable
-
+resume %>%
+  
 ```
 
 ```{r table-type-solution}
 resume %>%
-  group_by(type) %>%
-  count()
+  count(type)
 ```
 
 ```{r table-type-check}
 grade_code()
 ```
 
-- Use the `group_by()`, `select()`, and `summarize()` functions to calculate the `mean` of the `call` variable in each level of `race` and `sex`.
+- Use the `group_by()`, `select()`, and `summarize()` functions to calculate the `mean` of the `call` variable in each level of `race` and `sex` in the `resume` data frame.
 
 
 ```{r tapply, exercise = TRUE, exercise.setup = "get-tapply"}
 ## use the `group_by()`, `select()`, and `summarize()` functions to calculate the mean in each level of race and sex
-firstname_callback <-
+resume %>%
   
 ```
 
 ```{r tapply-hint}
 ## use the `group_by()`, `select()`, and `summarize()` functions to calculate the mean in each level of race and sex
-firstname_callback <- resume %>%
+resume %>%
   group_by(sex, race) %>%
   select(???) %>%
   summarize(callback = ???)
-firstname_callback
 ```
 
 ```{r tapply-solution}
 ## use the `group_by()`, `select()`, and `summarize()` functions to calculate the mean in each level of race and sex
-firstname_callback <- resume %>%
+resume %>%
   group_by(sex, race) %>%
   select(sex, race, call) %>%
   summarize(callback = mean(call))
-firstname_callback
 ```
 
 ```{r tapply-check}

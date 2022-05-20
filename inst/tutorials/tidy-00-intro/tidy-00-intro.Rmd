@@ -44,7 +44,7 @@ UNpop <- data.frame(
 - Use the pipe to pass `UNpop` data set to the `summary` function.
 
 ```{r pipe, exercise = TRUE, exercise.setup = "unpop"}
-# use the pipe to pass UNpop to the summary function
+# use the pipe (`%>%`) to pass UNpop to the summary function
 ```
 
 ```{r pipe-solution}
@@ -60,12 +60,12 @@ grade_this_code()
 ### Subsetting a data frame (I)
 
 
-To select a particular variable from the data frame, you can use the `select()` function. So `select(mydata, myvar)` will be a vector of just the `myvar` column of the `mydata` data frame.
+To select a particular variable from the data frame, you can use the `select()` function. So `mydata %>% select(myvar)` will be a vector of just the `myvar` column of the `mydata` data frame. 
 
 
 #### Exercise
 
-- Use the `select()` function to print out the `world.pop` variable from the `UNpop` data frame.
+- Use the `select()` function with the pipe (`%>%`) to print out the `world.pop` variable from the `UNpop` data frame.
 
 ```{r select, exercise = TRUE, exercise.setup = "unpop"}
 ## print out the world.pop variable using select()
@@ -99,7 +99,7 @@ The `slice()` function is an intuitive way to index rows by their locations in a
 
 ```{r rows-solution}
 UNpop %>%
-  slice(n = 5:7)
+  slice(5:7)
 ```
 
 ```{r rows-check}
@@ -117,7 +117,7 @@ grade_this_code()
 
 ```{r rowcols-solution}
 UNpop %>%
-  slice(n = 5:7) %>%
+  slice(5:7) %>%
   select(world.pop)
 ```
 
@@ -132,7 +132,7 @@ To select a particular variable that meets specific conditions, you can use the 
 
 #### Exercise
 
-- Use the `filter()` function to extract the observations by 1990.
+- Use the `filter()` function to extract the observations up to and including 1990.
 
 ```{r filter, exercise = TRUE, exercise.setup = "unpop"}
 # use the filter() function to extract the observations 

@@ -19,7 +19,7 @@ library(qsslearnr)
 library(tidyverse)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
-tut_reptitle <- "QSS Tidyverse Tutorial 1: Output Report"
+tut_reptitle <- "QSS Tutorial 1: Output Report"
 data(resume, package = "qss")
 ```
 
@@ -126,16 +126,16 @@ To help you analyze this data, you can use a cross tabulation. Cross tabulation 
 
 #### Exercise
 
-- Using the `group_by` and `count` and `pivot_wider` functions, create a cross tab of the `sex` and `call` variables in the resume data.
+- Using the `count` and `pivot_wider` functions, create a cross tab of the `sex` and `call` variables in the resume data. 
+- We also want to use the `pivot_wider` function to reshape the table. To do so, let's draw the names for the new columns from variable `call` and values from `n`.
 
 ```{r table, exercise = TRUE}
 
 ```
 
 ```{r table-solution}
-resume %>%
-  group_by(sex, call) %>%
-  count() %>%
+resume %>% 
+  count(sex, call) %>% 
   pivot_wider(names_from = call, values_from = n)
 ```
 
@@ -330,14 +330,20 @@ You can use the same ideas as in the last step to create a different subset of t
 
 - Create a subset of the `resume` data for black-sounding female names.
 - Calculate the mean of the `call` variable in this subset. Save this output as `resume.bf.callback`.
-- Print the difference in means between the `call` variable in the white-sounding name subset and the black-sounding name subset.
+- Calculate the mean of the `call` variable in the white-sounding name subset. Save this output as `resume.wf.callback`.
+- Print the difference in means between the `call` variable in the white-sounding name subset and the black-sounding name subset. 
 
 ```{r effect, exercise = TRUE}
 ## create the subset for white female names
 resume.wf <- resume %>%
   filter(race == "white" & sex == "female")
+
 ## create the subset for black female names
 resume.bf <-
+
+## calculate the mean of the callback variable of black-sounding names
+  
+## calculate the mean of the callback variable of white-sounding names
 
 ## calculate the difference in callback means
 

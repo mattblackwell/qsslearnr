@@ -25,10 +25,13 @@ The interface to the tutorials will look like this:
 
 ![Screenshot of qsslearnr](man/figures/qsslearnr-screenshot.png)
 
+## Note on the Tidyverse version of the tutorials
+
+Althought there are 11 baseR tutorials in total, only 7 (00 - 06) of such tutorials are in tidyverse since all of the rest (07 - 10) contain mostly conceptual questions. 
 
 ## Submission Reports
 
-At the end of each tutorial, students can download submission reports that describe what questions and exercises they attempted. Students can then upload these PDFs to a learning management system like Canvas or Gradescope. 
+At the end of each tutorial, students can download submission reports that describe what questions and exercises they attempted. Students can then upload these PDFs with their names to a learning management system like Gradescope or Canvas. 
 
 ## Other QSS tutorials
 
