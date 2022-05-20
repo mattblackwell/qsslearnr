@@ -89,7 +89,7 @@ The `slice()` function is an intuitive way to index rows by their locations in a
 
 #### Exercise
 
-- Use the `slice()` function to extract and print rows 5 through 7 of the `UNpop` data frame.
+- Use the `slice()` function to extract and print rows 5 through 7 of the `UNpop` data frame. Please note that even if the `n` argument is unnamed, the code will still be valid and produce the same result. But please write the full argument in this exercise for practice purposes. 
 
 
 ```{r rows, exercise = TRUE, exercise.setup = "unpop"}
