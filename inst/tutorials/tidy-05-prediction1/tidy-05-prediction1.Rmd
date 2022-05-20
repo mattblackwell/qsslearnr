@@ -332,7 +332,7 @@ grade_result(
 )
 ```
 
-Finally, use `augment()` function to ad fitted values, residuals, and other observation level stats to the original data. Here, be sure to add `head()` to your answer, otherwise, the entire data set will show up.
+Finally, use `augment()` function to add fitted values, residuals, and other observation level stats to the original data. Here, be sure to add `head()` to your answer, otherwise, the entire data set will show up.
 
 ```{r augment-setup}
 fit <- lm(y ~ x)
