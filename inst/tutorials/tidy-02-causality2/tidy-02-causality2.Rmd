@@ -95,6 +95,32 @@ In base R, you can use the brackets for subsetting the data, and apply functions
 
 However, tidyverse functions for subsetting the data, such as `filter()` or `select()` cannot be applied to vectors. In this sense, if you would like to subset vectors, base R works better than tidyverse.
 
+Another useful tool for subsetting is the `mutate` function. `mutate` function allows you to create a new column in the original data frame. For example, if you want to add to a column to `mydata`, you should put the original data frame as the first argument, and the second argument would be the formula for creating a new variable.
+
+#### Exercise
+
+- Using the `UNpop` data set from the first tutorial, let's create a new data frame withe a new column `world.pop.mill` by dividing the `world.pop` by 1000.
+
+```{r unpop}
+UNpop <- data.frame(
+  year = seq(1950, 2010, by = 10),
+  world.pop = c(2525779, 3026003, 3691173, 4449049, 5320817, 6127700, 6916183)
+)
+```
+
+```{r mutate, exercise = TRUE, exercise.setup = "unpop"}
+UNpop.mill <- UNpop %>%
+  
+```
+
+```{r mutate-solution}
+UNpop.mill <- UNpop %>%
+  mutate(world.pop.mill = world.pop / 1000)
+```
+
+```{r mutate-check}
+grade_code()
+```
 
 ### Using simple conditional statements
 
@@ -105,13 +131,13 @@ What if we wanted to create a new vector that depends on whether a statement is 
 
 #### Exercise
 
-- Use the `if_else` function to create a new variable called `carrie` that is 1 if the resume name (`firstname`) is `"Carrie"` and 0 otherwise.
+- Use the `if_else` and `mutate` functions to create a new variable called `carrie` that is 1 if the resume name (`firstname`) is `"Carrie"` and 0 otherwise.
 - Print the first six lines of `resume` using the `head` function to see the new variable.
 
 ```{r ifelse, exercise = TRUE}
 ## create a new variable called carrie
 ## print the first 6 lines of the updated resume
-resume %>%
+resume <- resume %>%
   mutate(carrie = )
 
 ```
@@ -119,18 +145,18 @@ resume %>%
 ```{r ifelse-hint}
 ## create a new variable called carrie
 ## print the first 6 lines of the updated resume
-resume %>%
-  mutate(carrie = if_else(???, ???, ???)) %>%
-  ???()
+resume <- resume %>%
+  mutate(carrie = if_else(???, ???, ???))
+???()
 ```
 
 
 ```{r ifelse-solution}
 ## create a new variable called carrie
 ## print the first 6 lines of the updated resume
-resume %>%
-  mutate(carrie = if_else(firstname == "Carrie", 1, 0)) %>%
-  head()
+resume <- resume %>%
+  mutate(carrie = if_else(firstname == "Carrie", 1, 0))
+head()
 ```
 
 ```{r ifelse-check}
@@ -204,21 +230,38 @@ grade_code("Fantastic, you got that factor loaded up and ready to go. Now, let's
 ```
 
 
+For creating factor variables, it is sometimes easier to use another useful command, `case_when()`. This function uses the tilde `~` operator, which assigns the value after the tilde to the new variable type. This is especially useful, when the conditions cannot cover every observation: in that case, you can add `TRUE ~ "other"` at the end so that the remaining observations will be assigned to the `other` value.
+
+```{r casewhen, exercise = TRUE}
+resume <- resume %>%
+  mutate(
+    
+  )
+```
+
+```{r casewhen-solution}
+resume <- resume %>%
+  mutate(type = case_when(race == "black" & sex == "female" ~ "BlackFemale",
+                          race == "white" & sex == "female" ~ "WhiteFemale",
+                          race == "black" & sex == "male" ~ "BlackMale",
+                          race == "white" & sex == "male" ~ "WhiteMale",
+                          TRUE ~ "other"
+  ))
+```
+
+```{r casewhen-check}
+grade_code()
+```
+
 ### Using factors
 
 
-Imagine that you wanted to calculate the average callback for each level of `type`. You could create a subset for each level of `type` and then use `mean` on each one of those subsets. But that would take 8 lines of code!
-
-A more efficient way to do this task in base R would be to use the `tapply(X, INDEX, FUN)` function, which allows you to compute a function (`FUN`) on subsets of the data (`X`) defined by a factor variable (`INDEX`). For instance, suppose we had a `grades` data frame that had student exam grades out of 100 in the `exam` variable and a factor variable called `section` that reported which section they were enrolled in. Then we could calculate the average exam score within sections as:
-
-    tapply(grades$exam, grades$section, mean)
-    
-However, with the tidyverse, we do not often need to use factor variables. Instead, we can use `group_by()` and other tidyverse functions that we mentioned before, to compute a function on subsets of the data.
+With the tidyverse, we do not often need to use factor variables. Instead, we can use `group_by()` and other tidyverse functions that we mentioned before, to compute a function on subsets of the data.
 
 
 #### Exercise
 
-- Use the `group_by()` and `count()` functions on the `type` variable  in `resume` data frame to see how many fictitious applications were sent out with each type of name.
+- Use the `count()` function on the `type` variable  in `resume` data frame to see how many fictitious applications were sent out with each type of name.
 
 ```{r get-tapply}
 resume <- resume %>%
@@ -238,8 +281,7 @@ resume %>%
 
 ```{r table-type-solution}
 resume %>%
-  group_by(type) %>%
-  count()
+  count(type)
 ```
 
 ```{r table-type-check}
