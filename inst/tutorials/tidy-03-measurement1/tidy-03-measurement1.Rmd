@@ -35,17 +35,15 @@ classcounts <- star %>%
 
 In this chapter, you'll analyze data from the STAR project, which is a four-year randomized trial on the effectiveness of small class sizes on education performance. The `star` data frame as been loaded into your space so that you can play around with it a bit.
 
-Different from the baseR functions, we will teach you how to use tidyverse to perform the same analysis in this tutorial. 
-
 #### Exercises
-- The `tibble` package is a core part of tidyverse. It allows you to convert your traditional R data frames into tibbles, which are data frames too. But tibbles make it easier and faster to work with tidyverse. You can coerce a current data frame to a tibble with `as_tibble`.
+- The `tibble` package is a core part of tidyverse. It allows you to convert your traditional R data frames into tibbles, which are data frames too. But tibbles make it easier and faster to work with tidyverse. You can coerce and save a current data frame to a tibble with `as_tibble`.
 
 ```{r as_tibble-star, exercise = TRUE}
 
 ```
 
 ```{r as_tibble-star-solution}
-as_tibble(star)
+star <- as_tibble(star)
 ```
 
 ```{r as_tibble-star-check}
@@ -114,12 +112,12 @@ grade_code()
 
 ### Data wrangling with tidyverse: Handling missing data
 
-From the baseR version of the qss tutorials, you have already learnt the basic toolkit that allows you to identify and work with the missing values (`NA`s) in your data set. 
+You probably noticed that there were some `NA` values in the data when you used the `str` and `glimpse` functions. These are **missing values**, where the value for that unit on that variable is missing or unknown. These values pose problems when we are trying to calculate quantities of interest like means or medians because R doesn't know how to handle them. 
 
-Tidyverse also provides helpful tools for you to deal with the missing values, and we teach you how to use tidyverse to address the explicit missing values in this tutorial.  
+The `drop_na` function looks at the data frame and removes all rows (observations) with at least one missing value. In other words, it only keeps the complete rows by deleting rows where any column (variable) is filled with a `NA` value. However, this also means that `drop_na` will cause *listwise deletion*, which gets rid of the entire row even when it contains important information in other columns. Thus, it is important to specify which columns to use to drop missing data.  
 
 #### Exercises
-- Use the `drop_na` functions to drop the rows with explicit missing values in variable `g4math`. However, it is vital to make sure that you are not dropping the observations that are important in other representations of the data. So be careful when you use `drop_na`.
+- Use the `drop_na` function to drop the rows with missing values in variable `g4math`. 
 
 ```{r drop_na, exercise = TRUE}
 
@@ -145,7 +143,7 @@ The **barplot** is a useful way to visualize a categorical or factor variable. I
 - `3` = regular class with aid
 
 #### Exercises
-- Use the `group_by` and `count` function to create a data frame of counts `classcounts` for each category of the `classtype` in the `star` data.
+- Use the `count` function to create a data frame of counts `classcounts` for each category of the `classtype` in the `star` data.
 - Use the `geom_bar` function to plot a barplot for the `classcounts` data frame. Remeber to state `geom_bar(stat='identity')` to make sure ggpplot takes the correct input for x and y axes.
 - You are encouraged to use the pipe operator.
 
@@ -160,8 +158,7 @@ The **barplot** is a useful way to visualize a categorical or factor variable. I
 
 ```{r barplot-solution}
 classcounts <- star %>%
-  group_by(classtype) %>%
-  count() # of uniques
+  count(classtype) # of uniques
 
 ## make a barplot with ggplot
 classcounts %>% ggplot(aes(x = classtype, y = n)) +
@@ -204,7 +201,7 @@ classcounts %>% ggplot(aes(x=factor(classtype), y = n)) +
 ```
 
 
-- Use the function `labs` to add the lables and title to the plot. Lable the x axis `"Classnames"`, the y axis `"Number of students"`, and the title `"The Distribution of Students in Different Class Types"`.
+- Use the function `labs` to add the lables and title to the plot. Lable the x axis `"Classroom Type"`, the y axis `"Number of students"`, and the title `"The Distribution of Students in Different Class Types"`.
 - You are encouraged to use the pipe operator.
 
 
@@ -222,7 +219,7 @@ classcounts %>% ggplot(aes(x=factor(classtype), y = n)) +
      "1" = "Small class", 
      "2" = "Regular class", 
      "3" = "Regular class with aid")) +
-  labs( x = "Classnames", 
+  labs( x = "Classroom Type", 
         y = "Number of students", 
         title = "The Distribution of Students in Different Class Types")
 ```
@@ -254,7 +251,7 @@ grade_code("Great job, though the graph is a bit spartan. Let's make it more rea
 
 ### Sprucing up the histogram
 
-Same as the barplot, there are several arguments you can pass to the `ggplot()` function that will improve its readability:
+As with the barplot, there are several arguments you can pass to the `ggplot()` function that will improve its readability:
 
 - `aes(y = after_stat(density))` argument in `geom_histogram` allows you to make a density plot with `ggplot`.
 - `labs` allows you to add character strings that print a main title for the plot, and set the labels for the x (horizontal) and y (vertical) axes.
@@ -317,7 +314,7 @@ star %>% ggplot(aes(x = g4math)) +
   lims(y = c(0, 0.015)) +
   labs(x = "Score",
        title = "Distribution of fourth-grade math scores") +
-  geom_vline(data = , aes(xintercept = mean()))
+  geom_vline(xintercept = mean( , na.rm = TRUE)) #use the dollar sign 
 ```
 
 ```{r hist-line-solution}
@@ -327,8 +324,7 @@ star %>% ggplot(aes(x = g4math)) +
   lims(y = c(0, 0.015)) +
   labs(x = "Score",
        title = "Distribution of fourth-grade math scores") +
-  geom_vline(data = star, aes(xintercept = mean(g4math, na.rm = TRUE)))
-
+  geom_vline(xintercept = mean(star$g4math, na.rm = TRUE))
 ```
 
 ```{r hist-line-check}
@@ -357,7 +353,7 @@ star %>% ggplot(aes(x = g4math)) +
   lims(y = c(0, 0.015)) +
   labs(x = "Score",
        title = "Distribution of fourth-grade math scores") +
-  geom_vline(data = star, aes(xintercept = mean(g4math, na.rm = TRUE))) +
+  geom_vline(xintercept = mean(star$g4math, na.rm = TRUE)) +
   annotate(geom = "text", x = 750, y = 0.014, label = "Average Score")
   
 
