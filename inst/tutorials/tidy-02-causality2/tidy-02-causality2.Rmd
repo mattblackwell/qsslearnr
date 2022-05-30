@@ -155,8 +155,9 @@ resume <- resume %>%
 ## create a new variable called carrie
 ## print the first 6 lines of the updated resume
 resume <- resume %>%
-  mutate(carrie = if_else(firstname == "Carrie", 1, 0))
-head()
+  mutate(carrie = if_else(firstname == "Carrie", 1, 0)) 
+
+head(resume)
 ```
 
 ```{r ifelse-check}
