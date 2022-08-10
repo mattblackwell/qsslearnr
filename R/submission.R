@@ -27,7 +27,7 @@ submission_server <- function(input, output) {
       # can happen when deployed).
       tempReport <- file.path(tempdir(), "tutorial-report.Rmd")
       tut_rep_path <- file.path(path.package("qsslearnr"),
-                                "tutorials".
+                                "tutorials",
                                 "tutorial-report.Rmd")
       file.copy(tut_rep_path, tempReport, overwrite = TRUE)
       
