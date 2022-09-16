@@ -14,7 +14,23 @@ Authors@R:
     person(given = "Kosuke",
            family = "Imai",
            role = c("ctb"),
-           email = "imai@harvard.edu"))
+           email = "imai@harvard.edu"),
+    person(given = "Xiaolong",
+           family = "Yang",
+           role = c("ctb"),
+           email = "yang-xiaolong0406@g.ecc.u-tokyo.ac.jp"),
+    person(given = "Claire",
+           family = "Liow",
+           role = "ctb",
+           email = "yijialiow@g.ecc.u-tokyo.ac.jp"),
+    person(given = "Anna",
+           family = "Yorozuya",
+           role = "ctb",
+           email = "yorozuya-anna@g.ecc.u-tokyo.ac.jp"),
+    person(given = "Sho",
+           family = "Miyazaki",
+           role = "ctb",
+           email = "sho.miyazaki.2000@keio.jp"))
 Depends:
   R (>= 3.6.0)
 Imports:
