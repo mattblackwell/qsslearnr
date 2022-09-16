@@ -13,7 +13,8 @@ date: "`r params$reportdate`"
 
 
 ```{r, echo = FALSE, }
-library(qsslearnr)
+library("qsslearnr")
+
 checked_prop <- sum(params$output$checked) / length(params$output$checked)
 ```
 

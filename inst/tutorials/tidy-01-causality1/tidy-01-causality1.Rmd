@@ -1,5 +1,5 @@
 ---
-title: "QSS Tutorial 1: Causality I"
+title: "QSS Tidyverse Tutorial 1: Causality I"
 output:
   learnr::tutorial:
     progressive: true
@@ -9,17 +9,22 @@ runtime: shiny_prerendered
 description: >
   This tutorial will cover logicals, subsetting, factors, and
   calculating means in experiments. Companion to Chapter 2 of
-  "Quantitative Social Science: An Introduction".
+  "Quantitative Social Science: An Introduction in the Tidyverse".
 ---
 
 ```{r setup, include=FALSE}
 library(gradethis)
 library(learnr)
 library(qsslearnr)
+library(tidyverse)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tut_reptitle <- "QSS Tutorial 1: Output Report"
 data(resume, package = "qss")
+
+## Used in subsetting
+resume.wf <- resume %>%
+  filter(race == "white" & sex == "female")
 ```
 
 
@@ -125,19 +130,23 @@ To help you analyze this data, you can use a cross tabulation. Cross tabulation 
 
 #### Exercise
 
-- Using the `table` function, create a cross tab of the `sex` and `call` variables in the resume data.
-- Remember that a variable in the data frame can be accessed with `$`.
+- Using the `count` and `pivot_wider` functions, create a cross tab of the `sex` and `call` variables in the resume data. 
+- We also want to use the `pivot_wider` function to reshape the table. To do so, let's draw the names for the new columns from variable `call` and values from `n`.
 
 ```{r table, exercise = TRUE}
 
 ```
 
-```{r table-check}
-grade_result(
-  pass_if(~ identical(.result, table(resume$sex, resume$call))),
-  pass_if(~ identical(.result, table(resume$call, resume$sex)))
-)
+```{r table-solution}
+resume %>% 
+  count(sex, call) %>% 
+  pivot_wider(names_from = call, values_from = n)
 ```
+
+```{r table-check}
+grade_code()
+```
+
 
 ### Logical values
 
@@ -282,9 +291,9 @@ resume
 
 #### Exercise
 
-- Use the `subset` function to create a subset of the `resume` data frame that is only female names that sound white. Save this subset as `resume.wf`
-- Use the `head` function to print out the first 6 lines of this subset.
-- Calculate the mean of the `call` variable in this subset.
+- Use the `filter` function to create a subset of the `resume` data frame that is only female names that sound white. Save this subset as `resume.wf`
+- Use the `head` function to see the first six lines of this subset.
+- Use the `summarize` function to calculate the mean of the `call` variable in this subset. Save this output as `resume.wf.callback`.
 
 
 ```{r subset, exercise = TRUE}
@@ -300,15 +309,39 @@ resume.wf <- ...
 ```
 
 ```{r subset-solution}
-resume.wf <- subset(resume, subset = (race == "white" & sex == "female"))
+resume.wf <- resume %>%
+  filter(race == "white" & sex == "female")
+
 head(resume.wf)
-mean(resume.wf$call)
+
+resume.wf.callback <- resume.wf %>%
+  summarize(mean(call))
+
+resume.wf.callback
 ```
 
 ```{r subset-check}
-grade_result(
-  pass_if(~ identical(.result, mean(subset(resume, subset = (race == "white" & sex == "female"))$call)))
-)
+grade_code()
+```
+
+
+- You can also give the mean a name directly in the summarize function by assigning a name to the `mean(call)` argument with `=`. Name the mean of the `call` variable as `callmean` and save this output as `resume.wf.callback`.
+
+
+```{r name, exercise = TRUE}
+## Name mean(call) directly in the summarize() function
+
+```
+
+```{r name-solution}
+resume.wf.callback <- resume.wf %>%
+  summarize(mean(call))
+
+resume.wf.callback
+```
+
+```{r name-check}
+grade_code()
 ```
 
 
@@ -320,14 +353,21 @@ You can use the same ideas as in the last step to create a different subset of t
 #### Exercise
 
 - Create a subset of the `resume` data for black-sounding female names.
-- Print the difference in means between the `call` variable in the white-sounding name subset and the black-sounding name subset.
+- Calculate the mean of the `call` variable in this subset. Save this output as `resume.bf.callback`.
+- Calculate the mean of the `call` variable in the white-sounding name subset. Save this output as `resume.wf.callback`.
+- Print the difference in means between the `call` variable in the white-sounding name subset and the black-sounding name subset. 
 
 ```{r effect, exercise = TRUE}
 ## create the subset for white female names
-resume.wf <- subset(resume, subset = (race == "white" & sex == "female"))
+resume.wf <- resume %>%
+  filter(race == "white" & sex == "female")
 
 ## create the subset for black female names
 resume.bf <-
+
+## calculate the mean of the callback variable of black-sounding names
+  
+## calculate the mean of the callback variable of white-sounding names
 
 ## calculate the difference in callback means
 
@@ -335,13 +375,21 @@ resume.bf <-
 
 ```{r effect-solution}
 ## create the subset for white female names
-resume.wf <- subset(resume, subset = (race == "white" & sex == "female"))
+resume.wf <- resume %>%
+  filter(race == "white" & sex == "female")
 
 ## create the subset for black female names
-resume.bf <- subset(resume, subset = (race == "black" & sex == "female"))
+resume.bf <- resume %>%
+  filter(race == "black" & sex == "female")
+
+resume.bf.callback <- resume.bf %>%
+  summarize(mean(call))
+
+resume.wf.callback <- resume.wf %>%
+  summarize(mean(call))
 
 ## compare the difference in means
-mean(resume.wf$call) - mean(resume.bf$call)
+resume.wf.callback - resume.bf.callback
 ```
 
 ```{r effect-check}
